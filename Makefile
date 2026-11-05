@@ -38,13 +38,15 @@ prod:
 # roda ANTES do `up` (em um container avulso), senão o Octane quebra no boot
 # (vendor sem pacote novo ou bootstrap/cache/packages.php desatualizado) e o
 # container fica reiniciando. O --wait só retorna quando o healthcheck do app
-# (octane:status) passar.
+# (octane:status) passar. A imagem do app/queue/scheduler vem pronta do GHCR
+# (workflow stage-image.yml); só o serviço de integrações é compilado aqui.
 stage:
 	git pull
 	git -C ../integrations.local pull --ff-only
 	sudo chmod -R 777 storage bootstrap/cache
 	rm -f bootstrap/cache/*.php
-	$(STAGE) build
+	$(STAGE) pull app queue scheduler
+	$(STAGE) build integrations
 	$(STAGE) run --rm --no-deps app composer install --no-dev --optimize-autoloader
 	$(STAGE) up -d --wait --wait-timeout 180
 	$(STAGE) exec -T app php artisan migrate --force

@@ -1,0 +1,59 @@
+# Gera a imagem do stage (target `base` do .docker/php/Dockerfile: PHP +
+# Swoole + extensões, sem código-fonte) e publica no GitHub Container Registry.
+# O stage monta o código via bind mount, então a imagem só precisa ser refeita
+# quando o Dockerfile, o entrypoint ou o php.ini mudarem — não a cada commit.
+#
+# Imagem: ghcr.io/williamvilas/sistema-psi4:stage (e :stage-<sha> para rollback)
+# Na VPS: `make stage` faz o pull dela em vez de compilar o Swoole no servidor.
+name: Imagem do stage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .docker/php/Dockerfile
+      - .docker/php/entrypoint.sh
+      - .docker/php/conf.d/custom.ini
+      - .github/workflows/stage-image.yml
+  workflow_dispatch:
+
+concurrency:
+  group: stage-image
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=stage
+            type=sha,prefix=stage-
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .docker/php/Dockerfile
+          target: base
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=stage-base
+          cache-to: type=gha,mode=max,scope=stage-base

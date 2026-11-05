@@ -13,7 +13,14 @@
 #     quando APP_ENV=production, então com APP_ENV=staging nenhum cache de
 #     aplicação é gerado.
 #
-# Uso: docker compose -f docker-compose.stage.yml up -d --build
+# Imagem: app/queue/scheduler usam a imagem publicada no GHCR pelo workflow
+# .github/workflows/stage-image.yml (ghcr.io/williamvilas/sistema-psi4:stage),
+# para a VPS não precisar compilar o Swoole. Para fixar uma versão (rollback),
+# defina STAGE_IMAGE no .env (ex.: ...:stage-<sha>). O bloco `build` continua
+# aqui como alternativa: `docker compose -f docker-compose.stage.yml build`.
+#
+# Uso: make stage (pull da imagem + up), ou
+#      docker compose -f docker-compose.stage.yml pull app && ... up -d
 # Deploy de código novo: dentro do servidor, `git pull` (sem precisar mexer
 # no docker). Requer os hooks ativos no clone do servidor (./setup-hooks.sh).
 
@@ -23,7 +30,7 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile
       target: base
-    image: psi4-app:stage
+    image: ${STAGE_IMAGE:-ghcr.io/williamvilas/sistema-psi4:stage}
     container_name: psi4-stage-app
     working_dir: /var/www/html
     volumes:
@@ -107,7 +114,7 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile
       target: base
-    image: psi4-app:stage
+    image: ${STAGE_IMAGE:-ghcr.io/williamvilas/sistema-psi4:stage}
     container_name: psi4-stage-queue
     working_dir: /var/www/html
     command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600 --max-jobs=1000 --memory=128 --timeout=90
@@ -131,7 +138,7 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile
       target: base
-    image: psi4-app:stage
+    image: ${STAGE_IMAGE:-ghcr.io/williamvilas/sistema-psi4:stage}
     container_name: psi4-stage-scheduler
     working_dir: /var/www/html
     command: sh -c "while true; do php artisan schedule:run --no-interaction; sleep 60; done"
