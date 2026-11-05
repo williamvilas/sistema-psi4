@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playbook de M&A — PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.kpi b{display:block;font-size:1.5rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.y{color:var(--good);font-weight:600} .n{color:var(--bad);font-weight:600} .p{color:var(--warm);font-weight:600}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.prio{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-right:6px}
+.p0{color:var(--bad)} .p1{color:var(--warm)} .p2{color:var(--muted)}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.phase{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:16px 0}
+.phase h3{margin:0 0 6px}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Playbook de M&amp;A: passo a passo para o PSI4</h1>
+  <p>Como executar o negócio desde hoje até uma venda estratégica, sem desviar da estratégia já definida · 24/10/2026</p>
+</header>
+
+<nav>
+  <a href="#resumo">Resumo</a>
+  <a href="#tese">A tese de saída</a>
+  <a href="#fases">Linha do tempo</a>
+  <a href="#casa">Arrumar a casa</a>
+  <a href="#metricas">Métricas-alvo</a>
+  <a href="#compradores">Quem compra e por quanto</a>
+  <a href="#naofazer">O que não fazer</a>
+  <a href="#dataroom">Data room</a>
+  <a href="#sinais">Quando contratar um assessor</a>
+</nav>
+
+<section id="resumo">
+  <h2>Resumo em quatro frases</h2>
+  <ol>
+    <li>O caminho de saída já está decidido em <a href="strategy.html">strategy.html</a>: não é IPO, é <b>venda estratégica (M&amp;A)</b> para um grupo de saúde, telessaúde, agendamento ou fintech/adquirente, na faixa de <b>3 a 8x ARR</b>.</li>
+    <li>Este documento é o <b>passo a passo operacional</b> para chegar lá: o que fazer em cada fase, o que arrumar na empresa desde já, e quais métricas um comprador vai olhar.</li>
+    <li>"Com maestria" aqui significa <b>executar o nicho até o fim</b> (ganhar psicólogas autônomas, ter receita de pagamentos relevante, manter a casa limpa) — não abrir frentes novas que diluem foco ou contradizem o posicionamento.</li>
+    <li>Uma decisão já fica marcada como <b>fora de escopo agora</b>: marketplace de pacientes. Está detalhado na seção <a href="#naofazer">O que não fazer</a>.</li>
+  </ol>
+</section>
+
+<section id="tese">
+  <h2>1. A tese de saída, em uma frase</h2>
+  <div class="verdict">Virar um SaaS vertical lucrativo, com receita recorrente retida e parte relevante da receita vindo de pagamentos processados, lucrativo ou perto disso, com ~R$ 4 mi de ARR em 3–4 anos — isso vale ~R$ 20 mi para um comprador estratégico.</div>
+  <p>Isso não é um objetivo abstrato: cada fase abaixo existe para mover um desses três números (ARR, % de receita de pagamentos, qualidade da retenção). Se uma ideia nova não mover um desses três, ela compete por atenção com o que já funciona.</p>
+</section>
+
+<section id="fases">
+  <h2>2. Linha do tempo de execução</h2>
+  <p class="sub">As fases 1 a 3 vêm de <a href="strategy.html#estrategia">strategy.html, seção 5</a>. A fase 4 é nova: é a transição de "empresa que cresce" para "empresa pronta para ser comprada".</p>
+
+  <div class="phase">
+    <h3>Fase 1 · 0–6 meses — encontrar o encaixe</h3>
+    <ul>
+      <li>Meta: 300 pagantes, churn &lt; 4%/mês.</li>
+      <li>Venda feita pelo fundador nas 100 primeiras clientes; anotar cada objeção.</li>
+      <li>Entregar Receita Saúde (entregue em 24/10/2026), importador de dados (PsicoManager/Corpora) e o novo desenho do plano grátis.</li>
+      <li>Montar um conselho de 5 psicólogas (uma por abordagem + uma de clínica) para feedback mensal.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Fase 2 · 6–18 meses — canais que escalam por confiança</h3>
+    <ul>
+      <li>Meta: 2.000 pagantes.</li>
+      <li>Programa de supervisoras/professoras com comissão recorrente (canal nº 1 nesse público).</li>
+      <li>Ferramentas grátis como isca de SEO (recibo, calculadora de preço, modelos de documento).</li>
+      <li>Programa de indicação (indique e ganhe) e conteúdo educativo recorrente.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Fase 3 · 18–36 meses — aumentar o ticket e a receita de pagamentos</h3>
+    <ul>
+      <li>Meta: 5–6 mil pagantes, ~R$ 5 mi de ARR.</li>
+      <li>Pagamentos como segunda receita (meta: 30–40% da receita total).</li>
+      <li>Plano Clínica com venda consultiva.</li>
+      <li>Campanha de migração para clientes insatisfeitos com PsicoManager/Corpora.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Fase 4 · 30–42 meses — preparar a venda</h3>
+    <ul>
+      <li>Fechar os itens da seção <a href="#casa">Arrumar a casa</a> com pelo menos 12 meses de antecedência — due diligence olha histórico, não só o presente.</li>
+      <li>Ter 2–3 trimestres consecutivos batendo as metas da seção <a href="#metricas">Métricas-alvo</a>, não só um pico isolado.</li>
+      <li>Mapear os compradores naturais (seção <a href="#compradores">Quem compra</a>) e começar relacionamento informal (eventos, parcerias, integrações) antes de qualquer conversa de venda — comprador que já conhece o produto negocia mais rápido e paga mais.</li>
+      <li>Montar o data room (seção <a href="#dataroom">Data room</a>) antes de precisar dele, não durante a negociação.</li>
+      <li>Contratar assessor de M&amp;A quando os sinais da seção <a href="#sinais">Quando contratar</a> aparecerem.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="casa">
+  <h2>3. Arrumar a casa — checklist contínuo desde já</h2>
+  <p class="sub">Do <a href="strategy.html#ipo">strategy.html, seção 7</a>: "em qualquer cenário, comece já a arrumar a casa [...] isso aumenta o valor em qualquer venda." Decomposto em itens executáveis.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Jurídico e societário</h3>
+      <ul>
+        <li>Propriedade intelectual (código, marca, domínio) registrada em nome da empresa, nunca de pessoa física.</li>
+        <li>Contratos de LGPD (DPA) assinados com todo fornecedor que toca dado pessoal ou de prontuário (S3, OpenAI, Mercado Pago, WhatsApp, e-mail transacional).</li>
+        <li>Cap table limpo e documentado (sócios, opções, vesting) desde o primeiro dia — é o item que mais atrasa uma due diligence quando está desorganizado.</li>
+        <li>Termos de uso, política de privacidade e página <code>/seguranca</code> sempre alinhados ao que o produto realmente faz (evitar promessa maior que a entrega — ver nota em <a href="strategy.html#produto">strategy.html, seção 4</a> sobre precisão na promessa de criptografia).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Financeiro e contábil</h3>
+      <ul>
+        <li>Contabilidade regular, com DRE mensal e separação clara entre receita de assinatura e receita de pagamentos/transação.</li>
+        <li>MRR, ARR, churn e CAC calculados com metodologia documentada e consistente mês a mês (comprador desconta valuation quando os números "mudam de jeito de calcular" no meio da série histórica).</li>
+        <li>Nenhuma mistura de caixa pessoal do fundador com o caixa da empresa.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Produto e dados</h3>
+      <ul>
+        <li>Prova de que a criptografia de ponta a ponta é real e auditável: pentest/revisão externa com relatório resumido público (P0 ainda pendente em <a href="strategy.html#produto">strategy.html</a>).</li>
+        <li>Logs de acesso a prontuário (<code>AccessLogService</code>) consistentes e auditáveis — isso é prova de conformidade com as Resoluções CFP 001/2009 e 06/2019, um ativo direto de valor na due diligence.</li>
+        <li>Nenhuma dependência de fornecedor sem contrato ou sem alternativa de migração (evitar lock-in que assusta comprador).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Métricas e governança</h3>
+      <ul>
+        <li>Painel de funil (<code>FunnelEventController</code>) e das métricas da seção 6 de <a href="strategy.html#metricas">strategy.html</a> atualizado e auditável, não calculado manualmente sob demanda.</li>
+        <li>Reunião mensal fixa de métricas, com histórico guardado (ata ou painel) — devolve confiança na série histórica apresentada em due diligence.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="metricas">
+  <h2>4. Métricas-alvo (o que o comprador vai pedir primeiro)</h2>
+  <p class="sub">Mesma tabela de <a href="strategy.html#metricas">strategy.html, seção 6</a> — reproduzida aqui porque é o primeiro conjunto de números que aparece em qualquer due diligence de SaaS.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Métrica</th><th>Meta saudável</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td>Ativação (7 dias)</td><td>&gt; 40%</td><td>Definir o evento: ex. 5 sessões agendadas + 1 prontuário + 1 lembrete enviado.</td></tr>
+      <tr><td>Grátis/trial → pago</td><td>4–8% (grátis) / 15–25% (trial)</td><td>Medir por coorte de cadastro.</td></tr>
+      <tr><td>Churn mensal (logo)</td><td>&lt; 3%</td><td>Separar "saiu da profissão" de "foi para o concorrente".</td></tr>
+      <tr><td>Receita líquida retida (NRR)</td><td>&gt; 100%</td><td>Só é possível com pagamentos, upgrades e clínicas.</td></tr>
+      <tr><td>CAC payback</td><td>&lt; 6 meses</td><td>Por canal, não na média.</td></tr>
+      <tr><td>LTV / CAC</td><td>&gt; 3</td><td>A R$ 69 e churn de 3%, LTV ≈ R$ 2.300 (bruto). CAC máximo ≈ R$ 700.</td></tr>
+      <tr><td>% de clientes com cobrança ativa</td><td>&gt; 30%</td><td>É o indicador que mais prevê retenção, e o que mais puxa o múltiplo de venda (receita de pagamentos).</td></tr>
+      <tr><td>NPS</td><td>&gt; 50</td><td>Num público que decide por indicação, NPS é o canal de aquisição.</td></tr>
+      <tr><td>% de receita vinda de pagamentos</td><td>30–40% até a fase 3</td><td>É o número que separa um múltiplo de 3x de um múltiplo de 8x, segundo <a href="strategy.html#ipo">strategy.html, seção 7</a>.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="compradores">
+  <h2>5. Quem compra e por quanto</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Compradores naturais</h3>
+      <ul>
+        <li>Grupos de educação e saúde (precedente: Afya comprou a iClinic em 2021).</li>
+        <li>Players de telessaúde.</li>
+        <li>Plataformas de agendamento (ex. Doctoralia/Docplanner).</li>
+        <li>Fintechs/adquirentes interessadas na carteira de pagamentos processada pelo sistema.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Faixa de valuation</h3>
+      <ul>
+        <li>3 a 8x ARR para SaaS vertical lucrativo, com receita retida e com receita de pagamentos.</li>
+        <li>R$ 20 mi de valor ≈ R$ 4 mi de ARR — alvo concreto em 3–4 anos.</li>
+        <li>Quanto maior a % de receita de pagamentos e menor o churn, mais perto do topo da faixa (8x) em vez do piso (3x).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="naofazer">
+  <h2>6. O que não fazer no caminho até a venda</h2>
+  <div class="note">
+    <b>Conflito a evitar: marketplace de pacientes.</b> <a href="strategy.html#produto">strategy.html, seção 4</a> já define: "não entrar em marketplace de pacientes ('lotar a agenda'). Seu próprio relatório mostra que isso gera rejeição e esbarra no Código de Ética." Isso continua valendo mesmo pensando em M&amp;A — um marketplace de pacientes não aparece na tese de saída (que é SaaS vertical + pagamentos) e piora o ativo mais valioso do PSI4, que é a confiança/privacidade junto às psicólogas.
+  </div>
+  <ul>
+    <li>Não perseguir paridade total de funcionalidades com o PsicoManager — onze anos de atraso não se recupera copiando lista de features.</li>
+    <li>Não diversificar para outras profissões de saúde autônomas (nutrição, fono, fisio) antes de ganhar o nicho. Essa ambição existe em <a href="strategy.html#ipo">strategy.html, seção 7</a> como "outro negócio, com capital de risco e de 10 a 15 anos" — é uma tese de IPO, não a tese de M&amp;A de hoje.</li>
+    <li>Não levantar investimento (anjo/pré-seed) antes de provar CAC payback ≤ 6 meses em algum canal — levantar antes queima dinheiro sem direção.</li>
+    <li>Não espalhar esforço de marketing em várias landing pages sem medir conversão de cada uma.</li>
+  </ul>
+</section>
+
+<section id="dataroom">
+  <h2>7. Data room — preparar antes de precisar</h2>
+  <p class="sub">Lista do que todo comprador estratégico pede na due diligence. Preparar com antecedência evita que a negociação pare por documento faltando.</p>
+  <ul>
+    <li><span class="prio p0">P0</span>Contratos societários, cap table e qualquer acordo de sócios.</li>
+    <li><span class="prio p0">P0</span>Demonstrações financeiras dos últimos 2–3 anos, com MRR/ARR mês a mês.</li>
+    <li><span class="prio p0">P0</span>Contratos com todos os fornecedores críticos (S3, OpenAI, Mercado Pago, WhatsApp) e seus DPAs de LGPD.</li>
+    <li><span class="prio p1">P1</span>Relatório de pentest/auditoria de criptografia e política de segurança da informação.</li>
+    <li><span class="prio p1">P1</span>Histórico de incidentes de segurança e vazamento (mesmo que seja "nenhum registrado", com a prova dos logs de acesso).</li>
+    <li><span class="prio p1">P1</span>Coortes de retenção, churn e NRR, com a metodologia de cálculo documentada.</li>
+    <li><span class="prio p2">P2</span>Registro de marca (INPI) e domínio em nome da empresa.</li>
+    <li><span class="prio p2">P2</span>Organograma e contratos de trabalho/prestação de serviço da equipe-chave.</li>
+  </ul>
+</section>
+
+<section id="sinais">
+  <h2>8. Sinais de que é hora de contratar um assessor de M&amp;A</h2>
+  <ul>
+    <li>Pelo menos 2–3 trimestres seguidos batendo as metas da seção <a href="#metricas">Métricas-alvo</a>, não um pico isolado.</li>
+    <li>ARR aproximando-se de R$ 3–4 mi, com receita de pagamentos em 30%+ do total.</li>
+    <li>Primeira abordagem informal de um comprador estratégico (mesmo que exploratória) — nesse momento, negociar sem assessor tende a deixar valor na mesa.</li>
+    <li>Checklist da seção <a href="#casa">Arrumar a casa</a> e o <a href="#dataroom">data room</a> prontos — assessor avança rápido quando a casa já está arrumada; contratar antes disso só adianta custo.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Fontes</h2>
+  <ul class="src">
+    <li><a href="strategy.html">strategy.html</a> — estratégia de produto e a tese de saída (seções 4, 5, 6 e 7 são a base deste playbook).</li>
+    <li><a href="research.html">research.html</a> — pesquisa de mercado e perfil das psicólogas, base do posicionamento.</li>
+  </ul>
+  <p class="src">Este documento não cria metas ou números novos: organiza em passo a passo o que já está decidido em <code>strategy.html</code>. Se as metas de ARR, múltiplos ou prazos mudarem lá, atualizar aqui também.</p>
+</section>
+
+<footer>Playbook gerado em 24/10/2026 a partir de strategy.html e research.html, a pedido do fundador, como guia de execução para uma eventual venda estratégica (M&amp;A).</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+# Ambiente LOCAL de desenvolvimento — sem SSL.
+# Uso: docker compose up -d --build
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: dev
+    container_name: psi4-app
+    working_dir: /var/www/html
+    # --watch recarrega os workers do Octane a cada alteração em PHP. Mudanças
+    # no .env só valem com `make clear`, que recria o container.
+    command: php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --workers=2 --task-workers=1 --watch
+    volumes:
+      - .:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_HOST: mysql
+      DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - psi4
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: psi4-nginx
+    ports:
+      - "${APP_PORT:-80}:80"
+    volumes:
+      - .:/var/www/html:ro
+      - ./.docker/nginx/local.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - psi4
+
+  mysql:
+    image: mysql:8.4
+    container_name: psi4-mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - psi4-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - psi4
+
+  redis:
+    image: redis:7-alpine
+    container_name: psi4-redis
+    command: sh -c 'if [ -n "$$REDIS_PASSWORD" ] && [ "$$REDIS_PASSWORD" != "null" ]; then redis-server --requirepass "$$REDIS_PASSWORD"; else redis-server; fi'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-null}
+    networks:
+      - psi4
+
+  queue:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: base
+    container_name: psi4-queue
+    working_dir: /var/www/html
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600 --max-jobs=1000 --memory=128 --timeout=90
+    volumes:
+      - .:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - psi4
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: base
+    container_name: psi4-scheduler
+    working_dir: /var/www/html
+    command: sh -c "while true; do php artisan schedule:run --no-interaction; sleep 60; done"
+    volumes:
+      - .:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - psi4
+
+volumes:
+  psi4-mysql-data:
+
+networks:
+  psi4:
+    driver: bridge

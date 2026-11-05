@@ -1,0 +1,193 @@
+# Ambiente de STAGE — mesmo modelo de produção (nginx com SSL, mysql, redis,
+# queue, scheduler em containers separados), mas:
+#   - build usa o target `base` do Dockerfile (sem `composer dump-autoload
+#     --optimize --classmap-authoritative`, sem assets pré-empacotados);
+#   - código roda via bind mount do repositório (como no docker-compose.yml
+#     local), então um `git pull` no host já é o que os containers servem —
+#     não é necessário rebuild/restart;
+#   - a aplicação roda no Octane (Swoole), que mantém o código em memória: o
+#     hook .githooks/post-merge (e post-rewrite, no `git pull --rebase`)
+#     roda `octane:reload` e `queue:restart` depois do pull, para os workers
+#     pegarem o código novo (ver .githooks/octane-reload);
+#   - entrypoint.sh só roda config:cache/route:cache/event:cache/view:cache
+#     quando APP_ENV=production, então com APP_ENV=staging nenhum cache de
+#     aplicação é gerado.
+#
+# Uso: docker compose -f docker-compose.stage.yml up -d --build
+# Deploy de código novo: dentro do servidor, `git pull` (sem precisar mexer
+# no docker). Requer os hooks ativos no clone do servidor (./setup-hooks.sh).
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: base
+    image: psi4-app:stage
+    container_name: psi4-stage-app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./.docker/php/conf.d/stage.ini:/usr/local/etc/php/conf.d/zzz-stage.ini:ro
+    environment:
+      APP_ENV: staging
+      DB_HOST: mysql
+      DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "php", "artisan", "octane:status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: psi4-stage-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./.docker/nginx/stage.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./.docker/ssl:/etc/nginx/ssl:ro
+      - .:/var/www/html:ro
+    depends_on:
+      - app
+      - integrations
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  mysql:
+    image: mysql:8.4
+    container_name: psi4-stage-mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - psi4-stage-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  redis:
+    image: redis:7-alpine
+    container_name: psi4-stage-redis
+    command: sh -c 'if [ -n "$$REDIS_PASSWORD" ] && [ "$$REDIS_PASSWORD" != "null" ]; then redis-server --requirepass "$$REDIS_PASSWORD"; else redis-server; fi'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-null}
+    volumes:
+      - psi4-stage-redis-data:/data
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  queue:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: base
+    image: psi4-app:stage
+    container_name: psi4-stage-queue
+    working_dir: /var/www/html
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600 --max-jobs=1000 --memory=128 --timeout=90
+    volumes:
+      - .:/var/www/html
+      - ./.docker/php/conf.d/stage.ini:/usr/local/etc/php/conf.d/zzz-stage.ini:ro
+    environment:
+      APP_ENV: staging
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    env_file:
+      - .env
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: base
+    image: psi4-app:stage
+    container_name: psi4-stage-scheduler
+    working_dir: /var/www/html
+    command: sh -c "while true; do php artisan schedule:run --no-interaction; sleep 60; done"
+    volumes:
+      - .:/var/www/html
+      - ./.docker/php/conf.d/stage.ini:/usr/local/etc/php/conf.d/zzz-stage.ini:ro
+    environment:
+      APP_ENV: staging
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    env_file:
+      - .env
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+  # API de integrações (Go, ../integrations.local). Não expõe porta no host:
+  # o nginx acima a publica em int-stage.psi4.com.br via proxy reverso.
+  # Usa o mysql/redis deste stage (DB_HOST/REDIS_HOST sobrescritos); demais
+  # variáveis vêm de ../integrations.local/.env.
+  integrations:
+    build:
+      context: ../integrations.local
+      dockerfile: Dockerfile
+    image: psi4-integrations:stage
+    container_name: psi4-stage-integrations
+    env_file:
+      - ../integrations.local/.env
+    environment:
+      GIN_MODE: release
+      PORT: 8080
+      DB_HOST: mysql
+      DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - psi4-stage
+
+volumes:
+  psi4-stage-mysql-data:
+  psi4-stage-redis-data:
+
+networks:
+  psi4-stage:
+    driver: bridge

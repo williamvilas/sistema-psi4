@@ -1,0 +1,822 @@
+/* Base de documento de prontuário (compartilhada entre criar/editar e visualizar) */
+:root {
+    --doc-topbar-h: 64px;
+    --doc-bg: #f1f3f4;
+    --doc-page-w: 816px;
+    --doc-panel-w: 380px;
+}
+
+body.doc-mode .sidebar,
+body.doc-mode .main-header,
+body.doc-mode .footer {
+    display: none !important;
+}
+
+body.doc-mode .main-panel {
+    width: 100% !important;
+    transform: none !important;
+}
+
+body.doc-mode .container-page-main,
+body.doc-mode .page-inner {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none;
+}
+
+/* O tema usa overflow:hidden no container, o que impede o position:sticky de topbar e toolbar. */
+body.doc-mode .main-panel,
+body.doc-mode .main-panel > .container {
+    overflow: visible !important;
+}
+
+body.doc-mode .wrapper {
+    background: var(--doc-bg);
+}
+
+/* Barra superior */
+.doc-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: var(--doc-topbar-h);
+    padding: 8px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dadce0;
+}
+
+.doc-back {
+    color: #5f6368;
+    padding: 8px 10px;
+    border-radius: 50%;
+}
+
+.doc-back:hover {
+    background: #f1f3f4;
+}
+
+.doc-title-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.doc-title {
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0 6px;
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: #202124;
+    background: transparent;
+}
+
+.doc-title:hover {
+    border-color: #dadce0;
+}
+
+.doc-title:focus {
+    outline: none;
+    border-color: #1a73e8;
+    background: #fff;
+}
+
+.doc-status {
+    padding: 0 6px;
+    font-size: .90rem;
+    color: #5f6368;
+}
+
+.doc-status-line {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.doc-title-hint {
+    padding: 0 6px;
+    font-size: .80rem;
+    color: #80868b;
+    white-space: nowrap;
+    cursor: help;
+}
+
+.doc-title-hint i {
+    color: #1c8a56;
+}
+
+/* Metadados */
+.doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 8px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dadce0;
+}
+
+.doc-meta-item {
+    flex: 0 1 200px;
+    min-width: 150px;
+}
+
+.doc-meta-item.doc-meta-patient {
+    flex: 1 1 260px;
+}
+
+@media (max-width: 499.98px) {
+    .doc-meta-item,
+    .doc-meta-item.doc-meta-patient {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 800px) {
+    .doc-meta-item {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 0;
+    }
+
+    .doc-meta-item.doc-meta-patient {
+        flex: 1 1 100%;
+    }
+}
+
+.doc-meta label {
+    font-size: 1.2rem;
+    color: #5f6368;
+    margin-bottom: 2px;
+}
+
+.doc-loading {
+    padding: 80px 0;
+}
+
+.doc-canvas {
+    background: #f1f3f4;
+}
+
+/* --- Folha (ProseMirror) --- */
+.doc-canvas {
+    padding: 24px 12px 48px;
+}
+
+.doc-canvas .doc-page,
+.doc-canvas .ProseMirror {
+    width: 100%;
+    max-width: var(--doc-page-w);
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 72px 80px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, .15);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #202124;
+    outline: none;
+}
+.doc-page h1 { font-size: 1.8em; margin: .6em 0 .3em; }
+.doc-page h2 { font-size: 1.45em; margin: .6em 0 .3em; }
+.doc-page h3 { font-size: 1.2em; margin: .6em 0 .3em; }
+.doc-page p { margin: 0 0 .6em; }
+.doc-page blockquote { margin: .6em 0; padding-left: 1em; border-left: 3px solid #dadce0; color: #5f6368; }
+.doc-page a { color: #1a73e8; text-decoration: underline; }
+.doc-page mark { padding: 0 2px; border-radius: 2px; }
+.doc-page ul, .doc-page ol { padding-left: 1.5em; margin-bottom: .6em; }
+.doc-page li > p { margin-bottom: .2em; }
+
+.doc-page ul[data-type="taskList"] { list-style: none; padding-left: 0; }
+.doc-page ul[data-type="taskList"] li { display: flex; align-items: flex-start; gap: 8px; }
+.doc-page ul[data-type="taskList"] li > label { margin-top: .2em; user-select: none; }
+.doc-page ul[data-type="taskList"] li > div { flex: 1; }
+
+.doc-page table { border-collapse: collapse; table-layout: fixed; width: 100%; margin: 1em 0; overflow: hidden; }
+.doc-page td, .doc-page th { position: relative; min-width: 1em; padding: 8px 10px; border: 1px solid #7a7a7a; vertical-align: top; }
+.doc-page th { background: #f1f3f4; font-weight: 600; text-align: left; }
+.tableWrapper { overflow-x: auto; }
+
+@media (max-width: 767.98px) {
+    .doc-canvas { padding: 12px 0 32px; }
+    .doc-canvas .doc-page, .doc-canvas .ProseMirror { padding: 24px 16px; min-height: 70vh; }
+}
+
+/* --- Visualização (somente leitura) --- */
+.doc-view-title {
+    margin: 0;
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: #202124;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-view-subtitle {
+    font-size: .90rem;
+    color: #5f6368;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-meta-value {
+    display: block;
+    font-size: 1.2rem;
+    color: #202124;
+}
+
+.doc-page-readonly {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+.doc-page-readonly img {
+    max-width: 100%;
+    height: auto;
+}
+
+.doc-page-readonly .tableWrapper,
+.doc-page-readonly table {
+    max-width: 100%;
+}
+
+.doc-page-readonly ul[data-type="taskList"] input[type="checkbox"] {
+    pointer-events: none;
+}
+
+.doc-page-empty {
+    color: #9aa0a6;
+}
+
+@media (max-width: 767.98px) {
+    .doc-page-readonly {
+        overflow-x: auto;
+    }
+}
+
+@media print {
+    body.doc-mode .doc-topbar,
+    body.doc-mode .doc-side-panel,
+    body.doc-mode .doc-meta,
+    body.doc-mode .doc-no-print {
+        display: none !important;
+    }
+
+    body.doc-mode .wrapper,
+    .doc-canvas {
+        background: #fff;
+    }
+
+    .doc-canvas {
+        padding: 0;
+    }
+
+    .doc-canvas .doc-page {
+        max-width: none;
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .doc-print-header {
+        display: block !important;
+    }
+}
+
+.doc-print-header {
+    display: none;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dadce0;
+}
+
+/* --- Painéis laterais (IA, Acessos): coluna acoplada à direita; o canvas reserva o espaço, nada fica sobre a folha --- */
+.doc-side-panel {
+    position: fixed;
+    top: var(--doc-topbar-h);
+    right: 0;
+    bottom: 0;
+    width: var(--doc-panel-w);
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-left: 1px solid #dadce0;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, .12);
+}
+
+.doc-side-panel.d-none {
+    display: none !important;
+}
+
+.doc-side-panel-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -3px;
+    width: 6px;
+    cursor: col-resize;
+    z-index: 1;
+}
+
+.doc-side-panel-resizer:hover,
+body.doc-panel-resizing .doc-side-panel-resizer {
+    background: rgba(11, 87, 208, .35);
+}
+
+body.doc-panel-resizing {
+    cursor: col-resize;
+    user-select: none;
+}
+
+@media screen and (min-width: 768px) {
+    .doc-canvas,
+    .doc-meta,
+    .doc-toolbar {
+        transition: padding-right .2s ease;
+    }
+
+    /* Meta (paciente/data/evolução) e toolbar também ficam abaixo da topbar, sob o painel fixo */
+    body.doc-panel-open .doc-canvas,
+    body.doc-panel-open .doc-meta,
+    body.doc-panel-open .doc-toolbar {
+        padding-right: calc(var(--doc-panel-w) + 12px);
+    }
+}
+
+/* Espaço útil curto: a folha deixa de ter margens de impressão */
+@media screen and (min-width: 768px) and (max-width: 1199.98px) {
+    :root {
+        --doc-panel-w: 320px;
+    }
+
+    body.doc-panel-open .doc-canvas .ProseMirror,
+    body.doc-panel-open .doc-canvas .doc-page {
+        padding: 40px;
+    }
+}
+
+/* Mobile: tela cheia sobre o documento, com o X do painel para fechar */
+@media (max-width: 767.98px) {
+    .doc-side-panel {
+        top: 0;
+        width: 100%;
+        border-left: 0;
+    }
+
+    .doc-side-panel-resizer {
+        display: none;
+    }
+}
+
+.doc-side-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 10px 12px 10px 16px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.doc-side-panel-title {
+    font-size: 1rem;
+    color: #202124;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-side-panel-btn {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #5f6368;
+}
+
+.doc-side-panel-btn:hover {
+    background: #f1f3f4;
+    color: #202124;
+}
+
+/* Painel de acessos */
+.doc-access-filters {
+    display: grid;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.doc-access-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.doc-access-total {
+    margin: 0;
+    padding: 10px 16px 4px;
+    font-size: .85rem;
+    color: #5f6368;
+}
+
+.doc-access-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 16px 16px;
+}
+
+.doc-access-page {
+    font-size: .85rem;
+    color: #5f6368;
+}
+
+.doc-access-empty,
+.doc-access-loading {
+    padding: 48px 16px;
+    text-align: center;
+    color: #5f6368;
+}
+
+.doc-access-footer {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border-top: 1px solid #dadce0;
+    font-size: .9rem;
+}
+
+/* Editor de prontuário estilo documento (criar/editar). Base compartilhada em medical-doc.css */
+/* Painel de IA: layout em .doc-side-panel (medical-doc.css); aqui só o tema dark do chat (inspirado no ChatGPT) */
+.doc-ia-panel {
+    --ia-bg: #212121;
+    --ia-surface: #2f2f2f;
+    --ia-surface-hover: #3a3a3a;
+    --ia-border: rgba(255, 255, 255, .1);
+    --ia-text: #ececec;
+    --ia-muted: #b4b4b4;
+    --ia-accent: #10a37f;
+    --ia-accent-hover: #0e8f70;
+    --ia-error-bg: #3b1f22;
+    --ia-error-border: #8a3b42;
+
+    background: var(--ia-bg);
+    border-left-color: var(--ia-border);
+    color-scheme: dark;
+}
+
+.doc-ia-panel .ia-chat {
+    position: static;
+    flex: 1;
+    width: 100% !important;
+    height: auto;
+    min-height: 0;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--ia-bg);
+    color: var(--ia-text);
+}
+
+.ia-chat-header {
+    flex-shrink: 0;
+    background: transparent;
+    border-bottom: 1px solid var(--ia-border);
+    color: var(--ia-text);
+}
+
+.ia-chat-close {
+    color: var(--ia-muted);
+    border: 0;
+    border-radius: 8px;
+}
+
+.ia-chat-close:hover {
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-privacy {
+    color: var(--ia-muted);
+    font-size: .8rem;
+    line-height: 1.35;
+}
+
+.ia-chat-usage {
+    color: var(--ia-muted);
+}
+
+.ia-chat-usage .progress {
+    background: var(--ia-surface);
+}
+
+.ia-chat-messages {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    min-height: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.ia-chat-empty {
+    margin-top: 15%;
+    color: var(--ia-muted);
+}
+
+.ia-chat-chip {
+    padding: 6px 14px;
+    border: 1px solid var(--ia-border);
+    border-radius: 999px;
+    background: var(--ia-surface);
+    color: var(--ia-text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ia-chat-chip:hover {
+    background: var(--ia-surface-hover);
+}
+
+/* Mensagens: usuário em bolha, assistente direto sobre o fundo */
+.ia-chat-msg {
+    margin-bottom: 14px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ia-chat-msg.user {
+    max-width: 85%;
+    margin-left: auto;
+    padding: 8px 14px;
+    border-radius: 18px;
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.assistant {
+    padding: 4px 2px;
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.error {
+    padding: 8px 12px;
+    border: 1px solid var(--ia-error-border);
+    border-radius: 12px;
+    background: var(--ia-error-bg);
+    color: #ffb4b9;
+}
+
+.ia-chat-msg.ia-chat-html {
+    white-space: normal;
+}
+
+.ia-chat-msg.ia-chat-html h1,
+.ia-chat-msg.ia-chat-html h2,
+.ia-chat-msg.ia-chat-html h3 {
+    font-weight: 700;
+    margin: .5rem 0 .25rem;
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.ia-chat-html h1 { font-size: 1.4rem; }
+.ia-chat-msg.ia-chat-html h2 { font-size: 1.2rem; }
+.ia-chat-msg.ia-chat-html h3 { font-size: 1.05rem; }
+.ia-chat-msg.ia-chat-html p { margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html ul,
+.ia-chat-msg.ia-chat-html ol { padding-left: 1.2rem; margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html table { border-collapse: collapse; margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html th,
+.ia-chat-msg.ia-chat-html td { border: 1px solid rgba(255, 255, 255, .2); padding: 2px 6px; }
+.ia-chat-msg.ia-chat-html a { color: #7cc4ff; }
+
+.ia-chat-msg-actions {
+    margin: -6px 0 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ia-chat-action {
+    border: 1px solid var(--ia-border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ia-muted);
+}
+
+.ia-chat-action:hover {
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-typing::after {
+    content: '▋';
+    animation: ia-chat-blink 1s infinite;
+}
+
+@keyframes ia-chat-blink {
+    50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ia-chat-typing::after { animation: none; }
+    .ia-chat-messages { scroll-behavior: auto; }
+}
+
+/* Caixa de mensagem arredondada com botão de envio circular */
+.ia-chat-footer {
+    flex-shrink: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    background: var(--ia-bg);
+}
+
+.ia-chat-composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 6px 6px 6px 16px;
+    border-radius: 24px;
+    background: var(--ia-surface);
+}
+
+.ia-chat-composer textarea {
+    flex: 1;
+    min-height: 32px;
+    max-height: 160px;
+    padding: 6px 0;
+    border: 0;
+    outline: 0;
+    resize: none;
+    background: transparent;
+    color: var(--ia-text);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    field-sizing: content;
+}
+
+.ia-chat-composer textarea::placeholder {
+    color: var(--ia-muted);
+}
+
+.ia-chat-send {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ia-accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ia-chat-send:hover:not(:disabled) {
+    background: var(--ia-accent-hover);
+}
+
+.ia-chat-send:disabled,
+.ia-chat-composer textarea:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.ia-chat button:focus-visible,
+.ia-chat-composer:focus-within {
+    outline: 2px solid var(--ia-accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 767.98px) {
+    #editor {
+        margin: 5px 20px;
+    }
+}
+
+/* --- Toolbar própria (TipTap) --- */
+.doc-toolbar {
+    position: sticky;
+    top: var(--doc-topbar-h);
+    z-index: 1020;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 4px 16px;
+    background: #edf2fa;
+    border-bottom: 1px solid #dadce0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.doc-tb-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-right: 12px;
+    border-right: 1px solid #c7cdd6;
+}
+
+.doc-tb-group:last-child {
+    border-right: 0;
+}
+
+.doc-toolbar button,
+.doc-toolbar .doc-tb-color {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #444746;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.doc-toolbar button:hover,
+.doc-toolbar .doc-tb-color:hover {
+    background: #dde3ea;
+}
+
+.doc-toolbar button.active {
+    background: #d3e3fd;
+    color: #0b57d0;
+}
+
+.doc-toolbar select {
+    height: 32px;
+    max-width: 150px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #444746;
+    font-size: 1.2rem;
+}
+
+.doc-toolbar select:hover {
+    background: #dde3ea;
+}
+
+.doc-tb-color {
+    position: relative;
+}
+
+.doc-tb-color input[type="color"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: #9aa0a6;
+    pointer-events: none;
+}
+
+.ProseMirror .selectedCell::after { content: ""; position: absolute; inset: 0; background: rgba(26, 115, 232, .15); pointer-events: none; }
+.ProseMirror .column-resize-handle { position: absolute; right: -2px; top: 0; bottom: -2px; width: 4px; background: #1a73e8; pointer-events: none; }
+.ProseMirror.resize-cursor { cursor: col-resize; }
+
+#editor {
+    background: #f1f3f4;
+}
+
+.fa-solid, .fas {
+    font-size: 1.2rem  !important;
+    margin-right: 0em !important;
+}

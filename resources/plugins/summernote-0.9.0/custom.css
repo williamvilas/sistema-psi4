@@ -1,0 +1,18 @@
+.note-editor.note-frame .btn {
+    color: #5d5d5d;
+}
+
+.note-editor .note-editing-area .note-editable table td, .note-editor .note-editing-area .note-editable table th {
+    border: 1px solid #7a7a7a;
+    padding: 15px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable, .note-editor.note-airframe .note-editing-area .note-editable {
+    border: 1px solid #afafaf !important;
+    border-radius: var(--bs-border-radius);
+}
+
+table {
+    margin-bottom: 1.2rem;
+    margin-top: 1.2rem;
+}

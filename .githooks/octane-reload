@@ -1,0 +1,28 @@
+#!/bin/bash
+# Depois de um `git pull`, recarrega os workers do Octane e reinicia os da
+# fila no container de stage, para que passem a servir o código novo (o
+# Octane mantém a aplicação em memória). Fora do stage não faz nada: no local
+# o `--watch` já recarrega e em produção o deploy recria os containers.
+# Chamado pelos hooks post-merge e post-rewrite; nunca bloqueia o pull.
+
+CONTAINER=psi4-stage-app
+
+if ! command -v docker >/dev/null 2>&1; then
+    exit 0
+fi
+
+if [ -z "$(docker ps -q --filter "name=^${CONTAINER}$" 2>/dev/null)" ]; then
+    exit 0
+fi
+
+echo "[octane-reload] Recarregando o Octane e a fila no stage..."
+
+if ! docker exec "$CONTAINER" php artisan octane:reload; then
+    echo "[octane-reload] Falha ao recarregar o Octane. Rode: docker compose -f docker-compose.stage.yml restart app"
+fi
+
+if ! docker exec "$CONTAINER" php artisan queue:restart; then
+    echo "[octane-reload] Falha ao reiniciar a fila. Rode: docker compose -f docker-compose.stage.yml restart queue"
+fi
+
+exit 0

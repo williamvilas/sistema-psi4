@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comunicação PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b; --warm-soft:#f6ece1;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a; --warm-soft:#2e2519;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a; --warm-soft:#2e2519;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.y{color:var(--good);font-weight:600} .n{color:var(--bad);font-weight:600} .p{color:var(--warm);font-weight:600}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.manifesto{font-size:1.15rem;line-height:1.7;border-left:4px solid var(--warm);background:var(--warm-soft);padding:18px 20px;border-radius:8px;margin:12px 0}
+.msg{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 14px;border-radius:6px;margin:8px 0;font-size:.95rem}
+.msg small{display:block;color:var(--muted);font-size:.78rem;margin-top:4px}
+.scene{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.scene .time{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--warm)}
+.scene p{margin:6px 0}
+.pillar{border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0;background:var(--bg)}
+.pillar h3{margin:0 0 4px;font-size:1.05rem}
+.pillar .anchor{font-size:1.1rem;font-weight:600;margin:10px 0;color:var(--accent)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:.9rem;margin:8px 0}
+.kv b{color:var(--muted);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:4px 10px;font-size:.88rem}
+.chips.bad span{border-color:var(--bad);color:var(--bad)}
+.chips.good span{border-color:var(--good);color:var(--good)}
+.prio{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-right:6px}
+.p0{color:var(--bad)} .p1{color:var(--warm)} .p2{color:var(--muted)}
+.tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-left:6px;vertical-align:middle}
+.tag.prop{color:var(--warm)} .tag.ok{color:var(--good)}
+.phase{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:16px 0}
+.phase h3{margin:0 0 6px}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+code{font-size:.85em;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} .kv{grid-template-columns:1fr} .kv b{margin-top:6px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>PSI4: refinamento de negócio e estratégia de comunicação</h1>
+  <p>Como cada funcionalidade toca uma dor real da psicóloga e como falar disso com verdade e emoção · 19/10/2026 · complemento de <a href="research.html">Mercado de Psicólogos</a> e <a href="strategy.html">Estratégia PSI4</a></p>
+</header>
+
+<nav>
+  <a href="#resumo">Resumo</a>
+  <a href="#mapa">Funcionalidades × dores</a>
+  <a href="#refino">Refinamento</a>
+  <a href="#personas">Personas</a>
+  <a href="#principios">Princípios</a>
+  <a href="#manifesto">Manifesto</a>
+  <a href="#pilares">Pilares</a>
+  <a href="#cenas">Cenas</a>
+  <a href="#funil">Mensagens por etapa</a>
+  <a href="#onboarding">Onboarding</a>
+  <a href="#objecoes">Objeções</a>
+  <a href="#conexao">Conexão</a>
+  <a href="#calendario">Calendário</a>
+  <a href="#vocabulario">Vocabulário</a>
+  <a href="#metricas">Métricas</a>
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<section id="resumo">
+  <h2>Resumo</h2>
+  <ol>
+    <li><b>O PSI4 resolve três medos e um cansaço.</b> Os medos: expor o que o paciente confiou, cobrar e parecer fria, perder o paciente por uma falta mal conduzida. O cansaço: a burocracia que invade a noite e o fim de semana. Toda a comunicação deve girar em torno disso, e não da lista de funcionalidades.</li>
+    <li><b>A emoção que conecta é o reconhecimento, não o medo.</b> Psicólogas são treinadas para perceber manipulação. Mensagem que funciona é a que <i>nomeia</i> o que ela sente ("você estudou para escutar, não para correr atrás de pix") e oferece alívio concreto. Gatilho de escassez, terror sobre vazamento e promessa de "lotar agenda" geram rejeição.</li>
+    <li><b>A bandeira é o sigilo.</b> "Nem nós conseguimos ler o que você escreve no prontuário" é a única frase que PsicoManager e Corpora não conseguem dizer. Ela deve abrir a conversa; tempo e cobrança sem culpa vêm logo depois, como prova de que privacidade não custa praticidade.</li>
+    <li><b>Há quatro ruídos no produto que enfraquecem a mensagem</b> e devem ser corrigidos antes de investir em mídia: a promessa de "novos pacientes qualificados" no plano grátis, a nomenclatura confusa dos planos, o limite de 3 prontuários no grátis e a ausência do Receita Saúde, esta resolvida em 24/10/2026 (seção 2).</li>
+    <li><b>O canal é a confiança entre pares.</b> Supervisoras, grupos, conteúdo educativo e suporte humano criam conexão; anúncio sozinho não cria.</li>
+  </ol>
+</section>
+
+<section id="mapa">
+  <h2>1. O que o sistema faz, que dor resolve e o que muda por dentro</h2>
+  <p class="sub">Levantado no código em 19/10/2026 (controllers, services, <code>config/plans.php</code> e landing page). A coluna "Por dentro" é o que deve aparecer na comunicação: o sentimento antes e depois.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Funcionalidade</th><th>Dor que resolve</th><th>Por dentro: antes → depois</th><th>Força</th></tr></thead>
+    <tbody>
+      <tr><td><b>Prontuário cifrado de ponta a ponta</b> (AES-256-GCM no navegador, senha mestre, chave de recuperação)</td><td>Medo de vazamento e de processo ético; critério de compra nº 1</td><td>"E se alguém acessar?" → "Nem a empresa consegue ler. Está só comigo."</td><td class="y">Diferencial único</td></tr>
+      <tr><td><b>Registro de acessos</b> (criar, abrir, editar, apagar, exportar, logins com IP e dispositivo)</td><td>Insegurança, falta de controle</td><td>"Não sei quem viu" → "Eu vejo cada acesso, quando quiser."</td><td class="y">Diferencial</td></tr>
+      <tr><td><b>Aviso de guarda de 5 anos e exportação decifrada</b></td><td>Medo de descumprir a Res. CFP 001/2009</td><td>"Estou fazendo certo?" → "O sistema me lembra do que o CFP exige."</td><td class="y">Diferencial</td></tr>
+      <tr><td><b>Escalas PHQ-9, GAD-7, DASS-21, PCL-5</b>, aplicadas na sessão ou respondidas pelo paciente por link, cifradas</td><td>Dificuldade de mostrar evolução; papelada de instrumento</td><td>"Sinto que ele melhorou, mas não consigo mostrar" → "Está no gráfico, e só eu vejo."</td><td class="y">Diferencial (poucas, mas cifradas)</td></tr>
+      <tr><td><b>Painel de evolução</b> (frequência, faltas, intervalo, gráfico das escalas, alerta de reaplicação)</td><td>Perder o fio do processo terapêutico</td><td>"Quando apliquei a última vez?" → "O sistema me avisa."</td><td class="y">Diferencial</td></tr>
+      <tr><td><b>Agenda</b> com feriados, horários configuráveis e <b>Google Agenda</b></td><td>Agenda espalhada entre caderno, WhatsApp e celular</td><td>"Será que marquei duas pessoas no mesmo horário?" → "Tudo num lugar só."</td><td class="p">Paridade</td></tr>
+      <tr><td><b>Link público de agendamento</b></td><td>Trocar 15 mensagens para marcar um horário</td><td>"Passo o intervalo respondendo WhatsApp" → "O paciente escolhe sozinho."</td><td class="p">Paridade (Corpora tem)</td></tr>
+      <tr><td><b>Lembretes e confirmações por WhatsApp</b>, em nome da psicóloga, com tom clínico ("sentimos sua falta")</td><td>Faltas; medo de soar fria ou invasiva</td><td>"Cadeira vazia às 19h" → "Ele foi lembrado, com carinho, sem eu precisar mandar."</td><td class="y">Paridade com tom superior</td></tr>
+      <tr><td><b>Sala de vídeo própria</b> (Jitsi) e presença resolvida pela sala</td><td>Link de Meet perdido, paciente que não sabe entrar</td><td>"Manda o link de novo?" → "Ele entra pelo navegador, sem instalar nada."</td><td class="p">Paridade</td></tr>
+      <tr><td><b>Cobrança automática após a sessão</b> (Mercado Pago), com desconto para quem paga logo</td><td>A culpa de cobrar; atrasos; renda instável</td><td>"Vergonha de lembrar do pix" → "O pagamento chega sem eu pedir."</td><td class="y">Diferencial de abordagem</td></tr>
+      <tr><td><b>Relatórios</b> financeiro, de ocupação e de comparecimento</td><td>Não saber quanto ganha nem quanto perde com faltas</td><td>"No fim do mês eu não sei como estou" → "Vejo meu consultório com clareza."</td><td class="p">Paridade</td></tr>
+      <tr><td><b>Documentos por modelo</b>: atestado, declaração de comparecimento (puxa as sessões realizadas), declaração do psicólogo, relatório psicológico; PDF</td><td>Burocracia; medo de errar o formato da Res. CFP 06/2019</td><td>"30 minutos montando uma declaração" → "Dois cliques, no padrão certo."</td><td class="p">Paridade, com bom detalhe</td></tr>
+      <tr><td><b>IA para evolução</b>, com aprovação obrigatória e aviso de que sai da proteção</td><td>Prontuário acumulado depois do expediente</td><td>"Domingo digitando evolução" → "Escrevo mais rápido e decido o que entra."</td><td class="p">Paridade, com honestidade como diferencial</td></tr>
+      <tr><td><b>Mensagem de aniversário</b> para pacientes</td><td>Cuidar do vínculo no meio da correria</td><td>"Esqueci" → "Ele se sentiu lembrado."</td><td class="p">Detalhe de cuidado</td></tr>
+      <tr><td><b>Suporte humano por WhatsApp</b></td><td>Isolamento; medo de tecnologia</td><td>"Robô e fila de ticket" → "Uma pessoa me respondeu."</td><td class="y">Diferencial emocional</td></tr>
+      <tr><td><b>Receita Saúde em lote</b>: cobranças pagas viram recibos sozinhas, pagamentos por fora são registrados em segundos, um arquivo para importar no Carnê-Leão; responsável financeiro no cadastro do paciente</td><td>Obrigação fiscal recorrente; digitar recibo por recibo; medo de multa</td><td>"Uma noite digitando recibo no app da Receita" → "Um arquivo, uma importação, e meus dados fiscais continuam comigo."</td><td class="p">Paridade, com a privacidade como diferencial</td></tr>
+      <tr><td><b>NFS-e</b> (PJ/MEI)</td><td>Nota fiscal de quem atende como empresa</td><td>—</td><td class="n">Lacuna (fase 2)</td></tr>
+      <tr><td><b>Importador de dados</b> de outro sistema</td><td>Medo de perder anos de prontuário ao trocar</td><td>—</td><td class="n">Lacuna (P0)</td></tr>
+      <tr><td><b>Modo clínica</b> (multiusuário, secretária)</td><td>Clínicas com várias profissionais</td><td>—</td><td class="n">Lacuna (P1)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict">Leitura: o PSI4 já tem produto suficiente para uma comunicação emocional honesta. A jornada "antes, durante e depois da sessão" está completa; o que falta (importador, modo clínica) limita campanhas específicas, não a mensagem central. Com o Receita Saúde entregue em 24/10/2026, a campanha de fevereiro e março ganhou prova concreta.</div>
+</section>
+
+<section id="refino">
+  <h2>2. Refinamento de negócio: o que ajustar para a mensagem ficar coerente</h2>
+  <p class="sub">Uma comunicação emocional só se sustenta se o produto não contradiz o que ela promete. Estes pontos foram encontrados no código.</p>
+
+  <ul>
+    <li><span class="prio p0">P0</span><b>Retirar a promessa de "novos pacientes qualificados pelo sistema".</b> O plano grátis tem <code>total_leads</code> e a tela de planos mostra "Receba até 1 novo paciente qualificado pelo sistema" (<code>lang/pt_BR/plans.php</code>). Isso soa como marketplace de pacientes, que a estratégia descarta e que esbarra no Código de Ética. Também conflita com a bandeira de cuidado: transforma paciente em "lead". <b>Sugestão:</b> remover a linha, ou trocar por "Seus pacientes agendam sozinhos pelo seu link".</li>
+    <li><span class="prio p0">P0</span><b>Unificar os nomes dos planos.</b> No sistema os planos se chamam Grátis, Intermediário e Avançado; na landing aparece "Automático". O Avançado custa R$ 49 (anual) e o Intermediário R$ 69 (mensal), o que faz o plano "mais completo" parecer mais barato e confunde. <b>Sugestão:</b> dois nomes que falem a língua dela, por exemplo <b>Essencial</b> (grátis) e <b>Consultório</b> (mensal ou anual com desconto). Nome de plano também comunica.</li>
+    <li><span class="prio p0">P0</span><b>Plano grátis com 3 prontuários impede o "momento aha".</b> A experiência emocional mais forte do PSI4 é escrever a primeira evolução e ver que nem a empresa consegue ler. Com 3 prontuários ela mal começa. <b>Sugestão:</b> prontuário e escalas ilimitados e cifrados no grátis; cobrar por automação (WhatsApp, cobrança, link público, IA). A mensagem "sigilo de verdade para todas, inclusive no grátis" fica forte e verdadeira.</li>
+    <li><span class="prio p0">P0</span><b>Receita Saúde: entregue em 24/10/2026.</b> Comunicar com precisão: o PSI4 <b>gera o arquivo</b> e a psicóloga o importa no Carnê-Leão. Não emitimos em nome dela, não pedimos a senha do gov.br e não falamos com a Receita. Isso conversa com a bandeira do sigilo ("seus dados fiscais não saem do seu controle") e evita prometer "emissão automática", que um concorrente ou um contador vai conferir. A landing, o FAQ e a página <code>/seguranca</code> já foram atualizados; o recibo entrou na lista do que não é cifrado de ponta a ponta. Recomendar sempre o contador em dúvida fiscal, sem soar como isenção de responsabilidade.</li>
+    <li><span class="prio p1">P1</span><b>Tirar "ChatGPT 5" da tela de planos.</b> Citar o fornecedor ao lado da promessa de privacidade gera a pergunta "então a OpenAI lê meus prontuários?". <b>Sugestão:</b> "IA que sugere e você aprova", com o aviso já existente e, quando houver contrato, "seus textos não treinam a IA".</li>
+    <li><span class="prio p1">P1</span><b>Transformar a chave de recuperação em momento de cuidado.</b> É o ponto de maior risco emocional do produto: perder a chave é perder prontuários. A tela de criação deve ter tom acolhedor e firme ("Guarde como você guarda a chave do consultório"), e lembretes periódicos.</li>
+    <li><span class="prio p1">P1</span><b>Resumo mensal de cuidado</b> <span class="tag prop">Proposta</span>: e-mail com "este mês o PSI4 enviou 52 lembretes, recebeu 31 pagamentos e você economizou cerca de 4 horas". Dá prova concreta do valor e combate o churn. Usa apenas dados que já não são cifrados (agenda, pagamentos).</li>
+    <li><span class="prio p2">P2</span><b>Templates por abordagem</b> (psicanálise, TCC, humanista) nos documentos e na evolução. Permite mensagens segmentadas: "um prontuário que respeita a sua escuta".</li>
+  </ul>
+
+  <h3>Alinhamento com a estratégia</h3>
+  <div class="grid2">
+    <div class="card"><h3>Reforça</h3>
+      <ul>
+        <li>Sigilo como identidade da marca</li>
+        <li>Tom acolhedor e ético, no feminino</li>
+        <li>Preço "menos que uma sessão"</li>
+        <li>Canal de indicação (supervisoras, pares)</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Evita</h3>
+      <ul>
+        <li>"Lote sua agenda", leads, marketplace</li>
+        <li>Paridade cega com o líder</li>
+        <li>Prometer mais do que a criptografia entrega (cadastro, agenda e títulos não são cifrados)</li>
+        <li>Medo como argumento principal</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="personas">
+  <h2>3. Com quem estamos falando</h2>
+  <p class="sub">Três perfis, do mais prioritário (beachhead da estratégia) ao segundo movimento. Nomes fictícios, para o time ter uma pessoa em mente ao escrever.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Júlia, 27, recém-formada</h3>
+      <p><b>Momento:</b> abriu o consultório há 8 meses, 9 pacientes, metade online. Ainda faz plantão ou estágio para fechar a conta.</p>
+      <p><b>O que sente:</b> insegurança ("sou psicóloga de verdade?"), vergonha de cobrar, medo de errar documento, solidão.</p>
+      <p><b>O que quer ouvir:</b> "Você não precisa saber tudo de gestão para começar com o pé direito."</p>
+      <p><b>Gatilho de compra:</b> indicação da supervisora; primeira declaração pedida por paciente.</p>
+    </div>
+    <div class="card">
+      <h3>Renata, 41, consolidada</h3>
+      <p><b>Momento:</b> 28 pacientes, 10 anos de clínica, prontuário em Word e caderno, ou num sistema antigo.</p>
+      <p><b>O que sente:</b> cansaço, noites com evolução atrasada, culpa por não ter tempo para a família, medo silencioso de fiscalização.</p>
+      <p><b>O que quer ouvir:</b> "Você já cuida de muita gente. Deixe a parte operacional com a gente."</p>
+      <p><b>Gatilho de compra:</b> exaustão, falta acumulada, notícia de vazamento, março (IR).</p>
+    </div>
+    <div class="card">
+      <h3>Marcos, 52, psicanalista</h3>
+      <p><b>Momento:</b> resistente a tecnologia, atende presencial, cobra em dinheiro ou pix, "o setting é sagrado".</p>
+      <p><b>O que sente:</b> desconfiança de qualquer coisa entre ele e o analisando; medo de "medicalizar" a clínica.</p>
+      <p><b>O que quer ouvir:</b> "Nada fica entre você e o seu paciente. Nem nós."</p>
+      <p><b>Gatilho de compra:</b> sigilo verificável, registro livre (sem formulário médico), suporte humano.</p>
+    </div>
+  </div>
+</section>
+
+<section id="principios">
+  <h2>4. Princípios: como mexer com a emoção sem manipular</h2>
+  <p class="sub">A psicóloga reconhece manipulação de longe. O padrão ético que o CFP exige da publicidade dela é o padrão que ela espera da nossa.</p>
+  <div class="grid2">
+    <div class="card"><h3>1. Nomear antes de oferecer</h3>Comece pela cena que ela vive ("são 22h e ainda faltam três evoluções"). Só depois apresente o produto. Ser compreendida é a conexão mais forte que o público relata.</div>
+    <div class="card"><h3>2. Validar, não culpar</h3>Nunca "você está perdendo dinheiro". Sim "faz sentido você estar cansada". O objetivo é aliviar, não aumentar a culpa que ela já sente.</div>
+    <div class="card"><h3>3. Proteger sem aterrorizar</h3>Sobre segurança, fale de cuidado e de confiança ("seu paciente confiou em você"), não de catástrofe. Medo afasta; responsabilidade compartilhada aproxima.</div>
+    <div class="card"><h3>4. Prova concreta, sempre</h3>Cada mensagem emocional precisa de uma prova verificável: a página <code>/seguranca</code>, o log de acessos, o exemplo da mensagem de WhatsApp, a calculadora de tempo.</div>
+    <div class="card"><h3>5. Ela no centro, o sistema ao lado</h3>A heroína é a psicóloga e o vínculo com o paciente. O PSI4 é o bastidor: "a gente cuida do resto", nunca "a gente transforma sua clínica".</div>
+    <div class="card"><h3>6. Calma no ritmo</h3>Sem "última chance", contagem regressiva ou caixa alta. Convite, não pressão: "quando fizer sentido para você".</div>
+  </div>
+</section>
+
+<section id="manifesto">
+  <h2>5. Manifesto da marca</h2>
+  <p class="sub">Texto-base para landing, vídeo institucional, post fixado e apresentação para supervisoras. Pode ser cortado em partes.</p>
+  <div class="manifesto">
+    Você escolheu a Psicologia para escutar.<br>
+    Não para passar o domingo digitando evolução.<br>
+    Não para mandar "oi, tudo bem? passando para lembrar do pix".<br>
+    Não para se perguntar, antes de dormir, onde estão guardadas as histórias que te confiaram.<br><br>
+    O que é dito na sessão é o que existe de mais íntimo na vida de alguém.<br>
+    Por isso, no PSI4, o que você escreve no prontuário é trancado no seu navegador, com uma chave que só você tem.<br>
+    Nem nós conseguimos ler.<br><br>
+    E todo o resto, a confirmação, o lembrete, a cobrança, a declaração, a gente cuida.<br>
+    Para que sobre mais de você para quem está na sua frente.<br>
+    E para você.<br><br>
+    <b>PSI4. Sigilo de verdade. E mais tempo para a clínica.</b>
+  </div>
+  <h3>Assinaturas curtas (escolher uma e testar)</h3>
+  <div class="msg">O que é dito na sessão, fica na sessão.</div>
+  <div class="msg">Cuide dos seus pacientes. A gente cuida do resto.</div>
+  <div class="msg">Quem passa o dia acolhendo também merece cuidado.</div>
+  <div class="msg">O único prontuário que nem nós conseguimos ler.<small>Usar sempre com a precisão "o que você escreve no prontuário" no corpo do texto.</small></div>
+</section>
+
+<section id="pilares">
+  <h2>6. Os seis pilares de mensagem</h2>
+  <p class="sub">Cada pilar liga uma dor da pesquisa a um sentimento, uma frase-âncora, frases de apoio e a prova no produto. Ordem = prioridade.</p>
+
+  <div class="pillar">
+    <h3>Pilar 1 · Sigilo que se sustenta</h3>
+    <div class="kv">
+      <b>Dor</b><span>Medo de vazamento, de processo ético, de trair a confiança do paciente (47,5% se preocupam com a segurança dos dados).</span>
+      <b>Sentimento</b><span>Responsabilidade pesada → alívio e orgulho de cuidar bem.</span>
+      <b>Prova</b><span>Cifragem no navegador, senha mestre, log de acessos, escalas por link cifradas, página <code>/seguranca</code> com o que não é cifrado.</span>
+    </div>
+    <div class="anchor">"Seu paciente confiou em você. Agora você pode confiar onde guarda isso."</div>
+    <div class="msg">Se alguém invadir o servidor, encontra só letras embaralhadas. A chave que abre o seu prontuário nunca sai do seu dispositivo.</div>
+    <div class="msg">"Dados criptografados" nem sempre querem dizer a mesma coisa. A pergunta certa é: quem guarda a chave? No PSI4, só você.</div>
+    <div class="msg">Você sustenta o sigilo na sala. A gente sustenta fora dela.</div>
+    <div class="msg">Você sabe quem abriu cada prontuário, quando e de qual dispositivo. Porque sigilo também é saber.</div>
+  </div>
+
+  <div class="pillar">
+    <h3>Pilar 2 · Seu tempo de volta</h3>
+    <div class="kv">
+      <b>Dor</b><span>Burocracia fora do horário, 18% trabalham mais de 50 h por semana, risco de burnout.</span>
+      <b>Sentimento</b><span>Exaustão e culpa por faltar à própria vida → leveza, noites livres.</span>
+      <b>Prova</b><span>Calculadora de tempo da landing, declaração de comparecimento que puxa as sessões, documentos por modelo, lembretes automáticos, IA que você aprova, Google Agenda.</span>
+    </div>
+    <div class="anchor">"Domingo à noite não é horário de prontuário."</div>
+    <div class="msg">Quantas sessões por mês você entrega para a burocracia? Faça a conta. Depois, faça diferente.</div>
+    <div class="msg">A declaração que levava meia hora agora sai em dois cliques, com as sessões já preenchidas.</div>
+    <div class="msg">Você estudou anos para escutar. Não para ser secretária de si mesma.</div>
+  </div>
+
+  <div class="pillar">
+    <h3>Pilar 3 · Cobrar sem culpa</h3>
+    <div class="kv">
+      <b>Dor</b><span>Vergonha de cobrar, atrasos, faltas não pagas, renda abaixo do piso.</span>
+      <b>Sentimento</b><span>Constrangimento e sensação de "mercantilizar o cuidado" → dignidade e previsibilidade.</span>
+      <b>Prova</b><span>Cobrança automática ao fim da sessão, desconto configurável para quem paga logo, relatório financeiro.</span>
+    </div>
+    <div class="anchor">"Cobrar não diminui o seu cuidado. É o que permite que ele continue."</div>
+    <div class="msg">Você não precisa ser a pessoa que lembra do pix. Assim que a sessão termina, o pagamento chega ao paciente com gentileza.</div>
+    <div class="msg">Honorário justo é parte do compromisso ético. O constrangimento de pedir, não.</div>
+    <div class="msg">Quem paga logo depois da sessão ganha um desconto. Você ganha paz.</div>
+  </div>
+
+  <div class="pillar">
+    <h3>Pilar 4 · O vínculo em primeiro lugar</h3>
+    <div class="kv">
+      <b>Dor</b><span>Medo de a tecnologia soar fria; 56,5% acham que ela deixa as relações impessoais; faltas que fragilizam o processo.</span>
+      <b>Sentimento</b><span>Receio de "robotizar" a clínica → confiança de que o cuidado continua dela.</span>
+      <b>Prova</b><span>Mensagens escritas para a clínica psicológica, sempre em nome dela; "sentimos sua falta" em vez de cobrança; paciente não instala nada; sala de vídeo própria; mensagem de aniversário.</span>
+    </div>
+    <div class="anchor">"Tecnologia que fica do lado de fora da sala."</div>
+    <div class="msg">Quando o paciente falta, ele não recebe uma cobrança. Recebe "sentimos sua falta".</div>
+    <div class="msg">Cada mensagem leva o seu nome e o seu jeito. O sistema só lembra por você.</div>
+    <div class="msg">Seu paciente entra na sessão pelo navegador. Sem app, sem cadastro, sem barreira entre vocês.</div>
+  </div>
+
+  <div class="pillar">
+    <h3>Pilar 5 · Ver o processo acontecer</h3>
+    <div class="kv">
+      <b>Dor</b><span>Dificuldade de enxergar e mostrar evolução; perder o fio do processo terapêutico.</span>
+      <b>Sentimento</b><span>Dúvida ("estou ajudando?") → o prazer central da profissão: ver o paciente evoluir.</span>
+      <b>Prova</b><span>Painel de evolução, escalas validadas no Brasil, link para o paciente responder em casa, alerta de reaplicação, tudo cifrado.</span>
+    </div>
+    <div class="anchor">"Às vezes o paciente não percebe o quanto já caminhou. Agora você pode mostrar."</div>
+    <div class="msg">O PHQ-9 de março e o de outubro, lado a lado. Só você vê o gráfico, e ele conta uma história de cuidado.</div>
+    <div class="msg">Escalas são opcionais e respeitam a sua abordagem. Use quando fizer sentido para o processo.<small>Importante para não afastar psicanalistas: nunca apresentar escalas como obrigatórias ou como "o jeito certo".</small></div>
+  </div>
+
+  <div class="pillar">
+    <h3>Pilar 6 · Cuidar de quem cuida</h3>
+    <div class="kv">
+      <b>Dor</b><span>Isolamento da clínica autônoma, insegurança (35,3%), precarização e "uberização".</span>
+      <b>Sentimento</b><span>Solidão e desvalorização → pertencimento e respeito pela profissão.</span>
+      <b>Prova</b><span>Suporte humano no WhatsApp, preço menor que uma sessão, sem fidelidade, conteúdo educativo, conselho de psicólogas.</span>
+    </div>
+    <div class="anchor">"Quem passa o dia acolhendo também merece ser acolhida."</div>
+    <div class="msg">Precisou de ajuda? Fale com uma pessoa. Em português, sem robô, sem fila.</div>
+    <div class="msg">Psicologia é ciência e profissão. O seu consultório merece ser tratado assim.</div>
+    <div class="msg">Menos que uma sessão por mês. Porque a gente sabe quanto vale a sua hora.</div>
+  </div>
+</section>
+
+<section id="cenas">
+  <h2>7. Cenas: histórias curtas que ela reconhece</h2>
+  <p class="sub">Matéria-prima para Reels, carrosséis, e-mails e anúncios. Cada cena termina num alívio concreto do produto. Funcionam porque são específicas.</p>
+  <div class="grid2">
+    <div class="scene">
+      <div class="time">Quinta, 22h47</div>
+      <p>O último paciente saiu às 20h. O jantar esfriou. Ainda faltam três evoluções, e amanhã começa às 8h.</p>
+      <p><b>Virada:</b> a evolução escrita em dez minutos com a ajuda da IA, revisada por ela, e a declaração do paciente que sai sozinha.</p>
+      <p><i>"Seu dia já foi de escuta. A noite pode ser sua."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Sábado, 3 dias depois</div>
+      <p>O pix da sessão de quarta não veio. Ela escreve "oi, tudo bem?", apaga. Escreve de novo. Apaga.</p>
+      <p><b>Virada:</b> o paciente recebeu a cobrança logo depois da sessão, com desconto se pagasse em 2 horas. Pagou ainda no carro.</p>
+      <p><i>"Você não precisa ser a pessoa que lembra do pix."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Terça, 19h00</div>
+      <p>A cadeira vazia. Nenhum aviso. Ela fica 50 minutos pensando se fez algo errado na última sessão.</p>
+      <p><b>Virada:</b> o lembrete chegou na véspera, em nome dela. Ele confirmou. Quando falta, recebe "sentimos sua falta", e volta.</p>
+      <p><i>"Menos cadeiras vazias. Mais processos que continuam."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Um dia comum</div>
+      <p>Ela anota numa sessão algo que a paciente nunca contou a ninguém. Depois, pensa: e se esse sistema for invadido?</p>
+      <p><b>Virada:</b> no servidor, aquela anotação é só um bloco de letras embaralhadas. A chave está com ela.</p>
+      <p><i>"O que ela contou a você continua só com você."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Março</div>
+      <p>Três pacientes pedem declaração de todas as sessões do ano para o reembolso do plano e o IR. Ela abre a planilha e o caderno.</p>
+      <p><b>Virada:</b> a declaração de comparecimento já puxa as sessões realizadas. Três documentos em cinco minutos. E os recibos do Receita Saúde do mês saem num arquivo só, pronto para o Carnê-Leão.</p>
+      <p><i>"Março não precisa ser o mês do caderno."</i> <span class="tag ok">Reforçada pelo Receita Saúde</span></p>
+    </div>
+    <div class="scene">
+      <div class="time">A primeira paciente</div>
+      <p>Recém-formada, ela recebe o primeiro "quero começar terapia com você". Alegria, e logo depois: "e agora, como organizo tudo isso direito?"</p>
+      <p><b>Virada:</b> conta grátis, prontuário cifrado desde o primeiro registro, modelos de documentos no padrão do CFP e uma pessoa no WhatsApp para tirar dúvidas.</p>
+      <p><i>"Comece o seu consultório do jeito certo, desde a primeira sessão."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Seis meses de terapia</div>
+      <p>O paciente diz: "sinto que não saí do lugar". Ela sente que ele mudou muito, mas como mostrar?</p>
+      <p><b>Virada:</b> o gráfico do GAD-7, do primeiro mês até hoje. Ele fica em silêncio, e sorri.</p>
+      <p><i>"Às vezes o caminho só aparece quando a gente olha para trás."</i></p>
+    </div>
+    <div class="scene">
+      <div class="time">Domingo de manhã</div>
+      <p>Pela primeira vez em meses, nenhuma evolução pendente, nenhum pix para cobrar, nenhuma mensagem para confirmar.</p>
+      <p><b>Virada:</b> ela vai ao parque com o filho. O consultório está sob controle.</p>
+      <p><i>"Cuidar de você também faz parte da clínica."</i></p>
+    </div>
+  </div>
+</section>
+
+<section id="funil">
+  <h2>8. Mensagens por etapa da jornada</h2>
+  <p class="sub">Da primeira vez que ela vê o PSI4 até a renovação. Cada etapa tem um objetivo emocional diferente.</p>
+
+  <h3>Consciência · "Isso é sobre mim" (Instagram, Reels, anúncio de topo)</h3>
+  <p class="sub">Objetivo: ser reconhecida. Gancho nos 2 primeiros segundos, sem falar do produto.</p>
+  <div class="msg">Ninguém te ensinou na faculdade a cobrar uma falta. E tudo bem.</div>
+  <div class="msg">Se você já escreveu e apagou uma mensagem de cobrança três vezes, este post é para você.</div>
+  <div class="msg">Você acolhe 8 pessoas por dia. Quem acolhe você?</div>
+  <div class="msg">Onde estão guardadas, agora, as histórias que te contaram esta semana?</div>
+  <div class="msg">O cansaço depois do último atendimento tem nome. E não é falta de vocação.</div>
+  <div class="msg">3 sinais de que a burocracia está ocupando o lugar da clínica.</div>
+  <div class="msg">O que o CFP exige do seu prontuário, explicado em 60 segundos.<small>Conteúdo educativo é o formato que mais gera salvamento neste público.</small></div>
+
+  <h3>Consideração · "Posso confiar?" (landing, comparação, página de segurança)</h3>
+  <p class="sub">Objetivo: confiança. Aqui entram prova técnica, transparência e o que não é cifrado.</p>
+  <div class="msg">Todo sistema diz que é seguro. Pergunte quem guarda a chave.</div>
+  <div class="msg">Nós guardamos suas anotações, mas não temos como lê-las. E mostramos, com transparência, o que não é cifrado.</div>
+  <div class="msg">A IA sugere. Você decide. E o sistema avisa antes de qualquer texto sair da proteção.</div>
+  <div class="msg">Mensagens que soam como você: curtas, cordiais e nunca com tom de cobrança.</div>
+
+  <h3>Decisão · "Faz sentido agora" (tela de planos, cadastro)</h3>
+  <p class="sub">Objetivo: tirar o risco da decisão. Sem urgência artificial.</p>
+  <div class="msg">Comece de graça. A criptografia de ponta a ponta protege desde o primeiro prontuário.</div>
+  <div class="msg">Menos que uma sessão por mês. Sem fidelidade: cancele quando quiser.</div>
+  <div class="msg">Experimente com calma. Se não fizer sentido para a sua clínica, tudo bem.</div>
+
+  <h3>Retenção · "Estou bem cuidada aqui" (produto, e-mail, WhatsApp de suporte)</h3>
+  <div class="msg">Este mês, o PSI4 confirmou 46 sessões e recebeu 31 pagamentos por você. Foram cerca de 4 horas de volta para a sua vida. <span class="tag prop">Proposta</span></div>
+  <div class="msg">Faz 1 ano que você cuida dos seus pacientes com a gente. Obrigada pela confiança.</div>
+  <div class="msg">Lembrete de cuidado: sua chave de recuperação ainda está guardada num lugar seguro?</div>
+
+  <h3>Saída e retorno · "Posso voltar quando quiser"</h3>
+  <p class="sub">A estratégia mostra que muita gente sai porque a clínica pausou, não por insatisfação. Respeito na saída gera indicação e retorno.</p>
+  <div class="msg">A clínica tem seus tempos. Se você precisar pausar, seus prontuários continuam guardados e cifrados, e você pode exportá-los quando quiser.</div>
+  <div class="msg">Sentimos sua falta por aqui. Quando fizer sentido voltar, sua conta e seus registros estarão esperando.</div>
+</section>
+
+<section id="onboarding">
+  <h2>9. Sequência de boas-vindas (primeiros 30 dias)</h2>
+  <p class="sub">E-mail e, quando ela autorizar, WhatsApp. Cada mensagem tem uma única ação e um sentimento-alvo. Foco no "momento aha": o primeiro prontuário cifrado e o primeiro lembrete enviado.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Dia</th><th>Assunto</th><th>Sentimento-alvo</th><th>Ação</th></tr></thead>
+    <tbody>
+      <tr><td>D0</td><td>"Que bom ter você aqui. Seu consultório começa protegido."</td><td>Acolhimento</td><td>Criar a senha mestre e guardar a chave de recuperação ("como a chave do consultório")</td></tr>
+      <tr><td>D1</td><td>"Escreva a sua primeira evolução. Só você vai conseguir ler."</td><td>Orgulho, segurança</td><td>Primeiro prontuário + ver no log de acessos</td></tr>
+      <tr><td>D3</td><td>"Deixe o lembrete com a gente."</td><td>Alívio</td><td>Configurar horários e ativar confirmação por WhatsApp</td></tr>
+      <tr><td>D5</td><td>"Seu paciente pode marcar sozinho."</td><td>Autonomia</td><td>Publicar o link de agendamento</td></tr>
+      <tr><td>D7</td><td>"Cobrar sem precisar pedir."</td><td>Dignidade</td><td>Conectar Mercado Pago e definir o desconto</td></tr>
+      <tr><td>D10</td><td>"Aquela declaração de meia hora? Agora são dois cliques."</td><td>Leveza</td><td>Emitir uma declaração de comparecimento</td></tr>
+      <tr><td>D14</td><td>"Como está sendo? Responda este e-mail, uma pessoa vai ler."</td><td>Pertencimento</td><td>Conversa com o suporte / pesquisa curta</td></tr>
+      <tr><td>D21</td><td>"Ver o processo acontecer." (opcional, respeitando a abordagem)</td><td>Sentido</td><td>Aplicar uma escala ou enviar por link</td></tr>
+      <tr><td>D30</td><td>"Seu primeiro mês, em números."</td><td>Reconhecimento</td><td>Resumo de tempo economizado + convite para indicar uma colega</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="objecoes">
+  <h2>10. Objeções e respostas empáticas</h2>
+  <p class="sub">Estrutura: validar o sentimento, explicar com clareza, oferecer prova. Para suporte, comentários e conversas com supervisoras.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Ela diz</th><th>Responder assim</th></tr></thead>
+    <tbody>
+      <tr><td>"Já uso caderno e Word, funciona."</td><td>"Faz sentido, é o que você conhece. A diferença é que no PSI4 o prontuário fica cifrado e organizado por paciente, com aviso da guarda de 5 anos. Você pode testar de graça com um paciente e ver se faz sentido."</td></tr>
+      <tr><td>"Não confio em sistema online para prontuário."</td><td>"Essa desconfiança é saudável e mostra cuidado com seus pacientes. Por isso o conteúdo é cifrado no seu navegador, antes de chegar até nós. Nem a nossa equipe consegue ler. A página de segurança explica, inclusive o que não é cifrado."</td></tr>
+      <tr><td>"E se eu esquecer a senha mestre?"</td><td>"É a pergunta mais importante. Você recebe uma chave de recuperação ao criar a conta, e só ela destranca os prontuários se a senha for esquecida. Como nem nós temos acesso, pedimos que você a guarde com o mesmo cuidado da chave do consultório."</td></tr>
+      <tr><td>"Lembrete automático vai parecer frio."</td><td>"Esse é o maior cuidado que tivemos. As mensagens foram escritas para a clínica psicológica e nunca têm tom de cobrança. Quando o paciente falta, ele ouve 'sentimos sua falta'."</td></tr>
+      <tr><td>"Não quero IA no meu prontuário."</td><td>"Você não precisa usar. A IA é opcional a cada vez, nada entra sem a sua aprovação, e o sistema avisa antes que o texto saia da proteção de ponta a ponta."</td></tr>
+      <tr><td>"Sou psicanalista, escala não é a minha."</td><td>"Respeitamos isso. As escalas são opcionais e o registro da evolução é livre, sem formulário imposto. O PSI4 serve à sua escuta, não o contrário."</td></tr>
+      <tr><td>"Está caro."</td><td>"A gente entende, cada assinatura pesa. O PSI4 custa menos que uma sessão por mês e devolve algumas horas. A calculadora da página mostra a conta com os seus números. E o plano grátis já tem a criptografia completa."</td></tr>
+      <tr><td>"Tenho anos de prontuário em outro sistema."</td><td>"Esse é o maior medo de trocar, e é legítimo. Estamos construindo a importação com cifragem no seu navegador, para que nem na migração alguém leia em claro. Podemos te avisar quando estiver pronta." <span class="tag prop">Depende do P0</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="conexao">
+  <h2>11. Como criar conexão de verdade</h2>
+  <p class="sub">Conexão neste público nasce de presença, generosidade e comunidade. Ações em ordem de impacto por esforço.</p>
+  <div class="grid2">
+    <div class="card"><h3>Carta para quem cuida</h3>Newsletter quinzenal, curta, escrita em primeira pessoa pelo fundador ou por uma psicóloga do conselho. Um tema por carta: cobrar, cansaço, sigilo, solidão da clínica. Sem venda no corpo; o produto aparece só na assinatura.</div>
+    <div class="card"><h3>Conselho de 5 psicólogas</h3>Uma por abordagem e uma de clínica. Elas revisam as mensagens antes de publicar (o melhor filtro contra tom errado) e viram vozes reais da marca, com autorização.</div>
+    <div class="card"><h3>Programa de supervisoras</h3>Kit "abrindo seu consultório com ética" para a turma de supervisionandas: modelo de contrato terapêutico, guia de prontuário segundo a Res. 001/2009, calculadora de honorários pela tabela CFP/Fenapsi e conta PSI4.</div>
+    <div class="card"><h3>Rodas de conversa ao vivo</h3>Live mensal com uma convidada sobre um tema de gestão e ética: "como cobrar faltas sem quebrar o vínculo", "o que o CRP fiscaliza no prontuário". Termina com perguntas, não com oferta.</div>
+    <div class="card"><h3>Ferramentas gratuitas sem login</h3>Gerador de recibo, calculadora de preço de sessão e modelos de declaração. Dar antes de pedir é a forma mais rápida de confiança. O motor de documentos já existe.</div>
+    <div class="card"><h3>Suporte como marketing</h3>Responder rápido, por uma pessoa, chamando pelo nome. Cada atendimento bem feito vira um "minha colega indicou". Registrar frases das usuárias (com autorização) como vocabulário para a comunicação.</div>
+    <div class="card"><h3>Caixinhas e enquetes que escutam</h3>"Qual parte do consultório mais te cansa?", "Você já sentiu culpa de cobrar?". As respostas viram conteúdo e roadmap. É a lógica da escuta aplicada à marca.</div>
+    <div class="card"><h3>Indique uma colega</h3>Um mês grátis para as duas, com mensagem pronta e acolhedora: "Lembrei de você. Esse sistema me devolveu algumas noites."</div>
+  </div>
+  <div class="note"><b>Ética de depoimentos:</b> depoimentos de <b>psicólogas</b> sobre o sistema são permitidos e valiosos. Nunca usar falas, casos ou dados de <b>pacientes</b>, mesmo anônimos. As cenas da seção 7 são ficcionais e devem ser apresentadas como tal.</div>
+</section>
+
+<section id="calendario">
+  <h2>12. Calendário emocional do ano</h2>
+  <p class="sub">Momentos em que uma dor específica fica mais forte. Planejar conteúdo com 3 a 4 semanas de antecedência.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Quando</th><th>Momento</th><th>Pilar</th><th>Mensagem</th></tr></thead>
+    <tbody>
+      <tr><td>Janeiro</td><td>Janeiro Branco, volta das férias, agenda recomeçando</td><td>Cuidar de quem cuida · Tempo</td><td>"Neste ano, que a sua saúde mental também esteja na agenda."</td></tr>
+      <tr><td>Fevereiro–Abril</td><td>IR, reembolso de plano, declarações em massa</td><td>Tempo</td><td>"Março não precisa ser o mês do caderno." No fim de fevereiro termina o prazo da emissão retroativa dos recibos do ano anterior: "Os recibos do ano inteiro em um arquivo só, antes do fim do mês."</td></tr>
+      <tr><td>Julho e Dezembro</td><td>Formaturas, novas inscrições no CRP</td><td>Cuidar de quem cuida · Sigilo</td><td>"Seu consultório começa aqui, protegido desde a primeira sessão."</td></tr>
+      <tr><td>27 de agosto</td><td>Dia da Psicóloga e do Psicólogo</td><td>Valorização</td><td>Homenagem sem venda: "Psicologia é ciência e profissão. Obrigada por sustentar tanta gente."</td></tr>
+      <tr><td>Setembro</td><td>Setembro Amarelo</td><td>Cuidar de quem cuida</td><td>Conteúdo de apoio à profissional (manejo, rede, supervisão) e CVV 188. <b>Nunca usar o tema para vender.</b></td></tr>
+      <tr><td>Novembro–Dezembro</td><td>Fim de ano, recesso, cansaço acumulado</td><td>Tempo · Cobrança</td><td>"Antes do recesso: como combinar faltas e férias com seus pacientes."</td></tr>
+      <tr><td>Qualquer mês</td><td>Notícias de vazamento de dados de saúde</td><td>Sigilo</td><td>Conteúdo educativo e sóbrio ("o que muda quando a chave é só sua"). Sem explorar a vítima nem citar concorrentes.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="vocabulario">
+  <h2>13. Vocabulário</h2>
+  <h3>Usar</h3>
+  <div class="chips good">
+    <span>acolher</span><span>sustentar</span><span>vínculo</span><span>sigilo</span><span>cuidado</span><span>processo</span><span>escuta</span>
+    <span>seu tempo</span><span>com calma</span><span>quando fizer sentido</span><span>a gente cuida do resto</span>
+    <span>psicólogas(os)</span><span>honorário justo</span><span>tranquilidade</span><span>só você</span><span>consultório sob controle</span>
+  </div>
+  <h3>Evitar</h3>
+  <div class="chips bad">
+    <span>lead / cliente (para paciente)</span><span>lote sua agenda</span><span>escale</span><span>fature mais</span><span>última chance</span>
+    <span>100% seguro / inviolável</span><span>tudo criptografado</span><span>revolucione</span><span>robô</span><span>cobrança (no texto ao paciente)</span>
+    <span>"o psicólogo" como genérico</span>
+  </div>
+  <div class="note"><b>Precisão sobre criptografia:</b> dizer "o que você escreve no prontuário" e "as respostas das escalas". Cadastro, agenda, pagamentos, título e data do prontuário e o nome da escala aplicada não são cifrados de ponta a ponta. "Tudo criptografado" é falso e um CRP ou concorrente vai conferir.</div>
+</section>
+
+<section id="metricas">
+  <h2>14. Como saber se a comunicação está conectando</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Métrica</th><th>O que indica</th><th>Referência inicial</th></tr></thead>
+    <tbody>
+      <tr><td>Salvamentos e compartilhamentos por post</td><td>Conteúdo útil e identificação (mais que curtidas)</td><td>Salvamentos &gt; 3% do alcance</td></tr>
+      <tr><td>Comentários do tipo "sou eu" / marcações de colegas</td><td>Reconhecimento emocional</td><td>Acompanhar qualitativamente por pilar</td></tr>
+      <tr><td>Respostas à "Carta para quem cuida"</td><td>Vínculo com a marca</td><td>Taxa de resposta &gt; 1%</td></tr>
+      <tr><td>Visitas à página <code>/seguranca</code> antes do cadastro</td><td>Força do pilar Sigilo</td><td>Comparar conversão de quem visitou vs. não visitou</td></tr>
+      <tr><td>Conclusão do onboarding (senha mestre + chave guardada)</td><td>Se o tom acolhedor reduz o atrito da criptografia</td><td>Meta &gt; 80%</td></tr>
+      <tr><td>Ativação em 7 dias e grátis → pago</td><td>Mensagem se convertendo em uso</td><td>Ativação &gt; 40%, conversão 4–8%</td></tr>
+      <tr><td>Origem "indicação" no cadastro</td><td>Conexão virando boca a boca</td><td>Meta &gt; 30% dos cadastros em 12 meses</td></tr>
+      <tr><td>NPS e motivo do cancelamento</td><td>Promessa cumprida ou não</td><td>NPS &gt; 50</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Testar um pilar por vez em anúncios (mesmo público, mesmo orçamento) para descobrir qual emoção converte mais em cada persona. Registrar com o <code>FunnelEvent</code> já existente.</p>
+</section>
+
+<section id="checklist">
+  <h2>15. Checklist antes de publicar qualquer peça</h2>
+  <ul>
+    <li>A peça <b>nomeia uma dor real</b> da pesquisa, numa cena específica?</li>
+    <li>Ela <b>valida</b> o sentimento em vez de culpar ou assustar?</li>
+    <li>Existe uma <b>prova concreta</b> no produto para o que prometemos?</li>
+    <li>A afirmação sobre criptografia é <b>precisa</b> ("o que você escreve no prontuário")?</li>
+    <li>Está no <b>feminino ou inclusiva</b> ("psicólogas(os)")?</li>
+    <li>Não tem <b>promessa de resultado</b>, de pacientes ou de faturamento?</li>
+    <li>Não usa <b>dados, falas ou casos de pacientes</b>?</li>
+    <li>Não tem <b>urgência artificial</b> (contagem regressiva, "últimas vagas")?</li>
+    <li>Respeita <b>todas as abordagens</b> (nada que soe "médico" ou obrigatório)?</li>
+    <li>Uma psicóloga do conselho leria e diria "<b>isso é sobre mim</b>", e não "isso é marketing"?</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Próximos passos sugeridos</h2>
+  <ol>
+    <li>Corrigir os ruídos P0 da seção 2 (promessa de leads, nomes dos planos, limite do grátis) antes de investir em mídia.</li>
+    <li>Validar o manifesto e as assinaturas com 5 a 10 psicólogas (as entrevistas previstas na pesquisa), lendo em voz alta e observando a reação.</li>
+    <li>Produzir 12 peças, duas por pilar, a partir das cenas da seção 7, e medir salvamentos por pilar durante 4 semanas.</li>
+    <li>Reescrever a sequência de onboarding (seção 9) e medir a conclusão da etapa da chave de recuperação.</li>
+    <li>Lançar a "Carta para quem cuida" e recrutar as primeiras supervisoras parceiras com o kit da seção 11.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Fontes e limites</h2>
+  <ul class="src">
+    <li>Relatório interno <a href="research.html">Mercado de Psicólogos no Brasil</a> (perfil, dores, prazeres, vocabulário, critérios de compra).</li>
+    <li>Documento interno <a href="strategy.html">Estratégia PSI4</a> (posicionamento, concorrentes, prioridades, o que não fazer).</li>
+    <li>Código do PSI4 em 19/10/2026: <code>config/plans.php</code>, <code>lang/pt_BR/plans.php</code>, <code>routes/web.php</code>, <code>app/Services/*</code>, <code>app/Enums/*</code>, <code>resources/views/landing/sections/*</code>.</li>
+  </ul>
+  <p class="src">As mensagens são hipóteses de comunicação e devem ser validadas com psicólogas reais antes de escalar. Os números do "resumo mensal" e as cenas são ilustrativos. Marcações <span class="tag prop">Proposta</span> indicam algo que ainda não existe no produto.</p>
+</section>
+
+<footer>Documento gerado em 19/10/2026 como complemento à pesquisa de mercado e à estratégia do PSI4. Atualizado em 24/10/2026 com a entrega do Receita Saúde.</footer>
+</div>
+</body>
+</html>

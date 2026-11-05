@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referências Internacionais PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.card .who{color:var(--muted);font-size:.85rem;margin:-4px 0 8px}
+.prio{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-right:6px}
+.p0{color:var(--bad)} .p1{color:var(--warm)} .p2{color:var(--muted)}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.phase{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:16px 0}
+.phase h3{margin:0 0 6px}
+.n{color:var(--bad);font-weight:600}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>De quem copiar: referências internacionais para o PSI4</h1>
+  <p>Análise de mercado · 28/10/2026 · complementa <code>strategy.html</code> e <code>research.html</code></p>
+</header>
+
+<nav>
+  <a href="#logica">A lógica</a>
+  <a href="#top">Top 5</a>
+  <a href="#fichas">Fichas</a>
+  <a href="#matriz">Matriz</a>
+  <a href="#nao">Não copiar</a>
+  <a href="#plano">90 dias</a>
+  <a href="#fontes">Fontes</a>
+</nav>
+
+<section id="logica">
+  <h2>1. A lógica de "copiar quem deu certo lá fora"</h2>
+  <p class="sub">O que XP, 3G e Nubank fizeram de verdade</p>
+  <ul>
+    <li><b>XP → Charles Schwab:</b> copiou o <i>modelo</i> (plataforma aberta, tirar o investidor do banco), não as telas.</li>
+    <li><b>Garantia/3G (depois Ambev) → Goldman Sachs:</b> copiou a <i>cultura</i> de sociedade e meritocracia, e depois aplicou a cervejarias.</li>
+    <li><b>Nubank → Capital One:</b> copiou a <i>mecânica</i> de crédito baseada em dados num mercado em que os bancos ainda não usavam isso.</li>
+  </ul>
+  <div class="verdict">A regra é a mesma nos três casos: copia-se um modelo de negócio já provado num mercado que está de 3 a 5 anos à frente, num ponto em que o mercado brasileiro ainda não chegou. Não se copia o líder local.</div>
+  <p>O ponto de partida para o PSI4 é favorável. EUA, Austrália, Canadá e Europa já passaram pelas fases que o Brasil vive agora: agenda online, cobrança integrada, IA na documentação e aplicação de escalas. Lá já se sabe o que pegou e o que não pegou. A <code>strategy.html</code> proíbe a paridade cega com o PsicoManager, mas não impede trazer de fora o que nenhum concorrente brasileiro tem ainda.</p>
+  <div class="note"><b>Filtro aplicado a cada referência:</b> (1) reforça ou, no mínimo, não fere o "nem nós conseguimos ler o que você escreve no prontuário"; (2) ataca uma dor mapeada (burocracia, culpa de cobrar, faltas, sobrecarga); (3) cabe no CFP e no Código de Ética; (4) não é marketplace de pacientes.</div>
+</section>
+
+<section id="top">
+  <h2>2. Resumo: as 5 coisas que eu copiaria primeiro</h2>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>#</th><th>Copiar</th><th>De quem</th><th>Prova lá fora</th><th>Na estratégia</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Cobrança recorrente automática</b> (autopay), que no Brasil vira <b>Pix Automático</b></td><td>SimplePractice (EUA)</td><td>Segundo o case da Stripe, mais de 30% das profissionais adotaram o autopay logo após o lançamento</td><td><span class="prio p1">P1</span> cobrança como produto</td></tr>
+      <tr><td>2</td><td><b>Núcleo grátis generoso</b>, com cobrança por uso (WhatsApp, taxa de pagamento, IA)</td><td>Halaxy (AUS), Carepatron (NZ), Heidi (AUS)</td><td>Halaxy: núcleo 100% grátis. Heidi: cerca de metade das usuárias paga, com ~US$ 50 mi de receita anualizada</td><td><span class="prio p0">P0</span> repensar o plano grátis, opção (a)</td></tr>
+      <tr><td>3</td><td><b>Privacidade como marca</b>, com auditoria pública, código aberto da criptografia e relatório de transparência</td><td>Proton (Suíça)</td><td>Mais de 50 milhões de contas, freemium, sem vender dados</td><td>"Falta para virar argumento de venda"</td></tr>
+      <tr><td>4</td><td><b>IA que escreve a evolução sem o áudio sair do aparelho</b></td><td>Upheal, Heidi, SimplePractice Note Taker (versão PSI4 cifrada)</td><td>A IA de nota virou o principal add-on pago (cerca de US$ 35/mês na SimplePractice)</td><td>Resolve a "tensão com a IA"</td></tr>
+      <tr><td>5</td><td><b>Escalas respondidas pelo paciente entre as sessões</b> (measurement-based care)</td><td>Blueprint (EUA)</td><td>Empresa inteira construída sobre isso, com US$ 13 mi captados</td><td><span class="prio p2">P2</span> área do paciente</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="fichas">
+  <h2>3. Fichas por empresa</h2>
+  <p class="sub">O que ela faz, o que copiar e como adaptar ao Brasil e à criptografia do PSI4</p>
+
+  <div class="grid2">
+
+    <div class="card">
+      <h3>SimplePractice</h3>
+      <p class="who">EUA · líder em consultório individual de saúde mental</p>
+      <p><b>O que copiar:</b> o <i>autopay</i>. O paciente autoriza uma vez, a cobrança sai sozinha depois de cada sessão ou todo mês, e a profissional recebe um resumo por e-mail à noite. A Stripe conta que mais de 30% da base passou a usar o recurso logo após o lançamento. Também vale copiar a IA como <i>add-on</i> pago separado do plano.</p>
+      <p><b>Como adaptar:</b> usar o <b>Pix Automático</b> (Banco Central, 2025) ou o cartão salvo no Mercado Pago. É a resposta mais direta à "culpa de cobrar": a psicóloga não precisa pedir o pagamento, ele simplesmente acontece. Também é a métrica que mais prevê retenção na estratégia ("% com cobrança ativa > 30%").</p>
+      <p><b>Cuidado:</b> confirmar se o Mercado Pago já oferece Pix Automático via API. Se não oferecer, comece pelo cartão recorrente.</p>
+    </div>
+
+    <div class="card">
+      <h3>Halaxy · Carepatron</h3>
+      <p class="who">Austrália / Nova Zelândia · "grátis de verdade"</p>
+      <p><b>O que copiar:</b> o núcleo (agenda, prontuário, pacientes ilimitados) é grátis para sempre. A receita vem do que gera custo ou valor mensurável: SMS, processamento de pagamento, telessaúde avançada e IA. A Carepatron diz ter mais de 100 mil profissionais.</p>
+      <p><b>Como adaptar:</b> é exatamente a opção (a) do P0 da estratégia, e é a arma contra o "grátis para sempre" da Corpora. A diferença do PSI4 é que o grátis já vem com a criptografia de ponta a ponta, e isso a Corpora não tem. Cobrar por: créditos de WhatsApp, taxa sobre cobrança, IA e escalas por link.</p>
+      <p><b>Cuidado:</b> as reclamações sobre a Carepatron citam instabilidade e notificações atrasadas. Grátis não pode significar produto ruim, senão a confiança, que é o critério nº 1, vai embora.</p>
+    </div>
+
+    <div class="card">
+      <h3>Proton</h3>
+      <p class="who">Suíça · e-mail, drive e VPN cifrados</p>
+      <p><b>O que copiar:</b> a forma de transformar criptografia em marca. Os apps de cliente têm código aberto, as auditorias independentes são publicadas, há um relatório de transparência com os pedidos de governos recebidos e o que foi possível entregar ("só o que não é cifrado"), e o freemium funciona como porta de entrada para um ecossistema.</p>
+      <p><b>Como adaptar:</b> (1) abrir o código do <code>crypto.js</code> num repositório público; (2) publicar o resumo de um pentest feito por terceiro; (3) criar um "relatório de transparência" semestral na <code>/seguranca</code>, por exemplo: "recebemos X ordens judiciais; entregamos apenas cadastro e agenda; o conteúdo do prontuário é ilegível para nós". Para a psicóloga com medo de processo ético, isso é prova, não promessa.</p>
+      <p><b>Cuidado:</b> código aberto expõe o desenho a críticas. Isso é uma vantagem, desde que a revisão aconteça antes da publicação.</p>
+    </div>
+
+    <div class="card">
+      <h3>Upheal · Heidi · Note Taker</h3>
+      <p class="who">IA que escreve a evolução a partir da sessão</p>
+      <p><b>O que copiar:</b> o "escriba" de IA, que lá fora é o maior gerador de receita nova. A Heidi foi de US$ 1 mi para ~US$ 50 mi de receita anualizada em dois anos. O Upheal apaga o áudio depois de gerar a nota.</p>
+      <p><b>Como adaptar:</b> ir além do que eles fazem e criar <b>"a única IA que não ouve a sua sessão"</b>. A transcrição roda no navegador (modelos tipo Whisper via WebGPU/WASM) e o texto é cifrado antes de sair do aparelho. Se o resumo precisar de um LLM no servidor, enviar só o texto anonimizado, com aviso explícito, como o chat de IA já faz. Ninguém lá fora oferece isso, então seria um diferencial de verdade e não apenas uma cópia.</p>
+      <p><b>Cuidado:</b> gravar sessão exige consentimento do paciente (Código de Ética) e é rejeitado por parte da psicanálise. Precisa ser opcional, com termo pronto. A viabilidade técnica no celular ainda é incerta: fazer uma prova de conceito antes de prometer.</p>
+    </div>
+
+    <div class="card">
+      <h3>Blueprint</h3>
+      <p class="who">EUA · measurement-based care</p>
+      <p><b>O que copiar:</b> o paciente recebe a escala por link entre as sessões, a profissional chega à sessão já com o gráfico de evolução, e há um relatório pronto para documentação.</p>
+      <p><b>Como adaptar:</b> o PSI4 já tem as 4 escalas cifradas e o painel de evolução. Falta o envio por link, que é o P2 "área do paciente" e depende de um par de chaves por usuária para o paciente cifrar no próprio navegador. Lá fora o argumento é reembolso do convênio. Aqui é <b>qualidade clínica e prontuário bem documentado</b> (Res. CFP 001/2009).</p>
+      <p><b>Cuidado:</b> a TCC vai adorar e a psicanálise vai ignorar. Manter opcional e com linguagem não patologizante.</p>
+    </div>
+
+    <div class="card">
+      <h3>Jane</h3>
+      <p class="who">Canadá · clínicas de saúde e bem-estar</p>
+      <p><b>O que copiar:</b> <b>suporte humano ilimitado em todos os planos</b>, que virou marca e prêmio (Stevie de atendimento ao cliente em 2026), e o modelo de preço por profissional para clínicas.</p>
+      <p><b>Como adaptar:</b> suporte por WhatsApp com pessoa real, inclusive no plano grátis, nos primeiros 30 dias. É barato enquanto a base é pequena e vira indicação, que é o canal nº 1 da estratégia. O preço por profissional serve de base para o P1 "modo clínica".</p>
+    </div>
+
+    <div class="card">
+      <h3>Cliniko</h3>
+      <p class="who">Austrália · bootstrapped desde 2011</p>
+      <p><b>O que copiar:</b> o <i>modelo de empresa</i>. Nunca captou venture capital, tem preço simples e público e equipe pequena. Entrou contra sistemas instalados de mais de US$ 3 mil com um plano de US$ 45/mês, e doa no mínimo 2% das assinaturas.</p>
+      <p><b>Como adaptar:</b> é a referência para a fase "crescer com o próprio caixa" da estratégia. A doação pode virar posicionamento ético coerente com a categoria, por exemplo 1–2% para clínicas-escola ou projetos de atendimento social.</p>
+    </div>
+
+    <div class="card">
+      <h3>Ensora Health (ex-Therapy Brands)</h3>
+      <p class="who">EUA · roll-up comprado pela KKR por US$ 1,25 bi (2021)</p>
+      <p><b>O que copiar:</b> não é o produto, é a <i>tese de saída</i>. Softwares de nicho em saúde mental foram comprados e consolidados por private equity. Isso valida o caminho de M&amp;A do <code>m-and-a-playbook.html</code>.</p>
+      <p><b>Lição negativa:</b> depois da consolidação vieram reclamações de suporte e de aumentos de preço. Isso abre espaço para quem promete o contrário. Vale observar se PsicoManager ou Corpora seguem esse caminho.</p>
+    </div>
+
+    <div class="card">
+      <h3>Doctolib</h3>
+      <p class="who">França/Alemanha · ~€300 mi de receita, IA própria</p>
+      <p><b>O que copiar:</b> o <b>assistente de IA que atende o telefone</b> e agenda ou remarca sozinho.</p>
+      <p><b>Como adaptar:</b> assistente de WhatsApp que confirma, remarca e reduz faltas (dor mapeada), usando apenas agenda e cadastro, nunca conteúdo clínico, e com tom acolhedor e configurável.</p>
+      <p><b>Não copiar:</b> o diretório/marketplace de profissionais, que é o núcleo do negócio deles e é proibido pela estratégia.</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="matriz">
+  <h2>4. Matriz de decisão</h2>
+  <p class="sub">Impacto no negócio × esforço técnico × encaixe com a promessa de privacidade</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Ideia</th><th>Origem</th><th>Impacto</th><th>Esforço</th><th>Privacidade</th><th>Dor atacada</th></tr></thead>
+    <tbody>
+      <tr><td>Autopay / Pix Automático</td><td>SimplePractice</td><td>Alto (receita por transação + retenção)</td><td>Médio</td><td>Neutro (financeiro já é em claro)</td><td>Culpa de cobrar, inadimplência</td></tr>
+      <tr><td>Grátis generoso + cobrança por uso</td><td>Halaxy, Carepatron</td><td>Alto (aquisição contra a Corpora)</td><td>Baixo (regra de planos)</td><td>Reforça (cripto no grátis)</td><td>Preço, recém-formadas</td></tr>
+      <tr><td>Auditoria + código aberto + transparência</td><td>Proton</td><td>Alto (prova da bandeira)</td><td>Baixo–médio (custo do pentest)</td><td>Reforça muito</td><td>Medo de vazamento/processo ético</td></tr>
+      <tr><td>Suporte humano em todos os planos</td><td>Jane</td><td>Médio (NPS → indicação)</td><td>Baixo (operação)</td><td>Neutro (suporte sem acesso ao prontuário)</td><td>Insegurança com tecnologia</td></tr>
+      <tr><td>Assistente de WhatsApp para agenda</td><td>Doctolib</td><td>Médio</td><td>Médio</td><td>Neutro se restrito à agenda</td><td>Faltas, sobrecarga</td></tr>
+      <tr><td>Escalas por link para o paciente</td><td>Blueprint</td><td>Médio</td><td>Alto (par de chaves)</td><td>Reforça, se cifrado no paciente</td><td>Documentação, evolução</td></tr>
+      <tr><td>IA de evolução com transcrição local</td><td>Upheal/Heidi</td><td>Alto (novo add-on pago)</td><td>Alto (incerto no celular)</td><td>Reforça, se local; fere, se o áudio for ao servidor</td><td>Burocracia, sobrecarga</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="nao">
+  <h2>5. O que NÃO copiar (mesmo dando certo lá fora)</h2>
+  <ul>
+    <li><span class="n">Headway / Alma</span>: rede de profissionais credenciados a convênios, com Headway avaliada em US$ 1–2,3 bi e Alma comprada pela Spring Health em 2026. Lá funciona porque o seguro paga bem. Aqui o convênio paga pouco à psicóloga, e o modelo vira marketplace de pacientes, que a estratégia proíbe.</li>
+    <li><span class="n">Diretórios de profissionais</span> (Psychology Today, Doctolib, Doctoralia): é o "lote sua agenda" que gera rejeição e esbarra nas regras de publicidade do CFP.</li>
+    <li><span class="n">Plataformas de terapia por assinatura para o paciente</span> (estilo BetterHelp): competem com a própria cliente do PSI4 e têm histórico de polêmicas de privacidade lá fora.</li>
+    <li><span class="n">IA que guarda o áudio no servidor</span>: é o padrão de mercado (HIPAA/SOC 2, sem ponta a ponta), mas contradiz a bandeira. Só vale na versão local.</li>
+    <li><span class="n">Ser um "roll-up" agressivo</span>: aumentos de preço e suporte pior pós-aquisição viraram reputação negativa na Ensora.</li>
+  </ul>
+</section>
+
+<section id="plano">
+  <h2>6. Plano de 90 dias</h2>
+  <div class="phase">
+    <h3>Mês 1: copiar o que é barato e reforça a bandeira</h3>
+    <ul>
+      <li>Reformular os planos: núcleo grátis generoso, cobrança por uso (Halaxy/Carepatron).</li>
+      <li>Suporte humano por WhatsApp para todas as contas nos primeiros 30 dias (Jane).</li>
+      <li>Contratar o pentest e preparar a publicação do <code>crypto.js</code> (Proton).</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Mês 2: cobrança automática</h3>
+    <ul>
+      <li>Autopay com cartão recorrente no Mercado Pago, mais Pix Automático se a API suportar (SimplePractice).</li>
+      <li>Resumo diário de recebimentos e integração com os recibos do Receita Saúde que já existem.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Mês 3: apostas de diferenciação</h3>
+    <ul>
+      <li>Prova de conceito de transcrição no navegador (Upheal/Heidi, versão cifrada). Decidir se vira produto.</li>
+      <li>Publicar o primeiro relatório de transparência e o resumo do pentest na <code>/seguranca</code>.</li>
+      <li>Desenho técnico do par de chaves para as escalas por link (Blueprint).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="fontes">
+  <h2>Fontes</h2>
+  <p class="note">Boa parte dos números vem de terceiros (Latka, Sacra, Dealroom, sites de review) ou do próprio fornecedor (case da Stripe). Use como ordem de grandeza, não como dado auditado.</p>
+  <ul class="src">
+    <li><a href="https://stripe.com/en-cy/customers/simplepractice">Stripe: SimplePractice launches automatic payments</a></li>
+    <li><a href="https://yespress.io/simplepractice.md">yespress: SimplePractice (preço do Note Taker, out/2026)</a></li>
+    <li><a href="https://commure.com/blog-scribe/simplepractice-ai-notes">Commure: SimplePractice AI Notes</a></li>
+    <li><a href="https://www.capterra.com/p/10039995/Halaxy/">Capterra: Halaxy</a> · <a href="https://thefutureofthings.com/28207-practice-management-systems-that-actually-pay-for-themselves/">The Future of Things: Halaxy</a></li>
+    <li><a href="https://dupple.com/reviews/carepatron">Dupple: Carepatron review</a> · <a href="https://www.capterra.com/p/195467/Care-Patron/">Capterra: Carepatron</a></li>
+    <li><a href="https://forbes.com.au/news/entrepreneurs/heidi-hits-1-2-billion-valuation-with-470-million-in-fresh-funding">Forbes Australia: Heidi</a> · <a href="https://www.mobihealthnews.com/news/heidi-health-garnered-340m-reaches-900m-valuation">MobiHealthNews: Heidi</a></li>
+    <li><a href="https://www.weforum.org/organizations/proton/">WEF: Proton</a> · <a href="https://techcrunch.com/2023/05/23/proton-launches-family-subscription-plan-for-privacy-app-suite-starting-at-20-per-month">TechCrunch: Proton</a></li>
+    <li><a href="https://www.videosdk.live/ai-apps/upheal">Upheal (diretório)</a> · <a href="https://www.twochairs.com/consent-to-ai-note-taking-tools">Two Chairs: consentimento para IA</a></li>
+    <li><a href="https://www.blueprint.ai/blog/blueprint-raises-9-million-series-a-to-help-therapists-deliver-higher-quality-care-in-less-time">Blueprint: Series A</a></li>
+    <li><a href="https://www.capterra.com/p/178984/Jane-App/">Capterra: Jane</a> · <a href="https://simplify.jobs/c/Jane-Software">Simplify: Jane</a></li>
+    <li><a href="https://www.cliniko.com/story/">The Cliniko Story</a> · <a href="https://getlatka.com/companies/cliniko.com">Latka: Cliniko</a></li>
+    <li><a href="https://ensorahealth.com/ai-company-overview/">Ensora Health</a> · <a href="https://saasrat.com/products/theranest">SaaSrat: TheraNest</a></li>
+    <li><a href="https://www.caducee.net/actualite-medicale/16814/doctolib-accelere-dans-l-ia-clinique-avec-un-laboratoire-dedie.html">Caducée: laboratório de IA da Doctolib</a> · <a href="https://sifted.eu/articles/doctolib-france-europe-healthcare-startup">Sifted: Doctolib</a></li>
+    <li><a href="https://sacra.com/c/headway/">Sacra: Headway</a> · <a href="https://www.cbinsights.com/company/alma-2/financials">CB Insights: Alma</a></li>
+  </ul>
+</section>
+
+<footer>PSI4 · pesquisa de mercado interna · 28/10/2026</footer>
+</div>
+</body>
+</html>

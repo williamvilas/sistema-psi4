@@ -1,0 +1,841 @@
+.form-select,
+.form-control,
+.form-textarea,
+.note-editor.note-frame .note-editing-area .note-editable {
+    border: 1px solid #afafaf;
+}
+
+.sidebar .nav.nav-secondary>.nav-item.active a:before, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item.active a:before {
+    background: #6fcfc0 !important;
+}
+
+.sidebar .nav.nav-secondary>.nav-item a:focus i, .sidebar .nav.nav-secondary>.nav-item a:hover i, .sidebar .nav.nav-secondary>.nav-item a[data-toggle=collapse][aria-expanded=true] i, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item a:focus i, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item a:hover i, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item a[data-toggle=collapse][aria-expanded=true] i {
+    color: #6fcfc0 !important;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 55px !important;
+    font-size: 1.2rem;
+}
+
+.list-paginate .fa-solid,
+.list-paginate .fas {
+    font-size: 1.1rem;
+}
+
+.icon-size-d {
+    font-size: 1.20rem !important;
+}
+
+.form-select-46px {
+    height: 46px !important;
+    font-size: 1.2rem;
+    border: 1px solid #afafaf;
+}
+
+.pat-breadcrumb,
+.pat-breadcrumb a {
+    font-size: 1.15rem  !important;
+}
+
+.pat-show-sub {
+    font-size: 1.1rem !important;
+}
+
+.pat-show-value {
+    font-size: 1.20rem  !important;
+}
+
+.pat-show-field-icon {
+    font-size: 1.40rem !important;
+}
+
+.dash-item-actions i{
+    margin-right: 0.55rem !important;
+}
+
+.dash-item-actions i.icon-me-0 {
+    margin-right: 0 !important;
+}
+
+.show-medical-title {
+    border-bottom: 1px solid #ababab;
+    padding-bottom: 6px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.sidebar .nav-collapse li a .sub-item {
+    font-size: 1.2rem;
+}
+
+.highcharts-legend-item > text,
+.highcharts-data-label text, text.highcharts-data-label,
+.highcharts-root text {
+    font-size: 1.1rem !important;
+}
+
+.highcharts-axis-title {
+    display: none !important;
+}
+
+.session-date,
+.session-type {
+    font-size: 1.1rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 50px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 48px;
+}
+
+.form-textarea {
+    display: block;
+    width: 100%;
+    padding: .6rem 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    font-size: 1.2rem;
+}
+
+.form-control {
+    font-size: 1.2rem;
+    height: 55px !important;
+}
+
+.link-h {
+    cursor: pointer;
+}
+
+.iframe-app {
+    width: 100%;
+    height: 90vh;
+    border: none;
+}
+
+.modal-transparent {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}
+
+.modal-dark {
+    background: #000000;
+    border: 1px solid #333;
+}
+
+#previewDocumentModal .modal-body {
+    overflow: visible !important;
+}
+
+#previewDocumentModal .document-form-card {
+    border-radius: 0;
+    margin-top: 4%;
+}
+
+/* Desktop: altura fixa, sem rolagem no modal; formulário e preview rolam cada um na sua coluna. */
+@media (min-width: 768px) {
+    /* min-height (e não height) para o fundo branco crescer junto com os campos. */
+    #previewDocumentModal .document-form-card {
+        min-height: 92%;
+        margin-bottom: 4%;
+    }
+
+    #previewDocumentModal .modal-body {
+        overflow: hidden !important;
+        min-height: 0;
+    }
+
+    #previewDocumentModal .modal-body > .container-fluid,
+    #previewDocumentModal .modal-body > .container-fluid > .row {
+        height: 100%;
+    }
+
+    #previewDocumentModal .modal-body > .container-fluid > .row > [class*="col-"] {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #previewDocumentModal .iframe-app {
+        height: 100%;
+        display: block;
+    }
+
+    /* Evita um terceiro scroll aninhado na coluna do formulário. */
+    #previewDocumentModal .agenda-selection-list {
+        max-height: none !important;
+        overflow-y: visible !important;
+    }
+}
+
+.select2-container {
+    z-index: 1;
+}
+
+.select2-container--open,
+.select2-dropdown {
+    z-index: 2050 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.input-group-text {
+    border: 1px solid #afafaf;
+}
+
+.custom-tooltip {
+    --bs-tooltip-bg: #212ea3;
+    --bs-tooltip-color: var(--bs-white);
+}
+
+.pe-d {
+    padding: 0 25px;
+}
+
+.border-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.p-doc-card {
+    text-align: center;
+    padding: 35px 0;
+    background: #ededed;
+    font-weight: 600;
+}
+
+.text-subline {
+    border-bottom: 1px solid;
+    text-transform: uppercase;
+    padding: 0 30px;
+}
+
+a {
+    cursor: pointer;
+    color: #1572e8;
+    text-decoration: none !important;
+}
+
+.percent-size {
+    font-size: 1.2rem;
+}
+
+.icon-title {
+    font-size: 1.5rem;
+}
+
+.menu-profile {
+    font-size: 1.15rem;
+    line-height: 40px;
+}
+
+.tab-content {
+    padding: 22px 30px;
+}
+
+.form-select {
+    height: 58px !important;
+    font-size: 1.2rem;
+}
+
+.nav-link {
+    padding: 20px 25px;
+    font-size: 1.10rem;
+}
+
+.btn {
+    font-size: 1.20rem;
+    font-weight: 600;
+}
+
+.invalid-feedback {
+    font-size: 1.1rem;
+}
+
+.breadcrumb-item {
+    font-size: 1.15rem;
+}
+
+.title-page-header {
+    font-size: 1.6rem;
+    border-bottom: 1px solid #474747;
+    color: #474747;
+    padding-bottom: 8px;
+}
+
+.btn-outline-primary {
+    color: #0d6efd;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+}
+
+.text-birthday {
+    color: blue;
+}
+
+.bg-footer {
+    background: #efefef;
+}
+
+.p-quadro {
+    border: 1px solid #b7b7b7;
+    padding: 20px 25px;
+    background: #f1f1f1;
+}
+
+.border-p {
+    border: 3px solid #000000 !important;
+}
+
+.border-inter {
+    border: 3px solid #9f54ff !important;
+}
+
+.row-autocomplete {
+    padding: 20px 15px;
+    font-size: 1.20rem;
+}
+
+.text-secondary-c-1 {
+    color: #333333;
+}
+
+.badge-agenda-status {
+    height: auto;
+    line-height: inherit;
+    padding: 5px 12px;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+p {
+    font-size: 1.20rem;
+    margin-bottom: 0.5rem;
+}
+
+.alert {
+    font-size: 1.20rem;
+}
+
+.alert i {
+    font-size: 1.6rem;
+}
+
+.sub-alert-p {
+    border-bottom: 1px solid #afa9a9;
+    padding-bottom: 14px;
+    margin-top: 30px;
+}
+
+.avatar-sm {
+    width: 3.75rem;
+    height: 3.75rem;
+}
+
+.borrar {
+    filter: blur(5px)
+}
+
+.main-panel-force {
+    width: 100% !important;
+}
+
+.main-header-force {
+    width: 100% !important;
+}
+
+/* Cabeçalho do painel: no desktop não tem conteúdo (menu fica na sidebar); no celular mantém só logo + menu */
+@media (min-width: 992px) {
+    .main-header-mobile {
+        display: none;
+    }
+
+    .main-header-mobile ~ .container {
+        margin-top: 0;
+    }
+}
+
+.alert-light {
+    background-color: #efefef;
+}
+
+/* --- NIVER --- */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+.confetti-piece {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+
+.niver-today {
+    font-size: 1.0rem;
+}
+
+.table-condensed td:first-child,
+.date-special {
+    color: red;
+}
+
+.color-mind {
+    color: #9f54ff;
+}
+
+.text-yellow {
+    color: #ffc107;
+}
+
+.btn-check:checked + .card {
+    border: 2px solid #0d6efd;
+    background-color: #e7f1ff;
+    transform: scale(1.02);
+    transition: 0.2s;
+}
+
+.b-timer {
+    border: 2px solid #d5d5d5;
+    border-radius: 2px;
+}
+
+.p-10px {
+    padding: 10px;
+}
+
+.h-90 {
+    height: 90% !important;
+}
+
+.ai-assistant-result{min-height:120px;max-height:180px;overflow:auto;white-space:pre-wrap;font-family:inherit;border:1px solid var(--toolbar-border);padding:10px;border-radius:6px;background:#f8fafc}
+
+.page_speed_ia {
+    overflow: auto;
+    white-space: pre-wrap;
+    min-height: 100%;
+}
+
+textarea:disabled {
+    background-color: #dfdfdf;
+    cursor: not-allowed;
+}
+
+textarea:disabled:focus {
+    outline: none;
+}
+
+textarea:disabled {
+    border-radius: 6px;
+    padding: 10px;
+    font-style: italic;
+}
+
+.link-default {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.error-chat {
+    background: #ffeaeb;
+    padding: 10px 0;
+    border: 1px solid #e58585;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+table {
+    margin-bottom: 1.2rem;
+    margin-top: 1.2rem;
+}
+
+table td, table th {
+    border: 1px solid #7a7a7a;
+    padding: 15px;
+}
+
+.sidebar .nav > .nav-item a[data-bs-toggle=collapse][aria-expanded=true] .caret {
+    transform: rotate(-180deg);
+}
+
+/* Usuário logado no rodapé da sidebar */
+.sidebar .sidebar-wrapper {
+    max-height: calc(100vh - 62px - 70px);
+}
+
+.sidebar-user {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    background: inherit;
+    z-index: 5;
+}
+
+.sidebar-user-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar-user-toggle:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+}
+
+.sidebar-user-plan {
+    opacity: .7;
+}
+
+.dash-item .dropdown-menu {
+    background: #ededed;
+}
+
+.sidebar-user .dropdown-menu.sidebar-user-menu {
+    width: calc(100% - 20px);
+    min-width: 200px;
+    margin-bottom: 8px !important;
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.sidebar-user .dropdown-menu .dropdown-item {
+    border-radius: 8px;
+}
+
+.sidebar-user-menu i {
+    font-size: 1.1em;
+}
+
+.sidebar_minimize .sidebar:not(.sidebar-hover) .sidebar-user-info {
+    display: none;
+}
+
+/* --- ESCALA TIPOGRAFICA (legibilidade para todas as idades) ---
+   Alinha os elementos que ainda usavam o tamanho padrao do tema (14px)
+   com o tamanho ja adotado em pacientes/agenda (p, .btn, inputs). */
+label,
+.form-label,
+.form-check-label {
+    font-size: 1.1rem;
+}
+
+.form-label {
+    margin-bottom: 6px !important;
+}
+
+.form-text,
+.small,
+small {
+    font-size: 1.05rem;
+}
+
+table,
+.table td,
+.table th,
+td,
+th {
+    font-size: 1.15rem;
+}
+
+li,
+dd,
+dt {
+    font-size: 1.15rem;
+}
+
+.badge {
+    font-size: 1rem;
+    padding: .4em .75em;
+}
+
+.dropdown-item {
+    font-size: 1.1rem;
+    padding: .6rem 1.1rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+}
+
+.card-header {
+    font-size: 1.15rem;
+}
+
+h6,
+.h6 {
+    font-size: 1.2rem;
+}
+
+h5,
+.h5 {
+    font-size: 1.4rem;
+}
+
+.modal-title {
+    font-size: 1.4rem;
+}
+
+.btn-sm {
+    font-size: 1.05rem;
+    padding: .45rem .85rem;
+}
+
+.sidebar .nav-item a p,
+.sidebar .nav-item a {
+    font-size: 1.1rem;
+}
+
+.sidebar .nav-item a i,
+.sidebar .nav-item a svg {
+    font-size: 1.3rem;
+}
+
+.select2-container--default .select2-results__option,
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    font-size: 1.15rem;
+    padding: 10px 12px;
+}
+
+.page-title {
+    font-size: 1.8rem;
+}
+
+.accordion-button,
+.list-group-item {
+    font-size: 1.15rem;
+}
+
+.fa-solid, .fas {
+    font-size: 1.45em;
+}
+
+.form-check-input {
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: .2em;
+    border: var(--bs-border-width) solid #949596;
+}
+
+.form-switch .form-check-input {
+    width: 4em;
+    cursor: pointer;
+}
+
+.pagination .page-link {
+    font-size: 1.1rem;
+    padding: .5rem .9rem;
+}
+
+/* Recorte de foto do psicólogo (configurações e onboarding) */
+.photo-canvas-wrap {
+    position: relative;
+    width: min(100%, 280px);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #e9ecef;
+    cursor: grab;
+    touch-action: none;
+}
+
+.photo-canvas-wrap:active {
+    cursor: grabbing;
+}
+
+#photoCanvas {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.photo-change-overlay {
+    align-items: center;
+    background: rgba(0, 0, 0, .45);
+    color: #fff;
+    display: flex;
+    font-size: 2.5rem;
+    inset: 0;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity .2s;
+}
+
+.photo-canvas-wrap:hover .photo-change-overlay {
+    opacity: 1;
+}
+
+.crop-guide {
+    border: 2px solid rgba(255, 255, 255, .9);
+    border-radius: 50%;
+    box-shadow: 0 0 0 999px rgba(0, 0, 0, .16);
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Gráficos Highcharts sempre no tema claro (ignora o modo escuro do sistema) */
+:root {
+    --highcharts-background-color: #ffffff;
+    --highcharts-neutral-color-100: #000000;
+    --highcharts-neutral-color-80: #333333;
+    --highcharts-neutral-color-60: #666666;
+    --highcharts-neutral-color-40: #999999;
+    --highcharts-neutral-color-20: #cccccc;
+    --highcharts-neutral-color-10: #e6e6e6;
+    --highcharts-neutral-color-5: #f2f2f2;
+    --highcharts-neutral-color-3: #f7f7f7;
+    --highcharts-highlight-color-100: #0022ff;
+    --highcharts-highlight-color-80: #334eff;
+    --highcharts-highlight-color-60: #667aff;
+    --highcharts-highlight-color-20: #ccd3ff;
+    --highcharts-highlight-color-10: #e6e9ff;
+}
+
+#payment-methods-chart .highcharts-root,
+#received-period-chart .highcharts-root {
+    font-size: 1.2rem;
+}
+
+/* Aviso de 2FA no topo do conteúdo de todas as telas; abaixo de 500px esconde o detalhe do texto */
+.two-factor-banner {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .45rem 1rem;
+    background: #fff4d9;
+    border-bottom: 1px solid #f3dfa6;
+    color: #7a5300;
+    font-size: 1.15rem;
+}
+
+.two-factor-banner-icon {
+    color: #b27a00;
+}
+
+.two-factor-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.two-factor-banner-btn {
+    background: #b27a00;
+    color: #fff;
+    border-radius: 10px;
+    padding: .25rem .8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background .15s;
+}
+
+.two-factor-banner-btn:hover,
+.two-factor-banner-btn:focus-visible {
+    background: #8f6200;
+    color: #fff;
+}
+
+/* No celular o container tem padding lateral; o aviso ocupa a largura toda */
+@media (max-width: 991.98px) {
+    .two-factor-banner {
+        margin: 0 -15px;
+    }
+}
+
+@media (max-width: 499.98px) {
+    .two-factor-banner-detail {
+        display: none;
+    }
+}
+
+/* --- Modal de desbloqueio dos prontuários (senha mestre): base em dialog.css (.app-dialog) --- */
+.swal-passphrase-field {
+    position: relative;
+}
+
+.swal-passphrase-field .form-control {
+    padding-right: 3.25rem;
+}
+
+.swal-passphrase-toggle {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.swal-passphrase-toggle:hover,
+.swal-passphrase-toggle:focus-visible {
+    background: #f1f3f5;
+    color: #2a2f45;
+}
+
+.swal-passphrase-capslock {
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #b7791f;
+}
+
+.swal-passphrase-forgot {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0;
+    font-size: 1rem;
+}

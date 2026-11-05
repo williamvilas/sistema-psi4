@@ -1,0 +1,4 @@
+#!/bin/bash
+# Roda após `git pull` (merge ou fast-forward): recarrega o Octane no stage.
+
+"$(git rev-parse --show-toplevel)/.githooks/octane-reload"

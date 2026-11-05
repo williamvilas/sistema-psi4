@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estratégia PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.kpi b{display:block;font-size:1.5rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.y{color:var(--good);font-weight:600} .n{color:var(--bad);font-weight:600} .p{color:var(--warm);font-weight:600}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.prio{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-right:6px}
+.p0{color:var(--bad)} .p1{color:var(--warm)} .p2{color:var(--muted)}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.phase{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:16px 0}
+.phase h3{margin:0 0 6px}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>PSI4: o que falta, o que mudar e como crescer</h1>
+  <p>Leitura de investidor e operador sobre o relatório "Mercado de Psicólogos no Brasil" · 17/10/2026 · atualizado em 18/10/2026 (criptografia de ponta a ponta e painel de evolução com escalas cifradas entregues) e em 24/10/2026 (Receita Saúde entregue)</p>
+</header>
+
+<nav>
+  <a href="#resumo">Resumo</a>
+  <a href="#falta">O que falta</a>
+  <a href="#mercado">Tamanho do mercado</a>
+  <a href="#concorrentes">Concorrentes</a>
+  <a href="#produto">Mudanças no SaaS</a>
+  <a href="#estrategia">Estratégia</a>
+  <a href="#metricas">Métricas</a>
+  <a href="#ipo">IPO na B3</a>
+  <a href="#proximos">Próximos 30 dias</a>
+</nav>
+
+<section id="resumo">
+  <h2>Resumo em cinco frases</h2>
+  <ol>
+    <li><b>O relatório não basta para decidir.</b> Ele descreve bem <i>quem é</i> a psicóloga, mas não diz <i>quanto ela paga, por que troca de sistema nem quanto custa conquistá-la</i>. Essas três respostas decidem um SaaS.</li>
+    <li><b>Você não está entrando num mercado vazio.</b> PsicoManager (11 anos, diz ter mais de 40 mil psicólogos ativos) e Corpora (plano grátis, diz ter mais de 60 mil psicólogas) já vendem quase o mesmo pacote que o PSI4. Copiar funcionalidades não vence.</li>
+    <li><b>O diferencial real do PSI4 já está no ar e precisa virar marca.</b> A criptografia de ponta a ponta foi entregue: o conteúdo do prontuário é cifrado no navegador com AES-256-GCM, a chave é protegida por uma senha mestre que nunca sai do dispositivo, e todo acesso fica registrado. Ninguém além da psicóloga lê o conteúdo, nem a própria empresa. Isso responde ao critério de compra nº 1 do seu relatório, e os concorrentes oferecem "AES-256 no servidor", que é outra coisa.</li>
+    <li><b>O dinheiro grande está nos pagamentos, não na mensalidade.</b> Uma psicóloga movimenta milhares de reais por mês em sessões. Uma taxa pequena sobre essa cobrança pode render tanto quanto a assinatura. A Corpora já diz ter processado R$ 18 milhões.</li>
+    <li><b>IPO na B3: hoje, não.</b> O caminho realista para uma empresa de R$ 20 milhões neste nicho é crescer com lucro e ser vendida a um player de saúde ou de pagamentos (seção 7).</li>
+  </ol>
+</section>
+
+<section id="falta">
+  <h2>1. O relatório é suficiente? O que falta</h2>
+  <p class="sub">O relatório é um bom estudo de <b>persona</b>. Um negócio é decidido por <b>economia</b>. Falta a metade econômica.</p>
+
+  <div class="verdict">Nota de investidor: 6/10. É ótimo para definir o tom da marca e a mensagem, e insuficiente para definir preço, canal e orçamento.</div>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Lacuna</th><th>Por que importa</th><th>Como obter</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tamanho do mercado em R$</b> (TAM/SAM/SOM)</td><td>Saber se o teto é R$ 30 mi ou R$ 300 mi por ano muda tudo: levantar investimento, contratar, quanto gastar em mídia.</td><td>Estimativa na seção 2. Refinar com o preço médio pago (entrevistas).</td></tr>
+      <tr><td><b>Disposição a pagar</b></td><td>O relatório diz que o orçamento é apertado, mas a concorrência cobra R$ 89 a R$ 119 e diz ter dezenas de milhares de clientes. A sensibilidade a preço pode estar superestimada.</td><td>Pesquisa Van Westendorp (4 perguntas) com mais de 100 psicólogas; teste A/B de preço na tela de planos.</td></tr>
+      <tr><td><b>Análise competitiva</b></td><td>O relatório não cita nenhum concorrente. Sem isso não existe posicionamento, só descrição.</td><td>Seção 3 e um teste das contas grátis/trial de cada concorrente (fazer você mesmo).</td></tr>
+      <tr><td><b>Motivos de troca (switching)</b></td><td>No B2B o cliente mais barato de conquistar é quem está insatisfeito com o concorrente. Por que alguém sai do PsicoManager ou da Corpora?</td><td>Ler avaliações no Reclame Aqui, Google e App Store dos dois; entrevistar 5 pessoas que trocaram de sistema.</td></tr>
+      <tr><td><b>CAC por canal</b></td><td>Instagram, Google, indicação, parceria com supervisores: cada canal tem custo diferente. Sem esse número não dá para montar o orçamento.</td><td>Testes pequenos (R$ 1–2 mil por canal) medidos com o <code>FunnelEvent</code> que o PSI4 já tem.</td></tr>
+      <tr><td><b>Churn e retenção de referência</b></td><td>Psicólogas iniciantes desistem da clínica (61,6% perdem profissionais nessa área, segundo o próprio relatório). Se o cliente sai da profissão, sai do SaaS.</td><td>Coorte mensal dos próprios usuários; separar churn "voluntário" de churn "saiu da profissão".</td></tr>
+      <tr><td><b>Segmentação</b></td><td>"Psicólogas" não é um segmento. Recém-formada com 5 pacientes, clínica autônoma consolidada com 30 e clínica com 8 profissionais compram coisas diferentes, por preços diferentes.</td><td>Definir 3 perfis e fazer as 10–15 entrevistas já previstas, cobrindo os três.</td></tr>
+      <tr><td><b>Regulação fiscal e tecnológica</b></td><td>A obrigação de emitir recibo pelo <b>Receita Saúde</b> (Receita Federal, desde 2025) e a NFS-e padrão nacional criaram uma dor nova e obrigatória. É o melhor gatilho de compra que existe: a lei manda.</td><td>Mapear o que é obrigatório para pessoa física e para PJ/Simples. Os dois concorrentes já anunciam essa funcionalidade.</td></tr>
+      <tr><td><b>Dados do próprio PSI4</b></td><td>Funil real: visita → cadastro → ativação → pagamento. Nenhum relatório externo substitui isso.</td><td>Painel com os eventos de <code>FunnelEventController</code> e os limites do plano grátis (quem bate o limite?).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="mercado">
+  <h2>2. Quanto vale esse mercado</h2>
+  <p class="sub">Estimativa própria a partir dos números do seu relatório. Hipóteses explícitas, para você ajustar.</p>
+  <div class="kpis">
+    <div class="kpi"><b>~300 mil</b><span>psicólogas com prática clínica (≈ 400–500 mil ativas × 73% na clínica, arredondado para baixo)</span></div>
+    <div class="kpi"><b>~R$ 290 mi/ano</b><span>TAM de software: 300 mil × R$ 80/mês × 12</span></div>
+    <div class="kpi"><b>~R$ 650 mi/ano</b><span>TAM somando pagamentos (≈ 1% sobre ~R$ 6 mil/mês de sessões cobradas por profissional)</span></div>
+    <div class="kpi"><b>~58 mil/ano</b><span>novas inscrições no CFP (crescimento de ~40% em 3 anos). É o fluxo de clientes "sem sistema ainda".</span></div>
+  </div>
+
+  <h3>O que significa "uma empresa de R$ 20 milhões"</h3>
+  <div class="grid2">
+    <div class="card">
+      <h3>R$ 20 mi de <u>valor</u> (valuation)</h3>
+      <p>SaaS brasileiro pequeno e lucrativo costuma valer de 3 a 6 vezes a receita anual recorrente (ARR). Isso dá <b>R$ 3,5–5 mi de ARR</b>, ou seja, <b>~5 mil assinantes pagantes</b> a R$ 60–70/mês.</p>
+      <p><b>É viável em 3–4 anos</b>, com cerca de 1,7% do mercado clínico.</p>
+    </div>
+    <div class="card">
+      <h3>R$ 20 mi de <u>receita</u> por ano</h3>
+      <p>Seriam <b>~24 mil pagantes</b> a R$ 69, ou ~14 mil com receita de pagamentos dobrando o ticket. É mais da metade do que o líder diz ter após 11 anos.</p>
+      <p><b>Viável em 6–8 anos</b>, e quase só com pagamentos e clínicas no mix.</p>
+    </div>
+  </div>
+  <div class="note">Leitura: o nicho comporta uma empresa muito boa, de dezenas de milhões. <b>Não comporta sozinho</b> uma empresa de centenas de milhões. Essa conclusão importa para a pergunta do IPO.</div>
+</section>
+
+<section id="concorrentes">
+  <h2>3. PSI4 vs PsicoManager vs Corpora</h2>
+  <p class="sub">Com base nos sites públicos em 17/10/2026 e no código do PSI4. Números de clientes são alegações dos próprios sites, sem verificação.</p>
+  <div class="scroll"><table>
+    <thead><tr><th></th><th>PSI4</th><th>PsicoManager</th><th>Corpora</th></tr></thead>
+    <tbody>
+      <tr><td>Clientes alegados</td><td>começando</td><td>+40 mil ativos, 11 anos</td><td>+60 mil (inclui plano grátis)</td></tr>
+      <tr><td>Plano grátis</td><td class="p">Sim, mas restrito (15 pacientes, 3 prontuários)</td><td class="n">Não (trial de 7 dias)</td><td class="y">Sim, "para sempre", com agenda, prontuário, financeiro, site e sala de vídeo</td></tr>
+      <tr><td>Preço pago</td><td class="y">R$ 69/mês; anual com desconto</td><td>R$ 89 (Pró) / R$ 119 (Plus)</td><td>R$ 89 (PRO)</td></tr>
+      <tr><td>Agenda + WhatsApp</td><td class="y">Sim</td><td class="y">Sim (créditos)</td><td class="y">Sim (PRO)</td></tr>
+      <tr><td>Agendamento online público</td><td class="y">Sim</td><td class="n">Não mencionado</td><td class="y">Sim</td></tr>
+      <tr><td>Videochamada</td><td class="y">Sim (Jitsi interno)</td><td class="y">Sala virtual</td><td class="y">Jitsi / Meet</td></tr>
+      <tr><td>Google Agenda</td><td class="y">Sim</td><td>?</td><td>?</td></tr>
+      <tr><td>Cobrança integrada</td><td class="y">Mercado Pago</td><td class="p">Sim, com 30 Pix grátis no Plus</td><td class="y">Corpora Pay (Pix/cartão, em lote), Pagar.me</td></tr>
+      <tr><td>IA no prontuário</td><td class="y">Sim (OpenAI)</td><td class="y">Transcrição e resumo</td><td class="y">Transcrição, reescrita, planejamento, foto→texto</td></tr>
+      <tr><td><b>Receita Saúde</b></td><td class="y">Sim (24/10/2026): arquivo em lote para importar no Carnê-Leão, sem senha do gov.br; o PSI4 não envia nada à Receita</td><td class="y">Sim</td><td class="y">Sim (CSV para o Carnê-Leão e leitura do arquivo de retorno, segundo a página dela)</td></tr>
+      <tr><td><b>NFS-e</b></td><td class="n">Não (fase 2, para PJ/MEI)</td><td class="y">Sim</td><td>Não mencionado na página do Receita Saúde</td></tr>
+      <tr><td>Instrumentos / escalas</td><td class="p">4 escalas de uso livre (PHQ-9, GAD-7, DASS-21, PCL-5), com respostas e pontuação <b>cifradas no navegador</b></td><td class="y">Sim</td><td class="y">+30 instrumentos</td></tr>
+      <tr><td>Painel de evolução do paciente</td><td class="y">Sim: frequência pela agenda e gráfico das escalas montado no navegador; alerta de reaplicação no dashboard</td><td>?</td><td>?</td></tr>
+      <tr><td>App / área do paciente</td><td class="n">Não</td><td class="y">Tarefas, diário emocional</td><td class="p">Diário de bordo</td></tr>
+      <tr><td>Clínicas multiusuário</td><td class="n">Não</td><td class="y">Salas, permissões, visão consolidada</td><td class="p">Consultórios</td></tr>
+      <tr><td>Migração de dados</td><td class="n">Não</td><td class="y">Sim, com atendimento humano</td><td>?</td></tr>
+      <tr><td><b>Prontuário cifrado no cliente</b></td><td class="y"><b>Sim, ponta a ponta: AES-256-GCM no navegador, senha mestre e chave de recuperação. Nem a empresa lê</b></td><td class="p">AES-256 no servidor</td><td class="p">"Segurança e LGPD"</td></tr>
+      <tr><td>Registro de acessos ao prontuário</td><td class="y">Sim (criar, abrir, editar, apagar, exportar e logins, com IP e dispositivo)</td><td>?</td><td>?</td></tr>
+      <tr><td>Página pública de segurança</td><td class="y">Sim (<code>/seguranca</code>)</td><td class="p">Texto genérico</td><td class="p">Texto genérico</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Como ler a tabela</h3>
+  <ul>
+    <li><b>PsicoManager</b> é o líder completo e mais caro. Ganha com amplitude e clínicas. Ponto fraco provável: produto antigo e caro para quem está começando.</li>
+    <li><b>Corpora</b> é o desafiante moderno. Ganha com o plano grátis generoso, a marca "feita por psicólogas" e o fintech. É o concorrente mais perigoso para o PSI4, porque disputa o mesmo público (iniciantes e autônomas sensíveis a preço).</li>
+    <li><b>PSI4</b> hoje é um "terceiro mais barato" sem uma razão clara para trocar. Preço R$ 20 menor <b>não</b> faz ninguém migrar prontuários de anos. É preciso uma razão forte (seção 4).</li>
+  </ul>
+</section>
+
+<section id="produto">
+  <h2>4. O que eu mudaria no SaaS</h2>
+  <p class="sub">Em ordem de impacto no negócio, não de facilidade técnica.</p>
+
+  <h3>Posicionamento: escolher uma bandeira</h3>
+  <div class="verdict">"O único prontuário que nem nós conseguimos ler." Privacidade de verdade (zero-knowledge) como identidade da marca, e não como item da lista de funcionalidades.</div>
+  <p>Seu relatório mostra que <b>sigilo é o critério nº 1</b>, que o medo de processo ético é real e que 47,5% se preocupam com a segurança dos dados. A parte técnica está pronta; agora falta transformá-la em promessa, prova e narrativa ("se vazar o servidor, o prontuário continua ilegível").</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Já entregue (18/10/2026)</h3>
+      <ul>
+        <li>Conteúdo do prontuário e rascunhos cifrados no navegador (AES-256-GCM). O servidor só guarda texto cifrado, no S3 em São Paulo.</li>
+        <li>Chave por usuária protegida pela senha mestre e por uma chave de recuperação (PBKDF2-SHA256, 600 mil iterações). Nenhuma das duas chega ao servidor.</li>
+        <li>Registro de acessos (criação, abertura, edição, exclusão, exportação e logins) visível para a psicóloga em Configurações.</li>
+        <li>Exportação dos prontuários do paciente, decifrada no navegador, para pedidos de acesso e encerramento de conta.</li>
+        <li>Aviso de guarda mínima de 5 anos ao apagar, 2FA no login, senha mestre para abrir e apagar prontuários e bloqueio após 30 minutos sem uso.</li>
+        <li>Página pública <code>/seguranca</code> e Política de Privacidade atualizadas, com o que <u>não</u> é cifrado.</li>
+        <li><b>Painel de evolução na ficha do paciente:</b> frequência, faltas e intervalo entre sessões (agenda) e gráfico das escalas PHQ-9, GAD-7, DASS-21 e PCL-5. Respostas, pontuação e o evento de referência da PCL-5 são cifrados como o prontuário; o servidor só sabe qual escala foi aplicada e quando.</li>
+        <li>A "percepção de evolução" por sessão, que ficava em claro, foi <b>removida</b>. A evolução passou a ser medida pelas escalas cifradas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Falta para virar argumento de venda</h3>
+      <ul>
+        <li><b>Prova independente:</b> pentest e revisão da criptografia por terceiro, com relatório resumido público.</li>
+        <li><b>Diagrama</b> do fluxo de chaves na página <code>/seguranca</code> e na landing page principal.</li>
+        <li><b>Narrativa na aquisição:</b> anúncios, conteúdo e onboarding com a mensagem "nem nós conseguimos ler".</li>
+        <li><b>Material para supervisoras e CRPs</b> ligando a criptografia ao sigilo das Resoluções CFP 001/2009 e 06/2019.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note"><b>Precisão na promessa:</b> o slogan vale para o <b>conteúdo</b> do prontuário. Cadastro do paciente, agenda, pagamentos, recibos do Receita Saúde, título e data do prontuário e o nome e a data das escalas aplicadas continuam legíveis pelo servidor, e a página <code>/seguranca</code> já diz isso. As respostas e a pontuação das escalas são cifradas. Use "nem nós conseguimos ler o que você escreve no prontuário" para não prometer além do que o produto entrega. Um concorrente ou um CRP vai conferir.</div>
+  <div class="note"><b>Tensão com a IA, agora parcialmente resolvida:</b> o chat de IA avisa que o texto enviado sai da proteção de ponta a ponta, e a página de segurança diz o mesmo. Ainda falta: contrato sem treino nem retenção no provedor (comunicado como a Corpora faz com "seus dados não treinam IA") e anonimização de nomes antes do envio. Honestidade aqui vira mais um argumento de confiança.</div>
+  <div class="note"><b>Riscos novos criados pela criptografia:</b>
+    <ul>
+      <li><b>Perda de acesso irreversível.</b> Quem esquece a senha mestre e perde a chave de recuperação perde os prontuários, e o suporte não tem como ajudar. Medir quantas usuárias guardam a chave no onboarding e lembrar periodicamente.</li>
+      <li><b>Atrito na ativação.</b> Criar a senha mestre é um passo a mais antes do "momento aha". Acompanhar a queda no funil nesse passo.</li>
+      <li><b>O importador (P0) precisa cifrar no navegador.</b> Prontuários vindos do PsicoManager ou da Corpora não podem passar em claro pelo servidor. Isso muda o escopo técnico e deve entrar no desenho desde o início.</li>
+      <li><b>Funcionalidades futuras sobre o conteúdo</b> (busca no texto, relatórios clínicos, IA em lote) ficam limitadas ou precisam rodar no navegador. É o custo da promessa; vale a pena, mas deve ser uma decisão consciente. Exemplo já vivido: o alerta do item 9 do PHQ-9 (pensamentos de morte) aparece só no navegador, na hora da aplicação, porque o servidor não lê a resposta e não pode avisar pelo dashboard.</li>
+    </ul>
+  </div>
+
+  <h3>Produto</h3>
+  <ul>
+    <li><span class="prio p0">P0</span><b>Receita Saúde + recibos em lote: entregue em 24/10/2026.</b> As cobranças pagas pelo PSI4 viram recibos sozinhas, os pagamentos por fora (Pix direto, dinheiro) são registrados pela psicóloga, e o sistema gera o arquivo no layout oficial de importação do Carnê-Leão. Também entrou o responsável financeiro no cadastro do paciente, para que o recibo de menores saia com o CPF de quem pagou. Fica em paridade com os concorrentes e reforça a bandeira: o PSI4 não fala com a Receita, não guarda senha do gov.br e o recibo leva só CPF, valor e data, nunca conteúdo clínico. <b>Próximos passos:</b> ler o arquivo de retorno da Receita (depende de um arquivo real para conhecer o layout), validar o fluxo com um contador e decidir a NFS-e para PJ/MEI.</li>
+    <li><span class="prio p0">P0</span><b>Importador de dados do PsicoManager e da Corpora</b> (planilhas e exportações) e migração assistida gratuita. O maior bloqueio para trocar de sistema são os anos de prontuário guardados. Cadastros e agenda podem usar o Maatwebsite Excel no servidor; o conteúdo dos prontuários precisa ser lido e cifrado no navegador antes do envio, reaproveitando <code>crypto.js</code>. Migração assistida não pode significar a equipe vendo prontuários em claro.</li>
+    <li><span class="prio p0">P0</span><b>Repensar o plano grátis.</b> Com 3 prontuários a psicóloga não chega ao "momento aha" e compara com a Corpora, que libera tudo. Duas saídas: (a) grátis generoso no core e cobrar por automação, WhatsApp, IA e taxa de pagamento; ou (b) acabar com o grátis e oferecer trial de 14–30 dias completo. Eu faria (a), porque o público é jovem, sensível a preço e decide por indicação.</li>
+    <li><span class="prio p1">P1</span><b>Cobrança como produto principal:</b> link de pagamento automático após a sessão, pacote de sessões, cobrança mensal recorrente do paciente, régua de lembrete gentil ("tirar a culpa de cobrar", dor nº 2 do relatório). Receita via taxa por transação somente no plano Grátis (2%): desde 31/10/2026 o Profissional não paga taxa do PSI4, e a isenção vira argumento de upgrade.</li>
+    <li><span class="prio p1">P1</span><b>Modo clínica</b> (multiusuário, secretária, repasse por profissional). O ticket é 3 a 10 vezes maior e o churn é menor.</li>
+    <li><span class="prio p1">P1</span><b>Templates por abordagem</b> (psicanálise 37%, TCC, humanista) na evolução e nos documentos. Atende o critério nº 7 e os concorrentes não destacam isso.</li>
+    <li><span class="prio p2">P2</span><b>Instrumentos/escalas: base entregue.</b> Quatro escalas gratuitas e validadas no Brasil, cobrindo depressão, ansiedade, estresse e trauma (48% da categoria atende mulheres em situação de violência), todas opcionais e incluídas no teste grátis e no Profissional (no plano Grátis, que é somente leitura, ela só consulta as aplicações já feitas). <b>Não perseguir as 30+ do líder:</b> o diferencial é ter poucas escalas bem escolhidas e cifradas. Próximas candidatas dependem de licença para uso comercial: WHO-5 (bem-estar, linguagem não patologizante; licença da OMS é não comercial e só há tradução de Portugal disponível), ORS/SRS (evolução e aliança terapêutica, conversa com o "vínculo" de todas as abordagens) e CORE-10.</li>
+    <li><span class="prio p2">P2</span>Área do paciente (o paciente responder a escala sozinho, por link). Exige um par de chaves por usuária para cifrar no navegador do paciente sem expor o conteúdo. Fazer depois de ter tração.</li>
+  </ul>
+
+  <h3>Preço</h3>
+  <ul>
+    <li>R$ 69 está bom: abaixo dos R$ 89 da concorrência e menor que uma sessão. <b>Não baixe mais.</b> Preço baixo demais sinaliza produto fraco para um público que, segundo o relatório, avalia confiança.</li>
+    <li>Simplifique para <b>Grátis / Profissional / Clínica</b>, com o anual em destaque. Hoje o <code>config/plans.php</code> tem um "intermediário" mensal de R$ 69 e um "avançado" de R$ 49 com regra anual, o que é difícil de entender na tela de planos.</li>
+    <li>Comunique "menos que uma sessão por mês" e mostre a conta do tempo economizado (horas por mês × valor da sessão).</li>
+  </ul>
+
+  <h3>O que <u>não</u> fazer</h3>
+  <ul>
+    <li>Não perseguir paridade total com o PsicoManager. Você perde essa corrida com 11 anos de atraso.</li>
+    <li>Não entrar em marketplace de pacientes ("lotar a agenda"). Seu próprio relatório mostra que isso gera rejeição e esbarra no Código de Ética.</li>
+    <li>Não espalhar esforço em várias landing pages (há <code>lp-04</code>, <code>lp-05</code>, <code>lp-agenda</code>) sem medir conversão de cada uma.</li>
+  </ul>
+</section>
+
+<section id="estrategia">
+  <h2>5. Estratégia para virar referência entre psicólogas</h2>
+  <p class="sub">Princípio: neste público, <b>confiança e indicação valem mais que mídia paga</b>. A estratégia é construir confiança de forma escalável.</p>
+
+  <h3>Cliente inicial (beachhead)</h3>
+  <p><b>Psicóloga clínica autônoma, 0–5 anos de formada, em SP/RJ/MG, atendendo online e presencial.</b> Motivos: ~58 mil entram por ano sem sistema (não precisa fazer ninguém migrar), é o público mais digital, decide por indicação de supervisor e colegas, e é sensível a preço, onde os R$ 69 ganham. A desvantagem é churn maior; compense com os pagamentos e mire na segunda onda (consolidadas e clínicas).</p>
+
+  <div class="phase">
+    <h3>Fase 1 · 0–6 meses: encontrar o encaixe (meta: 300 pagantes, churn &lt; 4%/mês)</h3>
+    <ul>
+      <li><b>Venda feita pelo fundador.</b> Fale pessoalmente com as primeiras 100 clientes, faça onboarding por vídeo e anote cada objeção. Nada substitui isso.</li>
+      <li>As <b>15 entrevistas</b> do relatório viram um processo semanal, não uma tarefa única.</li>
+      <li>Entregar <b>Receita Saúde (entregue em 24/10/2026), importador e novo plano grátis</b>.</li>
+      <li>Ter um <b>conselho de 5 psicólogas</b> (uma por abordagem e uma de clínica) com plano vitalício grátis em troca de feedback mensal.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Fase 2 · 6–18 meses: canais que escalam confiança (meta: 2.000 pagantes)</h3>
+    <ul>
+      <li><b>Programa de supervisoras e professoras:</b> uma supervisora atende de 10 a 30 supervisionandas. Ofereça comissão recorrente (20–30% por 12 meses) ou conta grátis, mais um "kit de consultório" para a turma. Esse é o canal nº 1, porque a indicação de pares é o critério nº 6 e a decisão é social.</li>
+      <li><b>Universidades e formação:</b> plano gratuito para estagiárias e recém-formadas por 6 meses, com aulas sobre "como abrir seu consultório" em faculdades e institutos de formação (psicanálise e TCC).</li>
+      <li><b>Ferramentas grátis como isca (SEO):</b> gerador de recibo, calculadora de preço de sessão pela tabela CFP/Fenapsi, modelos de declaração e contrato terapêutico, guia do Receita Saúde. O PSI4 já tem o motor de documentos; abra parte dele sem login.</li>
+      <li><b>Conteúdo educativo no Instagram e no YouTube</b> sobre gestão, precificação, ética nas redes e LGPD, no tom do relatório: calmo e sem promessa.</li>
+      <li><b>Indique e ganhe:</b> um mês grátis para quem indica e para quem é indicada.</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h3>Fase 3 · 18–36 meses: aumentar o ticket (meta: 5–6 mil pagantes, ~R$ 5 mi de ARR)</h3>
+    <ul>
+      <li><b>Pagamentos</b> como segunda receita (meta: 30–40% da receita total).</li>
+      <li><b>Plano Clínica</b> com venda consultiva (time de 1–2 vendedores).</li>
+      <li><b>Campanha de migração</b> para clientes insatisfeitos com o concorrente: migração grátis e 3 meses pela metade do preço.</li>
+      <li>Presença em congressos e eventos dos CRPs como patrocinador de conteúdo (palestras sobre ética e documentação), não como estande de vendas.</li>
+    </ul>
+  </div>
+
+  <h3>Financiamento</h3>
+  <p>Este nicho permite crescer com o próprio caixa (bootstrapping): CAC baixo via indicação e margem alta. Eu levantaria dinheiro (anjo ou pré-seed, R$ 1–3 mi) <b>só depois</b> de provar CAC payback de 6 meses ou menos num canal, para acelerar esse canal. Levantar antes significa queimar dinheiro em mídia sem saber o que funciona.</p>
+</section>
+
+<section id="metricas">
+  <h2>6. Métricas que eu cobraria toda semana</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Métrica</th><th>Meta saudável</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td>Ativação (7 dias)</td><td>&gt; 40%</td><td>Definir o evento: ex. 5 sessões agendadas + 1 prontuário + 1 lembrete enviado.</td></tr>
+      <tr><td>Grátis/trial → pago</td><td>4–8% (grátis) / 15–25% (trial)</td><td>Medir por coorte de cadastro.</td></tr>
+      <tr><td>Churn mensal (logo)</td><td>&lt; 3%</td><td>Separar "saiu da profissão" de "foi para o concorrente".</td></tr>
+      <tr><td>Receita líquida retida (NRR)</td><td>&gt; 100%</td><td>Só é possível com pagamentos, upgrades e clínicas.</td></tr>
+      <tr><td>CAC payback</td><td>&lt; 6 meses</td><td>Por canal, não na média.</td></tr>
+      <tr><td>LTV / CAC</td><td>&gt; 3</td><td>A R$ 69 e churn de 3%, LTV ≈ R$ 2.300 (bruto). CAC máximo ≈ R$ 700.</td></tr>
+      <tr><td>% de clientes com cobrança ativa</td><td>&gt; 30%</td><td>É o indicador que mais prevê retenção: quem recebe pelo sistema não sai.</td></tr>
+      <tr><td>NPS</td><td>&gt; 50</td><td>Num público que decide por indicação, NPS é o canal de aquisição.</td></tr>
+      <tr><td>% de usuárias que aplicam escala</td><td>a definir após 60 dias</td><td>Sinal de valor clínico além da gestão (evento <code>scale_applications</code>). Cruzar por abordagem: espera-se adoção maior na TCC e menor na psicanálise.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="ipo">
+  <h2>7. Daria para abrir um IPO na B3?</h2>
+  <div class="verdict">Resposta curta: não com este nicho sozinho, e não é o objetivo certo agora. É possível construir uma empresa valiosa e vendê-la bem.</div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Por que não</h3>
+      <ul>
+        <li><b>Escala:</b> IPOs na B3 envolvem, na prática, empresas com receita de centenas de milhões e ofertas de R$ 500 mi ou mais. O teto estimado do software para psicólogas é ~R$ 290 mi por ano <b>para o mercado inteiro</b>.</li>
+        <li><b>Custo de ser listada:</b> auditoria Big Four, governança, RI, CVM, coordenadores da oferta. São milhões de reais por ano em custos fixos, o que inviabiliza empresa pequena.</li>
+        <li><b>Janela fechada:</b> desde 2021 a B3 praticamente não teve IPOs de tecnologia, e várias techs listadas em 2020–21 perderam a maior parte do valor.</li>
+        <li><b>Bovespa Mais</b> (segmento de acesso) existe para empresas menores, mas tem pouca liquidez e quase nenhuma tech.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>O caminho realista: venda estratégica (M&amp;A)</h3>
+      <ul>
+        <li>Já houve precedente: a <b>Afya comprou a iClinic</b> (software para médicos) em 2021. Grupos de educação e saúde, players de telessaúde, plataformas de agendamento (ex. Doctoralia/Docplanner) e <b>fintechs/adquirentes</b> que querem a carteira de pagamentos são compradores naturais.</li>
+        <li>Faixa típica: 3 a 8 vezes o ARR para SaaS vertical lucrativo, retido e com receita de pagamentos.</li>
+        <li><b>R$ 20 mi de valor ≈ R$ 4 mi de ARR</b> é um alvo concreto em 3–4 anos.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Se a ambição for mesmo IPO</h3>
+  <p>A empresa precisaria deixar de ser "o sistema da psicóloga" e virar <b>a plataforma de saúde mental do Brasil</b>: todas as profissões de saúde autônomas (nutrição, fono, fisio, psiquiatria), pagamentos e crédito para profissionais, convênios e B2B (saúde mental corporativa). É um outro negócio, com capital de risco e de 10 a 15 anos. O PSI4 pode ser a porta de entrada, mas a decisão de hoje é ganhar o nicho.</p>
+  <p class="src">Em qualquer cenário, comece já a <b>arrumar a casa</b>: contabilidade limpa, contratos de LGPD (DPA) com fornecedores, propriedade intelectual em nome da empresa, métricas auditáveis. Isso aumenta o valor em qualquer venda.</p>
+</section>
+
+<section id="proximos">
+  <h2>8. Próximos 30 dias</h2>
+  <ol>
+    <li>Criar contas no PsicoManager (trial) e na Corpora (grátis) e usar as duas por uma semana como se fosse uma psicóloga recém-cadastrada. Anotar tudo.</li>
+    <li>Ler 50 avaliações negativas de cada concorrente (Reclame Aqui, Google, lojas de app) e listar os 5 motivos de insatisfação mais comuns.</li>
+    <li>Fazer as 15 entrevistas, incluindo 3 perguntas de preço (Van Westendorp) e "o que faria você trocar de sistema?".</li>
+    <li>Montar o painel do funil com os eventos que já existem no PSI4.</li>
+    <li>Levar a criptografia já entregue para o marketing: diagrama do fluxo de chaves na página <code>/seguranca</code>, destaque na landing page principal e orçamento de um pentest ou revisão criptográfica externa. É o seu ativo de marketing mais valioso.</li>
+    <li>Medir no funil o passo de criação da senha mestre e o percentual de usuárias que confirmam ter guardado a chave de recuperação.</li>
+    <li>Escopo técnico do importador de dados (com cifragem dos prontuários no navegador). O do Receita Saúde foi feito e entregue em 24/10/2026; falta validar o primeiro arquivo importado no e-CAC de uma psicóloga real.</li>
+    <li>Recrutar as 5 primeiras supervisoras parceiras.</li>
+    <li>Validar as escalas com o conselho de psicólogas (texto, faixas e ponto de corte da PCL-5) e confirmar com o jurídico o uso comercial do DASS-21. Pedir à OMS autorização comercial do WHO-5 e obter o texto da validação brasileira.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Fontes e limites</h2>
+  <ul class="src">
+    <li>Relatório interno: <a href="research.html">Mercado de Psicólogos no Brasil</a> (outubro/2026).</li>
+    <li><a href="https://www.psicomanager.com.br">psicomanager.com.br</a> e <a href="https://www.psicomanager.com.br/planos">/planos</a>, consultados em 17/10/2026.</li>
+    <li><a href="https://usecorpora.com.br/">usecorpora.com.br</a>, consultado em 17/10/2026.</li>
+    <li>Código do PSI4: <code>config/plans.php</code>, controllers e services; criptografia em <code>resources/js/crypto.js</code>, <code>EncryptionKeyService</code>, <code>AccessLogService</code> e <code>resources/views/security.blade.php</code>; escalas em <code>config/scales.php</code>, <code>ScaleApplicationService</code> e <code>resources/js/patient-evolution.js</code>.</li>
+    <li>Escalas: <a href="https://dass.psy.unsw.edu.au/Portuguese/Vignola-Tucci%20Brazilian%20Portuguese.htm">DASS-21, versão brasileira de Vignola &amp; Tucci</a>; <a href="https://scielo.br/j/trends/a/zmy9sNPvdM8pnPZ5Hy5ZWXJ/?lang=en">PCL-5, adaptação brasileira (Lima et al.)</a> e <a href="https://www.ptsd.va.gov/professional/assessment/adult-sr/ptsd-checklist.asp">National Center for PTSD</a>; <a href="https://cdn.who.int/media/docs/default-source/mental-health/five-well-being-index-(who-5)/who-5_portuguese38d038d9-6a11-408e-a755-4616be0982e3.pdf?sfvrsn=d62a45a0_3">WHO-5 em português (OMS)</a>.</li>
+  </ul>
+  <p class="src">Números de clientes dos concorrentes são alegações de marketing. Os múltiplos de valuation, o ARPU de R$ 80, a taxa de 1% e o volume de ~R$ 6 mil/mês em sessões são hipóteses de mercado e devem ser validadas. As afirmações sobre Receita Saúde, NFS-e e o mercado de IPOs refletem o cenário conhecido até 2026; confirme com um contador e um assessor financeiro antes de decidir.</p>
+</section>
+
+<footer>Documento de estratégia gerado em 17/10/2026 como complemento ao relatório de mercado. Atualizado em 18/10/2026 após a entrega da criptografia de ponta a ponta dos prontuários e do painel de evolução com escalas cifradas, e em 24/10/2026 após a entrega do Receita Saúde.</footer>
+</div>
+</body>
+</html>

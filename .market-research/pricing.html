@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preço PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.kpi b{display:block;font-size:1.5rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.y{color:var(--good);font-weight:600} .n{color:var(--bad);font-weight:600} .p{color:var(--warm);font-weight:600}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Preço do PSI4: o que cobrar para parecer justo e ficar por anos</h1>
+  <p>Comparativo com concorrentes, recomendação de preço e decisões em aberto · 23/10/2026 · atualizado em 24/10/2026 (Receita Saúde entregue) · complemento de <a href="strategy.html" style="color:var(--accent)">strategy.html</a></p>
+</header>
+
+<nav>
+  <a href="#resumo">Resumo</a>
+  <a href="#alerta">Alerta de dados</a>
+  <a href="#comparativo">Concorrentes</a>
+  <a href="#hoje">Preço hoje</a>
+  <a href="#logica">Lógica do preço</a>
+  <a href="#recomendacao">Recomendação</a>
+  <a href="#decidir">Para decidir</a>
+  <a href="#implementar">Implementação</a>
+</nav>
+
+<section id="resumo">
+  <h2>Resumo</h2>
+  <div class="verdict">A faixa que a psicóloga aceita sem achar caro e sem desconfiar de preço baixo é <b>R$ 49/mês, ou R$ 39/mês no anual</b>. O que prende por anos não é preço mais baixo: é prontuário cifrado, cobrança e histórico dentro do PSI4, mais a garantia de que o preço não sobe para quem já é cliente.</div>
+  <div class="kpis">
+    <div class="kpi"><b>R$ 49</b><span>mensal, plano único "Profissional"</span></div>
+    <div class="kpi"><b>R$ 468</b><span>anual (R$ 39/mês, cerca de 20% off)</span></div>
+    <div class="kpi"><b>1/4 de sessão</b><span>quanto o plano custa por mês (sessão a R$ 150–250)</span></div>
+    <div class="kpi"><b>R$ 59</b><span>teste para novos cadastros depois de 300 pagantes</span></div>
+  </div>
+</section>
+
+<section id="alerta">
+  <h2>Alerta: os preços dos concorrentes precisam ser reconfirmados</h2>
+  <p class="sub">A estratégia cita PsicoManager a R$ 89 (Pró) e R$ 119 (Plus). Guias de 2026 indicam entradas bem menores.</p>
+  <div class="scroll">
+  <table>
+    <tr><th>Sistema</th><th>Preço de entrada (guia Agilize 2026)</th></tr>
+    <tr><td>Sinappsy</td><td>R$ 29,90</td></tr>
+    <tr><td>PsicoManager</td><td>R$ 49</td></tr>
+    <tr><td>PSICODOC</td><td>R$ 55</td></tr>
+    <tr><td>PsicoPlanner</td><td>R$ 59</td></tr>
+    <tr><td>Amplimed</td><td>R$ 89</td></tr>
+    <tr><td>iClinic</td><td>R$ 129</td></tr>
+  </table>
+  </div>
+  <div class="note">
+    <b>Fonte fraca.</b> A Agilize vende contabilidade, e outro guia dela diz que o preço do PsicoManager está "sob consulta". Para a Corpora não achei preço do PRO, só que tem plano grátis e cobra por usuário. Abra as páginas de planos dos dois antes de usar qualquer número em público. Se o PsicoManager parte de R$ 49, o argumento "R$ 20 mais barato que o líder" não existe, e o PSI4 precisa se vender pelo diferencial, não pelo preço.
+  </div>
+  <p class="src">Fontes:
+    <a href="https://agilize.com.br/artigos/?p=2501">Agilize – gestão de consultório</a> ·
+    <a href="https://agilize.com.br/artigos/melhor-software-gestao-psicologos-2026">Agilize – melhor software 2026</a> ·
+    <a href="https://agilize.com.br/artigos/?p=2465">Agilize – gestão de clínica</a>
+  </p>
+</section>
+
+<section id="comparativo">
+  <h2>O que cada um oferece</h2>
+  <p class="sub">Dados da seção 3 da estratégia, de 17/10/2026. Números de clientes são alegações dos próprios sites.</p>
+  <div class="scroll">
+  <table>
+    <tr><th></th><th>PSI4</th><th>PsicoManager</th><th>Corpora</th></tr>
+    <tr><td>Clientes alegados</td><td>começando</td><td>+40 mil</td><td>+60 mil (inclui o grátis)</td></tr>
+    <tr><td>Grátis</td><td>trial de 14 dias completo</td><td>trial de 7 dias</td><td>grátis "para sempre", generoso</td></tr>
+    <tr><td>Agenda, WhatsApp, vídeo, agendamento público</td><td class="y">sim</td><td class="y">sim (agendamento público não citado)</td><td class="y">sim</td></tr>
+    <tr><td>Cobrança</td><td>Mercado Pago</td><td>Pix, 30 grátis no Plus</td><td>Corpora Pay</td></tr>
+    <tr><td>IA no prontuário</td><td class="y">sim</td><td>transcrição e resumo</td><td>transcrição, reescrita, foto→texto</td></tr>
+    <tr><td>Receita Saúde</td><td class="y">sim, em lote para o Carnê-Leão</td><td class="y">sim</td><td class="y">sim</td></tr>
+    <tr><td>NFS-e</td><td class="n">não</td><td class="y">sim</td><td>não confirmado</td></tr>
+    <tr><td>Escalas</td><td>4, cifradas</td><td class="y">sim</td><td class="y">+30</td></tr>
+    <tr><td>Prontuário cifrado no navegador</td><td class="y">sim, nem a empresa lê</td><td class="n">AES no servidor</td><td class="n">AES no servidor</td></tr>
+    <tr><td>Registro de acessos</td><td class="y">sim</td><td>?</td><td>?</td></tr>
+    <tr><td>Importador / migração</td><td class="n">não</td><td class="n">não</td><td class="y">com atendimento humano</td></tr>
+    <tr><td>Clínicas multiusuário</td><td class="n">não</td><td class="y">sim</td><td class="y">sim</td></tr>
+    <tr><td>Área do paciente</td><td class="n">não</td><td class="n">não</td><td class="y">sim</td></tr>
+  </table>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Onde o PSI4 ganha</h3><p>Privacidade real (critério nº 1 das psicólogas), painel de evolução cifrado e tom feito para psicóloga. No Receita Saúde, empata em recurso e ganha no discurso: os dados fiscais não saem do controle dela e o recurso já vem no plano de R$ 49.</p></div>
+    <div class="card"><h3>Onde perde</h3><p>Importador e modo clínica. O importador continua P0 aberto; o Receita Saúde, outro P0, foi entregue em 24/10/2026.</p></div>
+  </div>
+</section>
+
+<section id="hoje">
+  <h2>O que o código cobra hoje</h2>
+  <p class="sub">Em <code>config/plans.php</code> e na landing (<code>resources/views/landing/sections/plans.blade.php</code>).</p>
+  <ul>
+    <li><b>Avançado:</b> R$ 49/mês. É o único plano exibido na landing e inclui IA, agendamento público e cobrança automática.</li>
+    <li><b>Anual:</b> 40% de desconto, cerca de R$ 29,40/mês (R$ 353 no ano), mais 10% no Pix (cerca de R$ 318).</li>
+    <li><b>Intermediário:</b> R$ 69, mas com menos recursos que o Avançado de R$ 49. Parece resíduo de versão antiga.</li>
+    <li><b>Grátis:</b> 14 dias completos e depois modo leitura.</li>
+  </ul>
+  <div class="note">
+    <b>Três problemas.</b> (1) O Intermediário custa mais e entrega menos, o que confunde. (2) O anual com 40% de desconto ancora o preço real em R$ 29 e corta a receita por cliente. (3) A estratégia diz "R$ 69 está bom, não baixe mais", mas o código cobra R$ 49: é preciso decidir qual vale.
+  </div>
+</section>
+
+<section id="logica">
+  <h2>Lógica do preço, pela cabeça de quem paga</h2>
+  <ul>
+    <li><b>Referência da psicóloga:</b> uma sessão custa R$ 150 a R$ 250. R$ 49 é um quarto de sessão por mês. Até cerca de um terço de sessão (R$ 60 a R$ 70) ela não reclama, desde que veja valor.</li>
+    <li><b>Preço baixo demais:</b> abaixo de R$ 40 soa como produto frágil, e quem guarda prontuário de anos desconfia. O Sinappsy a R$ 29,90 mostra que dá para ir mais baixo, mas ele não disputa confiança.</li>
+    <li><b>Preço alto demais:</b> acima de R$ 89 você enfrenta PsicoManager e Amplimed sem ter paridade de recursos.</li>
+  </ul>
+  <h3>Conta do negócio (churn de 3% ao mês)</h3>
+  <div class="scroll">
+  <table>
+    <tr><th>Mensal</th><th>LTV bruto</th><th>CAC máximo (LTV/3)</th></tr>
+    <tr><td>R$ 49</td><td>≈ R$ 1.630</td><td>≈ R$ 540</td></tr>
+    <tr><td>R$ 59</td><td>≈ R$ 1.970</td><td>≈ R$ 655</td></tr>
+    <tr><td>R$ 69</td><td>≈ R$ 2.300</td><td>≈ R$ 770</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:8px">A R$ 49 a conta só fecha com indicação e supervisoras, não com mídia paga.</p>
+</section>
+
+<section id="recomendacao">
+  <h2>Recomendações</h2>
+  <ol>
+    <li><b>Um plano pago só</b>, com nome simples ("Profissional"), a <b>R$ 49/mês</b>. Eliminar o Intermediário.</li>
+    <li><b>Anual a R$ 468 (R$ 39/mês)</b>, desconto de cerca de 20% no lugar de 40%. Ainda é vantajoso e leva quem já está satisfeita a pagar o ano todo, o melhor antídoto contra churn. Manter os 10% extras no Pix, ou trocar por 1 mês de cortesia.</li>
+    <li><b>Preço congelado para quem entra:</b> "seu preço não sobe enquanto você for cliente", com reajuste só para novos cadastros. É a maior promessa de justiça que dá para fazer e custa pouco no começo.</li>
+    <li><b>Teste de R$ 59 para novos cadastros</b> quando passar de 300 pagantes. A estratégia manda medir disposição a pagar (Van Westendorp, 100 respostas) em vez de adivinhar.</li>
+    <li><b>Estudante e recém-formada:</b> R$ 29 por 6 meses, depois R$ 49. É o público que se cadastra sem sistema.</li>
+    <li><b>Clínica depois:</b> R$ 39 por profissional adicional, só quando o modo clínica existir.</li>
+    <li><b>Comunicação:</b> "menos de 1/4 de uma sessão por mês" e a conta de horas economizadas com burocracia.</li>
+  </ol>
+  <h3>O que prende por anos</h3>
+  <ul>
+    <li>Receita Saúde e recibos (entregue): quem escritura o mês pelo PSI4 tem um motivo recorrente para ficar.</li>
+    <li>Cobrança ativa dentro do PSI4 (quem recebe pelo sistema não sai).</li>
+    <li>Prontuário cifrado: gera confiança e tem custo alto de troca.</li>
+    <li>Aviso e exportação fáceis, sem sensação de refém.</li>
+    <li>Nenhuma surpresa de preço.</li>
+  </ul>
+</section>
+
+<section id="decidir">
+  <h2>Pontos para você decidir</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>1. R$ 49 ou R$ 59 no mensal?</h3>
+      <p>A estratégia diz 69, o código diz 49. <b>Recomendo 49 agora</b> e testar 59 para novos cadastros depois dos 300 pagantes.</p>
+    </div>
+    <div class="card">
+      <h3>2. Trial de 14 dias ou grátis com limites?</h3>
+      <p>A estratégia (P0) preferia o grátis generoso; hoje o código usa trial. <b>Recomendo manter o trial</b> e medir a conversão. Se ficar abaixo de 15%, volte ao grátis.</p>
+    </div>
+    <div class="card">
+      <h3>3. Receita Saúde: decidido</h3>
+      <p>Entregue em 24/10/2026 e incluído no plano Profissional, sem cobrança à parte, porque é obrigação legal e P0. No plano Grátis em modo consulta ela baixa de novo os arquivos já gerados, mas não gera novos. A Corpora parece oferecer o recurso no plano de R$ 89 (página dela, não verificado): se confirmado, vira argumento de preço.</p>
+    </div>
+    <div class="card">
+      <h3>4. Confirmar preços dos concorrentes</h3>
+      <p>Abrir as páginas de planos de PsicoManager e Corpora e atualizar a seção 3 da estratégia antes de qualquer comunicação comparativa.</p>
+    </div>
+  </div>
+</section>
+
+<section id="implementar">
+  <h2>Se for implementar</h2>
+  <ul>
+    <li>Remover ou ocultar o Intermediário em <code>config/plans.php</code>.</li>
+    <li>Ajustar o desconto anual para cerca de 20% (a regra e a landing leem do mesmo config).</li>
+    <li>Texto de "preço congelado" na landing.</li>
+    <li>Testes dos cálculos de plano.</li>
+  </ul>
+  <p class="sub">Não altera contrato de API nem dados antigos.</p>
+</section>
+
+<footer>
+  Os preços de concorrentes vêm de blogs de comparação e não foram confirmados nos sites oficiais. LTV, CAC e churn de 3% são hipóteses de mercado a validar com os dados do próprio PSI4. Documento gerado em 23/10/2026 e atualizado em 24/10/2026 com a entrega do Receita Saúde.
+</footer>
+
+</div>
+</body>
+</html>

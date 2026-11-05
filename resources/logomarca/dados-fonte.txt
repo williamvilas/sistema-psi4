@@ -1,0 +1,4 @@
+Fonte: Noto Music + Bold
+Fundo: 1b323cff
+Cor: e6e6e6ff
+Cor do slogan: 999999ff

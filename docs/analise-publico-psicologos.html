@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise de Público PSI4</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --surface: #ffffff; --text: #1f2933; --muted: #5b6672;
+    --border: #e3e7ec; --accent: #3b5bdb; --accent-soft: #edf1ff;
+    --ok: #2b8a3e; --ok-soft: #ebfbee; --warn: #b35c00; --warn-soft: #fff4e6;
+    --danger: #c92a2a; --danger-soft: #fff5f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151a; --surface: #1a1f26; --text: #e6e9ee; --muted: #9aa5b1;
+      --border: #2c333d; --accent: #8ea6ff; --accent-soft: #1f2840;
+      --ok: #69db7c; --ok-soft: #17291c; --warn: #ffb057; --warn-soft: #2e2214;
+      --danger: #ff8787; --danger-soft: #2e1a1a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 40px 16px 80px; }
+  header h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  header p { color: var(--muted); margin: 0; }
+  nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 20px; margin: 28px 0; }
+  nav.toc ol { margin: 8px 0 0; padding-left: 20px; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px 24px 12px; margin: 0 0 24px; }
+  h2 { font-size: 1.35rem; margin: 0 0 4px; }
+  .q { color: var(--muted); font-style: italic; margin: 0 0 16px; }
+  h3 { font-size: 1.05rem; margin: 22px 0 8px; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .card h4 { margin: 0 0 6px; font-size: 1rem; }
+  .callout { border-radius: 10px; padding: 14px 16px; margin: 16px 0; border-left: 4px solid; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .callout.warn { background: var(--warn-soft); border-color: var(--warn); }
+  .callout.danger { background: var(--danger-soft); border-color: var(--danger); }
+  .table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; color: var(--muted); }
+  .tag { display: inline-block; font-size: .78rem; padding: 2px 8px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  footer { color: var(--muted); font-size: .9rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Análise de público: psicólogos que já faturam (online e presencial)</h1>
+  <p>Base para posicionamento, aquisição e oferta do PSI4 — outubro de 2026.</p>
+</header>
+
+<div class="callout info">
+  <strong>Contexto do produto considerado nesta análise:</strong> agenda, prontuário com criptografia ponta a ponta
+  (senha mestre — nem a equipe acessa), lembretes/mensagens via WhatsApp, modelos e emissão de documentos,
+  agendamento público, relatórios e recursos de IA. Plano Grátis (até 15 pacientes, 3 prontuários/mês) e
+  Plano Completo a <strong>R$ 29,90/mês</strong> com 7 dias de teste sem cartão.
+</div>
+
+<div class="callout warn">
+  <strong>Natureza do documento:</strong> é uma análise de mercado baseada em conhecimento do setor, regulamentação do CFP
+  e padrões de comportamento de profissionais autônomos de saúde — <em>não</em> é resultado de pesquisa primária.
+  Trate cada ponto como hipótese a validar com 10–20 entrevistas com psicólogos reais (roteiro na seção 7).
+</div>
+
+<nav class="toc">
+  <strong>Perguntas</strong>
+  <ol>
+    <li><a href="#online">Como pensa o psicólogo que fatura com atendimento online?</a></li>
+    <li><a href="#presencial">Como pensa o psicólogo que fatura com atendimento presencial?</a></li>
+    <li><a href="#influenciadores">Quais influenciadores costumam seguir?</a></li>
+    <li><a href="#objecoes">Quais são as objeções de cada perfil?</a></li>
+    <li><a href="#icp">Qual o perfil de público ideal para o SaaS?</a></li>
+    <li><a href="#canais">Quais canais de comunicação usar para atrair?</a></li>
+    <li><a href="#plano">Plano de ação: curso grátis? Plano completo barato para os 100 primeiros?</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section id="online">
+  <h2>1. Psicólogo que fatura com atendimento online</h2>
+  <p class="q">Como pensa? Quais as dores? O que busca?</p>
+
+  <h3>Como pensa</h3>
+  <ul>
+    <li><strong>Pensa como empreendedor digital.</strong> Já entendeu que a agenda cheia vem de Instagram, Google e indicação — investe em conteúdo, às vezes em tráfego pago e mentoria de marketing.</li>
+    <li><strong>Escala geográfica.</strong> Atende pacientes de vários estados e brasileiros no exterior (fusos horários diferentes). Desde a Resolução CFP 09/2024 não precisa mais de cadastro no e-Psi, só do CRP ativo — a barreira de entrada caiu e a concorrência subiu.</li>
+    <li><strong>Valoriza tempo e automação.</strong> Cada tarefa manual (confirmar sessão, cobrar, mandar link) rouba tempo que poderia virar sessão.</li>
+    <li><strong>Já usa várias ferramentas soltas:</strong> Google Agenda, WhatsApp Business, Google Meet/Zoom, planilha financeira, Pix, Word/Docs para prontuário. Está aberto a software, mas cansado de “mais uma ferramenta”.</li>
+    <li>Muitos já passaram por plataformas-marketplace (Zenklub, Vittude, Psicologia Viva, Doctoralia) e querem <strong>independência</strong>: pacientes próprios, sem comissão.</li>
+  </ul>
+
+  <h3>Dores</h3>
+  <ul>
+    <li><strong>Faltas e remarcações de última hora</strong> — paciente online desmarca com mais facilidade.</li>
+    <li><strong>Cobrança desconfortável:</strong> correr atrás de Pix atrasado, pacotes mensais, controle de quem pagou.</li>
+    <li><strong>Prontuário espalhado</strong> (Docs, Notion, caderno) e insegurança sobre sigilo/LGPD — dado de saúde é dado sensível.</li>
+    <li><strong>Burocracia documental:</strong> recibos para reembolso de convênio/IR, declarações, contrato terapêutico.</li>
+    <li><strong>WhatsApp caótico:</strong> confirmações manuais, mensagens fora de hora, mistura pessoal/profissional.</li>
+    <li><strong>Dependência do algoritmo</strong> e ansiedade com captação; sensação de “ter que virar influencer”.</li>
+    <li><strong>Solidão profissional e burnout</strong> — agenda cheia, sem pausas, sem estrutura de clínica.</li>
+  </ul>
+
+  <h3>O que busca</h3>
+  <ul>
+    <li>Tudo num lugar só: agenda + link de agendamento + lembrete automático + prontuário + recibo.</li>
+    <li>Link de agendamento público para colocar na bio do Instagram.</li>
+    <li>Sigilo demonstrável (argumento que pode inclusive repassar ao paciente).</li>
+    <li>Previsibilidade de receita e relatórios simples de faturamento.</li>
+    <li>Produtividade com IA (ex.: apoio para organizar anotações/evoluções), desde que <strong>sem expor dados</strong>.</li>
+  </ul>
+</section>
+
+<!-- 2 -->
+<section id="presencial">
+  <h2>2. Psicólogo que fatura com atendimento presencial</h2>
+  <p class="q">Como pensa? Quais as dores? O que busca?</p>
+
+  <h3>Como pensa</h3>
+  <ul>
+    <li><strong>Pensa como profissional liberal tradicional.</strong> Captação por indicação (médicos, escolas, ex-pacientes), convênios e reputação local.</li>
+    <li>Geralmente <strong>mais experiente</strong> (mais anos de formado), público maior em cidades médias e interior.</li>
+    <li>Tem <strong>custo fixo</strong> (aluguel ou sublocação de sala por hora) — falta de paciente é prejuízo direto.</li>
+    <li>Muitas vezes é <strong>híbrido</strong>: presencial como base, online para complementar horários ou manter pacientes que mudaram de cidade.</li>
+    <li>Mais conservador com tecnologia: valoriza o que funciona; caderno/agenda de papel e arquivo físico ainda são comuns.</li>
+    <li>Grande parte atende <strong>convênios</strong> ou emite recibos para reembolso.</li>
+  </ul>
+
+  <h3>Dores</h3>
+  <ul>
+    <li><strong>Faltas</strong> que custam o horário e a sala.</li>
+    <li><strong>Arquivo físico de prontuários</strong> (obrigação de guarda por no mínimo 5 anos — Resolução CFP 001/2009): espaço, risco de perda, preocupação com sigilo.</li>
+    <li>Gestão de <strong>múltiplos locais</strong> (consultório próprio + clínica + online).</li>
+    <li>Recibos, declarações de comparecimento, guias e controle de convênios feitos à mão.</li>
+    <li>Pouco tempo e pouca paciência para aprender sistemas complexos.</li>
+    <li>Sente que está “ficando para trás” no digital, mas não quer expor a vida no Instagram.</li>
+  </ul>
+
+  <h3>O que busca</h3>
+  <ul>
+    <li>Simplicidade acima de tudo: uma tela de agenda clara e um prontuário fácil.</li>
+    <li>Lembrete automático para reduzir faltas.</li>
+    <li>Digitalizar prontuários com segurança e conformidade com CFP/LGPD.</li>
+    <li>Emissão rápida de recibos e documentos padronizados (Resolução CFP 06/2019).</li>
+    <li>Suporte humano e próximo — o “WhatsApp direto com o criador” é um diferencial forte para esse perfil.</li>
+  </ul>
+
+  <h3>Comparativo rápido</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Online</th><th>Presencial</th></tr></thead>
+      <tbody>
+        <tr><td>Mentalidade</td><td>Empreendedor digital, escala</td><td>Profissional liberal, reputação local</td></tr>
+        <tr><td>Captação</td><td>Instagram, Google, marketplaces</td><td>Indicação, convênio, rede local</td></tr>
+        <tr><td>Maior dor</td><td>Tempo/automação, cobrança, ferramentas soltas</td><td>Faltas, papelada, arquivo físico</td></tr>
+        <tr><td>Adoção de tecnologia</td><td>Alta, compara opções</td><td>Média/baixa, precisa de mão na massa</td></tr>
+        <tr><td>Argumento que mais converte</td><td>“Tudo em um, link na bio, menos WhatsApp manual”</td><td>“Fim do papel, menos faltas, simples de usar”</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="influenciadores">
+  <h2>3. Influenciadores que costumam seguir</h2>
+  <p class="q">Quais influenciadores costumam seguir na internet?</p>
+
+  <p>Psicólogos seguem basicamente quatro grupos. Os nomes abaixo são exemplos conhecidos do nicho —
+  <strong>confirme alcance atual e audiência antes de investir em parceria</strong> (peça print de métricas e % de seguidores psicólogos).</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Marketing e negócios para psicólogos <span class="tag">mais relevante</span></h4>
+      <p>Mentores que ensinam captação, Instagram e posicionamento. Ex.: <strong>Alana Anijar</strong> (projeto “Psi do Futuro”).
+      Há dezenas de mentores menores (5k–50k seguidores) com audiência 100% psicóloga — são os melhores parceiros de custo/benefício.</p>
+    </div>
+    <div class="card">
+      <h4>Divulgação científica / psicologia pop</h4>
+      <p>Ex.: <strong>Rossandro Klinjey</strong>, <strong>Ana Suy</strong>, <strong>Christian Dunker</strong>, <strong>Maria Homem</strong>, <strong>Vera Iaconelli</strong>.
+      Audiência grande, mas majoritariamente leiga — bom para autoridade, ruim para conversão de um SaaS B2B.</p>
+    </div>
+    <div class="card">
+      <h4>Abordagens e formação clínica</h4>
+      <p>Institutos e professores de TCC, psicanálise, ACT, terapia do esquema, neuropsicologia, além de páginas de supervisão clínica e pós-graduação.
+      Audiência qualificada; ótimos para co-marketing (live, material gratuito).</p>
+    </div>
+    <div class="card">
+      <h4>Regulação, ética e finanças</h4>
+      <p>CFP e CRPs regionais, contadores especializados em psicólogos (ex.: conteúdos sobre carnê-leão, Simples Nacional, PJ) e advogados de LGPD na saúde.
+      Público que sente a dor de documentação e conformidade — exatamente o que o PSI4 resolve.</p>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <strong>Recomendação:</strong> priorize <em>micro-influenciadores de negócios para psicólogos</em> e <em>contadores de psicólogos</em>.
+    Proposta: comissão recorrente (afiliado, ex.: 30% por 12 meses) + cupom exclusivo, em vez de post pago avulso.
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="objecoes">
+  <h2>4. Objeções de cada perfil</h2>
+  <p class="q">Quais são as objeções de cada perfil de psicólogo — e como responder?</p>
+
+  <h3>Psicólogo online</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Objeção</th><th>Resposta / prova</th></tr></thead>
+      <tbody>
+        <tr><td>“Já uso Google Agenda + WhatsApp, funciona.”</td><td>Mostrar tempo perdido por semana (confirmações, recibos, cobranças) e o custo das faltas. Calculadora: “1 falta evitada/mês já paga o sistema”.</td></tr>
+        <tr><td>“Não tem videochamada integrada / integração X.”</td><td>Deixar claro o que integra (link da sessão na agenda/lembrete) e manter um roadmap público.</td></tr>
+        <tr><td>“Plataformas como Zenklub/Psicologia Viva já fazem isso.”</td><td>Posicionar como ferramenta <strong>do psicólogo</strong>, sem comissão por sessão e com paciente que é dele.</td></tr>
+        <tr><td>“Medo de IA vazar dado de paciente.”</td><td>Explicar exatamente o que vai e o que não vai para a IA; criptografia com senha mestre como prova.</td></tr>
+        <tr><td>“Sistema novo, e se acabar?”</td><td>Exportação dos dados a qualquer momento, termos claros, contato direto com o criador.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Psicólogo presencial</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Objeção</th><th>Resposta / prova</th></tr></thead>
+      <tbody>
+        <tr><td>“Não tenho tempo para aprender sistema.”</td><td>Onboarding guiado de 10 minutos, vídeo curto por funcionalidade, ajuda via WhatsApp.</td></tr>
+        <tr><td>“Prontuário em papel é mais seguro.”</td><td>Papel pode ser perdido, lido por terceiros ou danificado; digital criptografado só o psicólogo abre. Citar CFP 001/2009 sobre guarda.</td></tr>
+        <tr><td>“O CFP aceita prontuário digital?”</td><td>Sim, desde que garanta sigilo e guarda — material de apoio explicando a conformidade.</td></tr>
+        <tr><td>“E se eu esquecer a senha mestre?”</td><td>Objeção real e crítica: explicar com transparência o mecanismo de recuperação (ou a ausência dele) e incentivar backup/exportação.</td></tr>
+        <tr><td>“Meus pacientes são mais velhos, não usam link.”</td><td>Agendamento continua manual pelo psicólogo; lembrete por WhatsApp funciona para qualquer idade.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Objeções comuns aos dois</h3>
+  <ul>
+    <li><strong>Preço:</strong> pouco provável com R$ 29,90 — o preço está abaixo dos concorrentes de gestão (que costumam ficar entre R$ 50 e R$ 150/mês). O risco é o contrário: preço baixo demais pode sugerir “pouco confiável”.</li>
+    <li><strong>Confiança na marca nova:</strong> resolver com prova social de psicólogos (depoimentos de profissionais sobre a ferramenta — nunca de pacientes), CNPJ visível, política de privacidade clara.</li>
+    <li><strong>Migração:</strong> “dá trabalho passar meus pacientes” → importação via planilha e ajuda na migração para os primeiros clientes.</li>
+  </ul>
+</section>
+
+<!-- 5 -->
+<section id="icp">
+  <h2>5. Perfil de público ideal (ICP)</h2>
+  <p class="q">Qual perfil de público é ideal para esse SaaS?</p>
+
+  <div class="callout ok">
+    <strong>ICP principal:</strong> psicólogo(a) <strong>autônomo(a)</strong>, 2 a 10 anos de formado(a), atendendo <strong>15 a 40 pacientes ativos</strong>,
+    <strong>online ou híbrido</strong>, que já cobra particular, usa WhatsApp para tudo e ainda faz prontuário em Word/Docs/papel.
+  </div>
+
+  <h3>Por que esse perfil</h3>
+  <ul>
+    <li>Passa do limite do Plano Grátis (15 pacientes) — <strong>converte naturalmente</strong> para o Completo.</li>
+    <li>Sente as dores de faltas, WhatsApp manual e documentos todos os dias.</li>
+    <li>Tem familiaridade digital para se cadastrar sozinho (produto self-service).</li>
+    <li>Ainda não está preso a um sistema caro e grande (custo de troca baixo).</li>
+  </ul>
+
+  <h3>Perfis secundários</h3>
+  <ul>
+    <li><strong>Recém-formado(a)</strong> (0–2 anos): ótimo para volume e boca a boca, entra pelo Grátis e cresce com o produto. Converte mais devagar.</li>
+    <li><strong>Presencial experiente</strong>: maior ticket potencial e fidelidade, mas exige mais suporte. Abordar com mensagem de “fim do papel”.</li>
+  </ul>
+
+  <h3>Fora do foco por enquanto</h3>
+  <ul>
+    <li>Clínicas com vários profissionais e recepção (exigem multiusuário, permissões, faturamento de convênio TISS).</li>
+    <li>Psicólogos que atendem apenas via marketplace (a plataforma já resolve agenda e pagamento para eles).</li>
+  </ul>
+</section>
+
+<!-- 6 -->
+<section id="canais">
+  <h2>6. Canais de comunicação para atrair</h2>
+  <p class="q">Quais canais usar?</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Canal</th><th>Como usar</th><th>Prioridade</th></tr></thead>
+      <tbody>
+        <tr><td>Instagram (perfil do PSI4)</td><td>Reels/carrosséis sobre prontuário, documentos CFP, faltas, LGPD, rotina do consultório. Link na bio direto para o cadastro.</td><td><span class="tag">Alta</span></td></tr>
+        <tr><td>Parcerias com micro-influenciadores psi e contadores de psicólogos</td><td>Afiliados com comissão recorrente + cupom.</td><td><span class="tag">Alta</span></td></tr>
+        <tr><td>SEO / blog</td><td>Artigos para buscas como “modelo de prontuário psicológico”, “como fazer recibo de psicólogo”, “declaração de comparecimento psicólogo”, “resolução CFP 09/2024”. Cada artigo leva a um template grátis dentro do sistema.</td><td><span class="tag">Alta</span></td></tr>
+        <tr><td>Grupos de WhatsApp/Telegram e comunidades</td><td>Participar com ajuda real (não spam); oferecer materiais gratuitos.</td><td><span class="tag">Média</span></td></tr>
+        <tr><td>Google Ads (pesquisa)</td><td>Termos de alta intenção: “sistema para psicólogo”, “prontuário eletrônico psicologia”, “agenda para psicólogo”. Orçamento pequeno e controlado.</td><td><span class="tag">Média</span></td></tr>
+        <tr><td>YouTube</td><td>Tutoriais e comparativos (“como organizar consultório online em 2026”).</td><td><span class="tag">Média</span></td></tr>
+        <tr><td>Universidades, ligas acadêmicas, cursos de pós</td><td>Palestras sobre prontuário e ética documental; plano estudante/recém-formado.</td><td><span class="tag">Média</span></td></tr>
+        <tr><td>LinkedIn</td><td>Conteúdo para psicólogos com perfil empresarial e organizacional.</td><td><span class="tag">Baixa</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>Atenção ética:</strong> o Código de Ética do psicólogo restringe publicidade com promessa de resultado e uso de depoimentos de pacientes.
+    Os materiais do PSI4 não devem incentivar o psicólogo a fazer algo que viole o código — isso afeta credibilidade.
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="plano">
+  <h2>7. Plano de ação para conseguir usuários</h2>
+  <p class="q">Devo adicionar curso grátis para atrair? Devo oferecer o plano completo por um valor pequeno para os 100 primeiros clientes?</p>
+
+  <h3>Curso grátis: sim, mas focado no problema que o produto resolve</h3>
+  <ul>
+    <li><strong>Não</strong> faça um curso genérico de “marketing para psicólogos”: compete com mentores (potenciais parceiros) e atrai quem ainda não tem pacientes — portanto ainda não precisa de sistema.</li>
+    <li><strong>Faça</strong> um minicurso curto (3–5 aulas de 10 min) ou um kit gratuito, por exemplo:
+      <em>“Consultório organizado e em conformidade com o CFP”</em> — prontuário (CFP 001/2009), documentos (CFP 06/2019), atendimento online (CFP 09/2024), LGPD e como reduzir faltas.</li>
+    <li>Junte <strong>templates prontos</strong> (contrato terapêutico, recibo, declaração, anamnese) que só funcionam 100% dentro do PSI4 — o material vira onboarding.</li>
+    <li>Se possível, grave com um(a) psicólogo(a) ou advogado(a) de LGPD na saúde como convidado(a) — empresta autoridade.</li>
+  </ul>
+
+  <h3>Oferta para os 100 primeiros: sim, mas como “Plano Fundador”, não como desconto</h3>
+  <ul>
+    <li>R$ 29,90 já é baixo. Baixar mais (ex.: R$ 9,90) atrai caçadores de promoção e diz ao mercado que o produto vale pouco.</li>
+    <li>Proposta recomendada: <strong>Plano Fundador — Completo por R$ 19,90/mês com preço travado para sempre</strong> (ou 12 meses pelo preço de 6 no anual), limitado a 100 vagas, com contador público de vagas.</li>
+    <li>Em troca, o fundador se compromete a: 1 chamada de feedback de 20 min, permissão para depoimento (dele sobre a ferramenta) e acesso a um grupo fechado com o criador.</li>
+    <li>Isso gera <strong>urgência</strong>, <strong>prova social</strong> e um grupo de <strong>usuários-beta</strong> que direciona o roadmap.</li>
+    <li>Planeje já o próximo passo: depois dos 100, subir o preço de lista (ex.: R$ 39,90–49,90) e manter os fundadores travados — o preço antigo vira argumento de “entrou cedo, ganhou”.</li>
+  </ul>
+
+  <h3>Roteiro de 90 dias</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Período</th><th>Ações</th><th>Meta</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Dias 1–30</strong><br>Validação</td>
+          <td>
+            <ul>
+              <li>Entrevistar 15–20 psicólogos do ICP (roteiro abaixo).</li>
+              <li>Ajustar a mensagem da landing por perfil (online × presencial).</li>
+              <li>Criar kit gratuito de templates + 1ª aula do minicurso.</li>
+              <li>Abrir Plano Fundador (100 vagas) e convidar a rede pessoal + entrevistados.</li>
+              <li>Instrumentar funil: cadastro → 1º paciente → 1º prontuário → 1º lembrete → pagamento.</li>
+            </ul>
+          </td>
+          <td>30 fundadores pagantes</td>
+        </tr>
+        <tr>
+          <td><strong>Dias 31–60</strong><br>Tração</td>
+          <td>
+            <ul>
+              <li>Programa de afiliados com 5–10 micro-influenciadores/contadores.</li>
+              <li>3 conteúdos/semana no Instagram + 4 artigos SEO de alta intenção.</li>
+              <li>1 live com convidado(a) sobre prontuário e CFP.</li>
+              <li>Indicação: indique 1 colega e ganhe 1 mês grátis.</li>
+            </ul>
+          </td>
+          <td>100 fundadores; 300 contas grátis</td>
+        </tr>
+        <tr>
+          <td><strong>Dias 61–90</strong><br>Escala</td>
+          <td>
+            <ul>
+              <li>Fechar Plano Fundador e subir preço de lista.</li>
+              <li>Publicar depoimentos e estudo de caso (“reduziu X faltas/mês”).</li>
+              <li>Testar Google Ads de pesquisa com orçamento pequeno.</li>
+              <li>Analisar churn e motivos de não-conversão do Grátis.</li>
+            </ul>
+          </td>
+          <td>Conversão Grátis→Completo ≥ 5%; churn mensal &lt; 5%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Roteiro de entrevista (validação)</h3>
+  <ol>
+    <li>Como você organiza hoje agenda, prontuário e cobrança? Que ferramentas usa?</li>
+    <li>Qual tarefa administrativa você mais odeia fazer na semana? Quanto tempo leva?</li>
+    <li>Quantas faltas/remarcações você tem por mês? O que faz quando acontece?</li>
+    <li>Já usou algum sistema para psicólogos? Por que parou ou por que continua?</li>
+    <li>O que te faria confiar seus prontuários a um sistema online?</li>
+    <li>Quem você segue para aprender sobre a carreira e o negócio?</li>
+    <li>Quanto você paga hoje por ferramentas do consultório? Quanto pagaria para resolver a tarefa da pergunta 2?</li>
+  </ol>
+
+  <h3>Métricas para acompanhar</h3>
+  <ul>
+    <li><strong>Ativação:</strong> % de contas que cadastram ≥ 3 pacientes e 1 prontuário em 7 dias.</li>
+    <li><strong>Conversão:</strong> teste de 7 dias → pagante; Grátis → Completo.</li>
+    <li><strong>Retenção:</strong> churn mensal e uso semanal da agenda.</li>
+    <li><strong>Aquisição:</strong> custo por cadastro e por pagante em cada canal; % vindo de indicação.</li>
+  </ul>
+</section>
+
+<footer>
+  <p><strong>Fontes consultadas:</strong></p>
+  <ul>
+    <li><a href="https://www.contabilidadezen.com.br/blog/resolucao-cfp-09-2024-atendimento-online-2026/">Resolução CFP 09/2024 — atendimento online (Contabilidade Zen)</a></li>
+    <li><a href="https://www.contabilidadezen.com.br/blog/fim-cadastro-epsi-o-que-muda-2026/">Fim do cadastro e-Psi — o que muda (Contabilidade Zen)</a></li>
+    <li><a href="https://exame.com/bussola/trends-saiba-o-segredo-por-tras-da-influencia/">Exame — Alana Anijar e mentoria de marketing para psicólogos</a></li>
+    <li><a href="https://ri.ufs.br/handle/riufs/24458">UFS — estratégias de marketing pessoal de Rossandro Klinjey no Instagram</a></li>
+    <li><a href="https://agilize.com.br/blog/marketing/instagram-para-psicologos">Agilize — Instagram para psicólogos</a></li>
+    <li>Resoluções CFP 001/2009 (registro documental) e 06/2019 (elaboração de documentos).</li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mercado de Psicólogos no Brasil</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --bar:#2f6f6a; --bar2:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --tag-data:#2f6f6a; --tag-inf:#8a5a2b;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --bar:#5fb3a9; --bar2:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --tag-data:#6cc0b6; --tag-inf:#e0a46a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --bar:#5fb3a9; --bar2:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --tag-data:#6cc0b6; --tag-inf:#e0a46a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:4px;border:1px solid currentColor;margin-left:8px;vertical-align:middle}
+.tag.data{color:var(--tag-data)} .tag.inf{color:var(--tag-inf)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.kpi b{display:block;font-size:1.6rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.85rem}
+.bars{display:grid;grid-template-columns:44px 1fr 110px;gap:4px 10px;align-items:center;font-size:.85rem;font-variant-numeric:tabular-nums}
+.bars .track{background:var(--accent-soft);border-radius:4px;height:14px;overflow:hidden}
+.bars .fill{background:var(--bar);height:100%;border-radius:4px}
+.bars .val{text-align:right;color:var(--muted)}
+.split{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:12px 0 6px;font-weight:600;font-size:.85rem;color:#fff}
+.split div{display:flex;align-items:center;padding:0 12px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+td.n{text-align:right}
+.scroll{overflow-x:auto}
+ul{padding-left:20px;margin:8px 0} li{margin:4px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:4px 10px;font-size:.88rem}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+blockquote{margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);color:var(--muted);font-style:italic}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ .bars{grid-template-columns:34px 1fr 86px} section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Mercado de Psicólogos no Brasil</h1>
+  <p>Pesquisa de campo (desk research) · outubro de 2026 · base para posicionamento do PSI4</p>
+</header>
+
+<nav>
+  <a href="#quantos">Quantos são</a><a href="#estados">Por estado</a><a href="#genero">Gênero</a>
+  <a href="#perfil">Perfil e renda</a><a href="#pensam">Como pensam</a><a href="#criterios">Critérios de compra</a>
+  <a href="#conexao">Conexão</a><a href="#palavras">Vocabulário</a><a href="#referencias">Referências</a>
+  <a href="#dores">Dores</a><a href="#prazeres">Prazeres</a><a href="#implicacoes">Implicações</a><a href="#fontes">Fontes</a>
+</nav>
+
+<div class="note"><b>Como ler este relatório.</b> Os blocos marcados com <span class="tag data">Dado</span> vêm de fontes oficiais ou de pesquisas (CFP, CensoPsi 2022, PNAD/IBGE). Os marcados com <span class="tag inf">Análise</span> são sínteses qualitativas a partir de estudos acadêmicos, reportagens, normas do CFP e observação do discurso da categoria. Não há pesquisa nacional publicada sobre comportamento de compra de psicólogos, então esses pontos são hipóteses fortes, que convém validar com entrevistas próprias.</div>
+
+<!-- 1 -->
+<section id="quantos">
+  <h2>1. Quantos psicólogos existem no Brasil <span class="tag data">Dado</span></h2>
+  <p class="sub">Painel oficial do CFP, atualizado em 14/09/2026</p>
+  <div class="kpis">
+    <div class="kpi"><b>612.789</b><span>psicólogas(os) inscritas(os) no Sistema Conselhos (CFP)</span></div>
+    <div class="kpi"><b>~1 : 350</b><span>um psicólogo para cada ~350 habitantes (estimativa sobre 213 mi de habitantes)</span></div>
+    <div class="kpi"><b>+40%</b><span>crescimento aproximado desde 2023 (437 mil, segundo a base do CFP citada na Wikipédia)</span></div>
+  </div>
+  <div class="note"><b>Inscritos não é o mesmo que ativos.</b> O CFP divulga inscrições. Nem todo inscrito atua na profissão: no CensoPsi 2022, 82,4% tinham algum vínculo de trabalho em Psicologia e 64,9% trabalhavam exclusivamente na área. Aplicando esses percentuais, a estimativa é de <b>~500 mil profissionais atuando</b> e <b>~400 mil atuando só com Psicologia</b>. O Brasil está entre os países com mais psicólogos per capita do mundo.</div>
+</section>
+
+<!-- 2 -->
+<section id="estados">
+  <h2>2. Distribuição por estado <span class="tag data">Dado</span></h2>
+  <p class="sub">Percentual sobre a soma da tabela por UF do CFP (609.091 inscritos com endereço informado)</p>
+
+  <h3>Por região</h3>
+  <div class="bars">
+    <span>SE</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">53,2% · 323.863</span>
+    <span>NE</span><div class="track"><div class="fill" style="width:35.5%"></div></div><span class="val">18,9% · 115.111</span>
+    <span>S</span><div class="track"><div class="fill" style="width:28.9%"></div></div><span class="val">15,4% · 93.684</span>
+    <span>CO</span><div class="track"><div class="fill" style="width:15.2%"></div></div><span class="val">8,1% · 49.447</span>
+    <span>N</span><div class="track"><div class="fill" style="width:8.3%"></div></div><span class="val">4,4% · 26.986</span>
+  </div>
+
+  <h3>Por estado</h3>
+  <div class="bars">
+    <span>SP</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">29,51%</span>
+    <span>RJ</span><div class="track"><div class="fill" style="width:37.4%"></div></div><span class="val">11,04%</span>
+    <span>MG</span><div class="track"><div class="fill" style="width:37.3%"></div></div><span class="val">11,01%</span>
+    <span>RS</span><div class="track"><div class="fill" style="width:21.1%"></div></div><span class="val">6,23%</span>
+    <span>PR</span><div class="track"><div class="fill" style="width:19.4%"></div></div><span class="val">5,73%</span>
+    <span>BA</span><div class="track"><div class="fill" style="width:16.8%"></div></div><span class="val">4,96%</span>
+    <span>PE</span><div class="track"><div class="fill" style="width:12.6%"></div></div><span class="val">3,72%</span>
+    <span>SC</span><div class="track"><div class="fill" style="width:11.6%"></div></div><span class="val">3,42%</span>
+    <span>CE</span><div class="track"><div class="fill" style="width:10.9%"></div></div><span class="val">3,22%</span>
+    <span>DF</span><div class="track"><div class="fill" style="width:9.7%"></div></div><span class="val">2,86%</span>
+    <span>GO</span><div class="track"><div class="fill" style="width:9.5%"></div></div><span class="val">2,81%</span>
+    <span>ES</span><div class="track"><div class="fill" style="width:5.5%"></div></div><span class="val">1,61%</span>
+    <span>PA</span><div class="track"><div class="fill" style="width:5.3%"></div></div><span class="val">1,57%</span>
+    <span>PB</span><div class="track"><div class="fill" style="width:5%"></div></div><span class="val">1,47%</span>
+    <span>RN</span><div class="track"><div class="fill" style="width:4.6%"></div></div><span class="val">1,35%</span>
+    <span>MT</span><div class="track"><div class="fill" style="width:4.3%"></div></div><span class="val">1,26%</span>
+    <span>MA</span><div class="track"><div class="fill" style="width:4.2%"></div></div><span class="val">1,24%</span>
+    <span>MS</span><div class="track"><div class="fill" style="width:4%"></div></div><span class="val">1,18%</span>
+    <span>AL</span><div class="track"><div class="fill" style="width:4%"></div></div><span class="val">1,17%</span>
+    <span>AM</span><div class="track"><div class="fill" style="width:3.9%"></div></div><span class="val">1,14%</span>
+    <span>PI</span><div class="track"><div class="fill" style="width:3.4%"></div></div><span class="val">0,99%</span>
+    <span>SE</span><div class="track"><div class="fill" style="width:2.6%"></div></div><span class="val">0,77%</span>
+    <span>RO</span><div class="track"><div class="fill" style="width:2%"></div></div><span class="val">0,59%</span>
+    <span>TO</span><div class="track"><div class="fill" style="width:1.4%"></div></div><span class="val">0,40%</span>
+    <span>AC</span><div class="track"><div class="fill" style="width:0.9%"></div></div><span class="val">0,27%</span>
+    <span>AP</span><div class="track"><div class="fill" style="width:0.9%"></div></div><span class="val">0,27%</span>
+    <span>RR</span><div class="track"><div class="fill" style="width:0.7%"></div></div><span class="val">0,20%</span>
+  </div>
+
+  <h3>Tabela completa</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>UF</th><th>Estado</th><th class="n">Inscritos</th><th class="n">% do Brasil</th><th class="n">% mulheres</th></tr></thead>
+    <tbody>
+      <tr><td>SP</td><td>São Paulo</td><td class="n">179.761</td><td class="n">29,51%</td><td class="n">84,9%</td></tr>
+      <tr><td>RJ</td><td>Rio de Janeiro</td><td class="n">67.243</td><td class="n">11,04%</td><td class="n">84,7%</td></tr>
+      <tr><td>MG</td><td>Minas Gerais</td><td class="n">67.045</td><td class="n">11,01%</td><td class="n">84,0%</td></tr>
+      <tr><td>RS</td><td>Rio Grande do Sul</td><td class="n">37.928</td><td class="n">6,23%</td><td class="n">86,8%</td></tr>
+      <tr><td>PR</td><td>Paraná</td><td class="n">34.910</td><td class="n">5,73%</td><td class="n">85,0%</td></tr>
+      <tr><td>BA</td><td>Bahia</td><td class="n">30.206</td><td class="n">4,96%</td><td class="n">84,9%</td></tr>
+      <tr><td>PE</td><td>Pernambuco</td><td class="n">22.677</td><td class="n">3,72%</td><td class="n">84,6%</td></tr>
+      <tr><td>SC</td><td>Santa Catarina</td><td class="n">20.846</td><td class="n">3,42%</td><td class="n">86,3%</td></tr>
+      <tr><td>CE</td><td>Ceará</td><td class="n">19.638</td><td class="n">3,22%</td><td class="n">82,6%</td></tr>
+      <tr><td>DF</td><td>Distrito Federal</td><td class="n">17.443</td><td class="n">2,86%</td><td class="n">84,0%</td></tr>
+      <tr><td>GO</td><td>Goiás</td><td class="n">17.140</td><td class="n">2,81%</td><td class="n">86,9%</td></tr>
+      <tr><td>ES</td><td>Espírito Santo</td><td class="n">9.814</td><td class="n">1,61%</td><td class="n">83,3%</td></tr>
+      <tr><td>PA</td><td>Pará</td><td class="n">9.535</td><td class="n">1,57%</td><td class="n">82,5%</td></tr>
+      <tr><td>PB</td><td>Paraíba</td><td class="n">8.962</td><td class="n">1,47%</td><td class="n">83,8%</td></tr>
+      <tr><td>RN</td><td>Rio Grande do Norte</td><td class="n">8.222</td><td class="n">1,35%</td><td class="n">82,1%</td></tr>
+      <tr><td>MT</td><td>Mato Grosso</td><td class="n">7.663</td><td class="n">1,26%</td><td class="n">87,5%</td></tr>
+      <tr><td>MA</td><td>Maranhão</td><td class="n">7.575</td><td class="n">1,24%</td><td class="n">84,2%</td></tr>
+      <tr><td>MS</td><td>Mato Grosso do Sul</td><td class="n">7.201</td><td class="n">1,18%</td><td class="n">86,1%</td></tr>
+      <tr><td>AL</td><td>Alagoas</td><td class="n">7.102</td><td class="n">1,17%</td><td class="n">83,9%</td></tr>
+      <tr><td>AM</td><td>Amazonas</td><td class="n">6.934</td><td class="n">1,14%</td><td class="n">84,3%</td></tr>
+      <tr><td>PI</td><td>Piauí</td><td class="n">6.025</td><td class="n">0,99%</td><td class="n">84,6%</td></tr>
+      <tr><td>SE</td><td>Sergipe</td><td class="n">4.704</td><td class="n">0,77%</td><td class="n">82,1%</td></tr>
+      <tr><td>RO</td><td>Rondônia</td><td class="n">3.574</td><td class="n">0,59%</td><td class="n">84,4%</td></tr>
+      <tr><td>TO</td><td>Tocantins</td><td class="n">2.465</td><td class="n">0,40%</td><td class="n">86,4%</td></tr>
+      <tr><td>AC</td><td>Acre</td><td class="n">1.643</td><td class="n">0,27%</td><td class="n">83,8%</td></tr>
+      <tr><td>AP</td><td>Amapá</td><td class="n">1.638</td><td class="n">0,27%</td><td class="n">82,7%</td></tr>
+      <tr><td>RR</td><td>Roraima</td><td class="n">1.197</td><td class="n">0,20%</td><td class="n">86,6%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="src">Três estados (SP, RJ, MG) somam 51,6% da categoria. Em densidade por habitante, lideram DF, RJ e RO; Pará e Maranhão têm as menores taxas (base de 2023).</p>
+</section>
+
+<!-- 3 -->
+<section id="genero">
+  <h2>3. Mulheres x homens <span class="tag data">Dado</span></h2>
+  <p class="sub">Cadastro do CFP por sexo, soma das 27 UFs (604.791 registros com sexo informado)</p>
+  <div class="split" role="img" aria-label="84,8% mulheres, 15,2% homens">
+    <div style="width:84.8%;background:var(--bar)">Mulheres 84,8%</div>
+    <div style="width:15.2%;background:var(--bar2);padding:0 6px">15,2%</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>512.661</b><span>mulheres (84,8%)</span></div>
+    <div class="kpi"><b>92.130</b><span>homens (15,2%)</span></div>
+    <div class="kpi"><b>79,2%</b><span>mulheres entre as respondentes do CensoPsi 2022 (20,1% homens)</span></div>
+  </div>
+  <p>A proporção feminina é alta em todos os estados, de 82,1% (RN, SE) a 87,5% (MT). Metade da categoria tem até 39 anos (CensoPsi 2022). <b>Na comunicação, o padrão é tratar o público no feminino ou com a forma inclusiva "psicólogas(os)", como faz o próprio CFP.</b></p>
+</section>
+
+<!-- Perfil -->
+<section id="perfil">
+  <h2>Perfil profissional e renda <span class="tag data">Dado</span></h2>
+  <p class="sub">Contexto para as próximas seções (CensoPsi 2022, 20.207 respondentes; PNAD Contínua 2025)</p>
+  <div class="kpis">
+    <div class="kpi"><b>73,1%</b><span>atuam na área clínica, de longe a principal</span></div>
+    <div class="kpi"><b>72%</b><span>formados em instituições privadas</span></div>
+    <div class="kpi"><b>R$ 3.989</b><span>renda mediana mensal no trabalho principal (PNAD 2025); autônomos: R$ 4.074</span></div>
+    <div class="kpi"><b>~50%</b><span>ganham abaixo do piso proposto (R$ 4.650 em 2021)</span></div>
+    <div class="kpi"><b>−28%</b><span>queda real da renda mediana desde 2012</span></div>
+    <div class="kpi"><b>18%</b><span>trabalham mais de 50 h por semana</span></div>
+  </div>
+  <ul>
+    <li>A <b>clínica autônoma é a principal porta de entrada</b> no mercado. Também é a área mais desejada por quem ainda não atua (68,7%) e a que mais perde profissionais (61,6%).</li>
+    <li>Renda com a Psicologia: 7,4% ganham até 1 salário mínimo, 26,8% de 1 a 3, 32,5% de 3 a 6 e só 18,1% acima de 9.</li>
+    <li>Muitos combinam vários vínculos (clínica com social, docência ou saúde) e trabalhos fora da área para complementar a renda.</li>
+    <li>Regionalmente, o Nordeste tem a menor renda mediana (R$ 2.985) e a maior percepção de insegurança. O Sul tem a maior (R$ 4.945).</li>
+    <li>O uso de tecnologia no trabalho subiu de 34% antes da pandemia para 78%. O atendimento online foi consolidado pela Resolução CFP 09/2024, que extinguiu o cadastro e-Psi.</li>
+  </ul>
+</section>
+
+<!-- 4 -->
+<section id="pensam">
+  <h2>4. Como pensam antes de comprar <span class="tag inf">Análise</span></h2>
+  <p class="sub">Síntese a partir das normas da profissão, dos dados de renda e de estudos qualitativos</p>
+  <div class="grid2">
+    <div class="card"><h3>Primeiro a ética, depois o resto</h3>A pergunta inicial é "isso me expõe eticamente?". O psicólogo responde ao CRP por sigilo, guarda de prontuário (Res. CFP 001/2009 e 06/2019) e publicidade (Código de Ética). Um produto que ponha esses deveres em risco é descartado, por melhor que seja.</div>
+    <div class="card"><h3>Orçamento apertado e sensível</h3>Com renda mediana perto de R$ 4 mil e metade abaixo do piso, cada assinatura pesa. A conta mental costuma ser "quantas sessões isso custa por mês?". O custo é comparado ao valor da sessão.</div>
+    <div class="card"><h3>Desconfiança de discurso comercial</h3>A formação é crítica ao "mercado", e muita gente se incomoda com a lógica produtivista e de "uberização". Promessas agressivas ("lote sua agenda", "fature 10x") afastam boa parte do público, ainda que atraiam uma minoria empreendedora.</div>
+    <div class="card"><h3>Decisão consultiva e social</h3>Antes de comprar, perguntam a colegas, supervisores e grupos de WhatsApp ou Instagram da área, e testam. A indicação de um par de confiança pesa mais que anúncio.</div>
+    <div class="card"><h3>Reflexão antes de agir</h3>É um público treinado para refletir e nomear sentimentos. Lê, compara e quer entender o "porquê". Valoriza explicação clara, sem pressa nem gatilho de escassez.</div>
+    <div class="card"><h3>Medo de "perder o vínculo"</h3>Qualquer ferramenta que fique entre o profissional e o paciente (lembretes, cobrança, agenda) é avaliada pela pergunta "isso vai soar frio ou invasivo para o meu paciente?".</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="criterios">
+  <h2>5. Critérios de decisão de compra <span class="tag inf">Análise</span></h2>
+  <p class="sub">Ordem aproximada de peso para ferramentas de gestão e serviços</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>#</th><th>Critério</th><th>O que o psicólogo verifica</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Sigilo e segurança</b></td><td>Criptografia, LGPD, quem acessa o prontuário, onde ficam os dados. Na pesquisa sobre tecnoestresse, 47,5% se preocupam com a segurança dos dados.</td></tr>
+      <tr><td>2</td><td><b>Conformidade com o CFP</b></td><td>Se o prontuário atende às Res. 001/2009 e 06/2019 (guarda por 5 anos, documentos), se a publicidade é permitida e se o atendimento online está de acordo com a Res. 09/2024.</td></tr>
+      <tr><td>3</td><td><b>Preço justo e previsível</b></td><td>Mensalidade baixa, sem fidelidade, teste grátis e cobrança que acompanhe o tamanho do consultório.</td></tr>
+      <tr><td>4</td><td><b>Economia de tempo</b></td><td>Menos tarefa administrativa: agenda, confirmação via WhatsApp, recibos, controle financeiro, documentos.</td></tr>
+      <tr><td>5</td><td><b>Simplicidade</b></td><td>Pouca curva de aprendizado, funcionar bem no celular e suporte humano em português.</td></tr>
+      <tr><td>6</td><td><b>Indicação de pares</b></td><td>Colegas, supervisores, influenciadores da área e avaliações.</td></tr>
+      <tr><td>7</td><td><b>Respeito à abordagem</b></td><td>Templates e evolução que sirvam à psicanálise, à TCC ou à humanista, sem impor um modelo "médico".</td></tr>
+      <tr><td>8</td><td><b>Alinhamento de valores</b></td><td>A marca respeita a profissão? Remunera de forma justa, ou é mais uma plataforma de R$ 30 a sessão?</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="conexao">
+  <h2>6. O que mais gera conexão <span class="tag inf">Análise</span></h2>
+  <div class="grid2">
+    <div class="card"><h3>Ser compreendido(a)</h3>Comunicação que nomeia a rotina real: o cansaço depois de oito atendimentos, o prontuário acumulado, a culpa de cobrar. Quem passa o dia acolhendo raramente se sente acolhido.</div>
+    <div class="card"><h3>Valorização da profissão</h3>Mensagens que tratam a Psicologia como ciência e profissão, defendem honorários justos e combatem a precarização. Aqui há identificação coletiva forte.</div>
+    <div class="card"><h3>Tom humano e ético</h3>Linguagem calma, sem sensacionalismo nem promessa de resultado. Esse é o mesmo padrão que o CFP exige da publicidade do psicólogo, então o público reconhece e aprova.</div>
+    <div class="card"><h3>Conteúdo que ensina</h3>Gestão do consultório, precificação, documentos, LGPD, ética no Instagram. A formação quase não cobre isso, e o público consome conteúdo educativo.</div>
+    <div class="card"><h3>Comunidade e pertencimento</h3>Grupos, supervisão, eventos e trocas entre pares. A clínica autônoma é solitária, e qualquer coisa que reduza o isolamento gera vínculo.</div>
+    <div class="card"><h3>Diversidade e causas sociais</h3>A categoria atende muitas mulheres em situação de violência (48%), pessoas LGBTQIA+ (46%) e usuários de álcool e outras drogas (44%), e tem forte engajamento social. Representatividade autêntica gera conexão; oportunismo gera rejeição.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="palavras">
+  <h2>7. Palavras e frases muito usadas <span class="tag inf">Análise</span></h2>
+  <p class="sub">Vocabulário recorrente na literatura, nos CRPs e nas redes da categoria</p>
+  <h3>Termos técnicos do dia a dia</h3>
+  <div class="chips">
+    <span>acolhimento / acolher</span><span>escuta (qualificada, ativa, sensível)</span><span>demanda</span><span>manejo</span>
+    <span>setting / enquadre</span><span>vínculo terapêutico</span><span>processo terapêutico</span><span>sessão</span>
+    <span>evolução</span><span>prontuário</span><span>supervisão</span><span>análise pessoal / terapia pessoal</span>
+    <span>encaminhamento</span><span>sigilo</span><span>alta</span><span>abordagem</span><span>queixa</span><span>elaborar</span>
+    <span>transferência</span><span>sofrimento psíquico</span><span>saúde mental</span><span>rede de apoio</span>
+  </div>
+  <h3>Expressões de valor e de identidade</h3>
+  <div class="chips">
+    <span>"cuidar de quem cuida"</span><span>"autocuidado"</span><span>"cada um tem o seu tempo"</span>
+    <span>"é um processo"</span><span>"faz sentido pra você?"</span><span>"validar o sentimento"</span>
+    <span>"ressignificar"</span><span>"sustentar"</span><span>"atravessamentos"</span><span>"singularidade"</span>
+    <span>"potência"</span><span>"lugar de fala"</span><span>"Psicologia é ciência e profissão"</span>
+    <span>"terapia não é luxo"</span><span>"psicólogas(os)" (linguagem inclusiva)</span><span>"compromisso ético-político"</span>
+  </div>
+  <h3>Termos que costumam gerar rejeição em marketing para eles</h3>
+  <div class="chips">
+    <span>"lote sua agenda"</span><span>"escale seu consultório"</span><span>"paciente = cliente/lead"</span>
+    <span>"cura garantida"</span><span>"fature X mil"</span><span>"última chance"</span>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="referencias">
+  <h2>8. Referências da categoria <span class="tag data">Dado</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Autores mais citados (CensoPsi 2022)</h3>
+      <div class="bars">
+        <span>1</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">Freud 28%</span>
+        <span>2</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="val">A. Beck 14%</span>
+        <span>3</span><div class="track"><div class="fill" style="width:39%"></div></div><span class="val">Lacan 11%</span>
+        <span>4</span><div class="track"><div class="fill" style="width:32%"></div></div><span class="val">Rogers 9%</span>
+        <span>5</span><div class="track"><div class="fill" style="width:29%"></div></div><span class="val">Skinner 8%</span>
+        <span>6</span><div class="track"><div class="fill" style="width:29%"></div></div><span class="val">Jung 8%</span>
+        <span>7</span><div class="track"><div class="fill" style="width:25%"></div></div><span class="val">Winnicott 7%</span>
+        <span>8</span><div class="track"><div class="fill" style="width:21%"></div></div><span class="val">J. Beck 6%</span>
+        <span>9</span><div class="track"><div class="fill" style="width:21%"></div></div><span class="val">Perls 6%</span>
+        <span>10</span><div class="track"><div class="fill" style="width:18%"></div></div><span class="val">Vygotsky 5%</span>
+      </div>
+      <p class="src">Também aparecem M. Klein, Heidegger, Foucault, J. Young, V. Frankl e J. Moreno (2–3%). <b>Silvia Lane</b> é uma das duas únicas brasileiras citadas.</p>
+    </div>
+    <div class="card">
+      <h3>Abordagens mais declaradas</h3>
+      <ul>
+        <li><b>Psicanálise: 37%</b> (57% de todas as citações de autores)</li>
+        <li>Comportamental: 25%</li>
+        <li>Fenomenológico-humanista: 24%</li>
+        <li>Cognitivista: 23% (TCC soma 26% das citações de autores)</li>
+        <li>Sócio-histórica: 16%</li>
+        <li>Outras: 4%</li>
+      </ul>
+      <p class="src">Um profissional pode declarar mais de uma abordagem.</p>
+    </div>
+  </div>
+  <h3>Referências institucionais e normativas</h3>
+  <ul>
+    <li><b>CFP e os 24 CRPs:</b> a principal autoridade de referência para a categoria (orientações, notas técnicas, fiscalização).</li>
+    <li><b>Código de Ética Profissional</b> (Res. CFP 010/2005): sigilo, publicidade, honorários.</li>
+    <li><b>Res. CFP 001/2009</b> (registro documental e prontuário) e <b>06/2019</b> (elaboração de documentos psicológicos).</li>
+    <li><b>Res. CFP 09/2024</b> (atendimento por meios tecnológicos) e Nota Técnica 01/2022 (publicidade em redes).</li>
+    <li><b>Tabela de Honorários CFP/Fenapsi</b> (DIEESE, vigente desde 07/2025), usada como referência de preço.</li>
+    <li>Figuras históricas brasileiras de forte valor simbólico: <b>Nise da Silveira</b> (luta antimanicomial) e <b>Silvia Lane</b> (psicologia social). A presença de Nise é observação cultural, não um dado do censo.</li>
+  </ul>
+</section>
+
+<!-- 9 -->
+<section id="dores">
+  <h2>9. Maiores dores</h2>
+  <div class="grid2">
+    <div class="card"><h3>Renda baixa e instável <span class="tag data">Dado</span></h3>Metade ganha abaixo do piso proposto, a renda real caiu 28% desde 2012 e muitos precisam de mais de um trabalho. Planos de saúde pagam de R$ 15 a R$ 20 por 30 minutos, com cerca de 60 dias de atraso, e plataformas chegam a R$ 30 por sessão.</div>
+    <div class="card"><h3>Precificar e cobrar <span class="tag data">Dado</span></h3>O tema quase não aparece na formação. Iniciantes cobram de R$ 70 a R$ 175, abaixo da tabela de referência. Faltas, atrasos de pagamento e a culpa de cobrar são relatos frequentes.</div>
+    <div class="card"><h3>Captar pacientes com ética <span class="tag inf">Análise</span></h3>As redes exigem presença constante, mas a publicidade é limitada pelo Código de Ética (sem depoimentos de pacientes, sem promessa de resultado). O resultado é cansaço, culpa e comparação com colegas (estudo UFU, 2026).</div>
+    <div class="card"><h3>Sobrecarga e esgotamento <span class="tag data">Dado</span></h3>18% trabalham mais de 50 h semanais. Estudos associam o burnout a menor renda e a mais atendimentos por dia, e há relatos de 40 pacientes por semana para fechar a conta.</div>
+    <div class="card"><h3>Insegurança e isolamento <span class="tag data">Dado</span></h3>35,3% se sentem inseguros no trabalho muitas vezes ou sempre, e a maior insegurança está na defesa dos direitos da categoria. A clínica autônoma é solitária e tem baixa sindicalização.</div>
+    <div class="card"><h3>Burocracia e documentação <span class="tag inf">Análise</span></h3>Prontuário, evolução, laudos, recibos e guarda segura de documentos exigidos pelo CFP, tudo fora do horário de atendimento. Há medo de vazamento e de processo ético.</div>
+    <div class="card"><h3>Precarização e "uberização" <span class="tag data">Dado</span></h3>Clínicas cobram aluguel e percentual sobre a sessão, e plataformas desvalorizam o atendimento com preço social sem critério. Muitos vêm da classe trabalhadora e foram a primeira geração da família no ensino superior.</div>
+    <div class="card"><h3>Tecnoestresse no online <span class="tag data">Dado</span></h3>56,5% acham que a tecnologia deixa as relações mais impessoais, e 49,6% têm dificuldade de construir vínculo à distância.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="prazeres">
+  <h2>10. Maiores prazeres <span class="tag inf">Análise</span></h2>
+  <div class="grid2">
+    <div class="card"><h3>Ver o paciente evoluir</h3>A melhora, a alta, o "você mudou minha vida". Esse é o sentido central da profissão.</div>
+    <div class="card"><h3>Exercer o que sabe</h3>Dado de apoio: poder aplicar habilidades e conhecimentos é o aspecto que gera <b>menos</b> insegurança no CensoPsi. A clínica em si é fonte de realização.</div>
+    <div class="card"><h3>Autonomia</h3>Definir agenda, abordagem e local (inclusive atender de casa, online). A clínica autônoma é a área mais desejada por quem ainda não atua.</div>
+    <div class="card"><h3>Estudar e se aprofundar</h3>Pós-graduação, formação na abordagem, supervisão e grupos de estudo: 47,5% têm especialização e 25,9% têm mestrado ou doutorado.</div>
+    <div class="card"><h3>Reconhecimento</h3>Ser indicado por pacientes e colegas e ter o trabalho visto como ciência. Também ter consultório próprio "com a sua cara".</div>
+    <div class="card"><h3>Impacto social</h3>Contribuir para direitos humanos, para a saúde mental pública e para populações vulneráveis, com orgulho do compromisso ético-político da profissão.</div>
+    <div class="card"><h3>Organização e tranquilidade</h3>Agenda cheia e previsível, pagamentos em dia e prontuário em ordem trazem a sensação de "consultório sob controle" e mais tempo para a vida pessoal.</div>
+  </div>
+</section>
+
+<!-- Implicações -->
+<section id="implicacoes">
+  <h2>Implicações para o PSI4 <span class="tag inf">Análise</span></h2>
+  <ul>
+    <li><b>Mensagem central:</b> menos burocracia, mais tempo para a clínica e para você, com sigilo e conformidade com o CFP. Exemplo: "Cuide dos seus pacientes. A gente cuida do resto."</li>
+    <li><b>Prova de segurança em primeiro plano:</b> criptografia do prontuário no navegador (o PSI4 já faz isso), LGPD e aderência às Res. 001/2009 e 06/2019. Isso responde ao critério nº 1.</li>
+    <li><b>Preço:</b> plano de entrada acessível, sem fidelidade e com teste grátis. Comunicar em "menos que uma sessão por mês".</li>
+    <li><b>Funcionalidades que atacam as dores:</b> confirmação de sessão por WhatsApp (contra faltas), cobrança e recibos (contra a culpa de cobrar), documentos prontos e IA para evolução, sempre com o profissional no controle.</li>
+    <li><b>Tom de voz:</b> acolhedor, ético, sem jargão de marketing agressivo. Público majoritariamente feminino, comunicação no feminino ou inclusiva.</li>
+    <li><b>Canais:</b> Instagram com conteúdo educativo (gestão, precificação, ética), parcerias com supervisores e professores das principais abordagens, presença em grupos e eventos dos CRPs. Foco inicial em SP, RJ e MG (51,6% do mercado).</li>
+    <li><b>Validar:</b> fazer 10 a 15 entrevistas com psicólogas clínicas autônomas de perfis variados (iniciantes, experientes, psicanálise e TCC) para confirmar os itens marcados como Análise.</li>
+  </ul>
+</section>
+
+<section id="fontes">
+  <h2>Fontes</h2>
+  <ul class="src">
+    <li><a href="https://www2.cfp.org.br/infografico/quantos-somos/">CFP: A Psicologia em números (total, UF e sexo; atualizado em 14/09/2026)</a></li>
+    <li><a href="https://site.cfp.org.br/censopsi-2022-cfp-divulga-os-resultados-da-maior-pesquisa-sobre-o-exercicio-profissional-da-psicologia-brasileira/">CFP: CensoPsi 2022, resultados</a></li>
+    <li><a href="https://site.cfp.org.br/wp-content/uploads/2022/12/Censo_psicologia_Vol2-1.pdf">CensoPsi 2022, Volume 2: condições de trabalho, fazeres e engajamento</a> · <a href="https://site.cfp.org.br/wp-content/uploads/2022/12/Censo_psicologia_Vol1-1.pdf">Volume 1</a></li>
+    <li><a href="https://pt.wikipedia.org/wiki/Lista_de_unidades_federativas_do_Brasil_por_n%C3%BAmero_de_psic%C3%B3logos">Wikipédia: psicólogos por UF e por mil habitantes (CFP, 2023)</a></li>
+    <li><a href="https://mercado-da-psicologia.vercel.app/">Mercado da Psicologia: renda a partir da PNAD Contínua/IBGE (2025)</a></li>
+    <li><a href="https://revistas.usp.br/cpst/en/article/download/222584/218011/789721">Cadernos de Psicologia Social do Trabalho (USP): análise do CensoPsi</a></li>
+    <li><a href="https://hotina.app/blog/mercado-trabalho-psicologia/">Hotina: dados secundários do CensoPsi (populações atendidas, tecnoestresse)</a></li>
+    <li><a href="https://outraspalavras.net/trabalhoeprecariado/psicologos-por-que-a-categoria-se-uberiza/">Outras Palavras: "Psicólogos: por que a categoria se uberiza?"</a></li>
+    <li><a href="https://repositorio.ufu.br/handle/123456789/49751">UFU (2026): psicólogas clínicas nas redes sociais</a></li>
+    <li><a href="https://revistaschilenas.uchile.cl/handle/2250/56454">Prevalência de burnout em psicólogos (RS, n=518)</a></li>
+    <li><a href="https://www.repositorio.unb.br/bitstream/10482/49395/1/JessicaFlorindaAmorim_DISSERT.pdf">UnB (2024): precificação entre psicoterapeutas</a></li>
+    <li><a href="https://site.cfp.org.br/servicos/tabela-de-honorarios/">CFP: Tabela de Honorários</a> · <a href="https://www.tupi.fm/?p=2277481">Tupi: cobrança na rotina de autônomos</a></li>
+    <li><a href="https://www.contabilidadezen.com.br/blog/resolucao-cfp-09-2024-atendimento-online-2026/">Resolução CFP 09/2024: atendimento online</a></li>
+    <li><a href="https://anais-siiepe.ufpel.edu.br/2024/G5_06137.pdf">UFPel (2024): publicidade online e normas do CFP</a></li>
+    <li><a href="https://periodicosunisanta.ojsbr.com/COB/article/download/3229/3105/10230">Revisão (2025): saúde mental de psicólogos na pandemia</a></li>
+  </ul>
+</section>
+
+<footer>Relatório gerado em 17/10/2026. Números do CFP refletem inscrições, não necessariamente profissionais em atividade.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+.daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
+    width: 57px;
+    height: 40px;
+    line-height: 24px;
+    font-size: 15px;
+    padding: 0 !important;
+}
+.daterangepicker select.monthselect, .daterangepicker select.yearselect {
+    font-size: 15px;
+}

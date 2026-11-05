@@ -1,0 +1,9 @@
+#!/bin/bash
+# Roda após `git pull --rebase` (e `git commit --amend`, ignorado): recarrega
+# o Octane no stage.
+
+if [ "$1" != "rebase" ]; then
+    exit 0
+fi
+
+"$(git rev-parse --show-toplevel)/.githooks/octane-reload"

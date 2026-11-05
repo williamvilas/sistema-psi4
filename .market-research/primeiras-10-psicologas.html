@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Primeiras 10 psicólogas — PSI4</title>
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --text:#1d1d1f; --muted:#5f6368; --line:#e3e1dc;
+  --accent:#2f6f6a; --accent-soft:#e3efed; --warm:#c98a4b;
+  --warn-bg:#fff6e5; --warn-line:#e8c27a; --bad:#b3412f; --good:#2f7a4a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+    --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+    --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141516; --surface:#1d1f21; --text:#ececec; --muted:#a3a7ab; --line:#2f3235;
+  --accent:#6cc0b6; --accent-soft:#1f3532; --warm:#e0a46a;
+  --warn-bg:#2b2416; --warn-line:#7a5f2a; --bad:#e8826f; --good:#73c48f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header h1{font-size:2rem;line-height:1.2;margin:0 0 8px}
+header p{color:var(--muted);margin:0}
+nav{margin:28px 0;display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.85rem;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1rem;margin:20px 0 8px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 16px}
+.verdict{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:6px;margin:12px 0;font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.kpi b{display:block;font-size:1.5rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+ul,ol{padding-left:20px;margin:8px 0} li{margin:5px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg)}
+.card h3{margin-top:0}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 16px;font-size:.9rem;margin:12px 0}
+.phase{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:16px 0}
+.phase h3{margin:0 0 6px}
+.src{font-size:.85rem;color:var(--muted)}
+.src a{color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;margin-top:32px}
+@media (max-width:560px){ section{padding:18px} header h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>As primeiras 10 psicólogas: validar o encaixe com o mercado pensando no M&amp;A</h1>
+  <p>Compradores, turma fundadora, lançamentos por período e grátis vs. teste · 25/10/2026 · complemento de <a href="strategy.html">strategy.html</a>, <a href="m-and-a-playbook.html">m-and-a-playbook.html</a> e <a href="pricing.html">pricing.html</a></p>
+</header>
+
+<nav>
+  <a href="#resumo">Resumo</a>
+  <a href="#ma">M&amp;A: quem compra</a>
+  <a href="#dez">As primeiras 10</a>
+  <a href="#lancamentos">Lançamentos por período</a>
+  <a href="#gratis">Grátis ou teste</a>
+  <a href="#fontes">Fontes</a>
+</nav>
+
+<section id="resumo">
+  <h2>Resumo</h2>
+  <ol>
+    <li><b>O M&amp;A é viável, mas a conta mudou.</b> A R$ 49 são necessárias ~6.800 pagantes para ~R$ 4 mi de ARR (contra ~4.800 a R$ 69). A receita de pagamentos deixa de ser bônus e vira obrigatória.</li>
+    <li><b>As 10 primeiras devem pagar</b> — preço de fundadora congelado, em troca de onboarding pessoal e 3 conversas. Quem usa de graça não valida nada.</li>
+    <li><b>Lançamentos por período, sim, mas só com escassez real</b> e só no início: turma fundadora → turma 2 → aberto de vez, com lista de espera sempre ativa.</li>
+    <li><b>Só teste, sem plano grátis limitado.</b> O modelo atual (teste completo + modo consulta) é o certo; falta renomear o "Grátis" para "modo consulta".</li>
+  </ol>
+</section>
+
+<section id="ma">
+  <h2>1. M&amp;A: quem compra e por quê</h2>
+  <p class="sub">Precedentes reais no Brasil, que complementam a seção 5 do <a href="m-and-a-playbook.html#compradores">playbook de M&amp;A</a>.</p>
+
+  <div class="scroll">
+  <table>
+    <tr><th>Comprador</th><th>O que comprou</th><th>Leitura para o PSI4</th></tr>
+    <tr><td><b>Conexa Saúde</b> (telessaúde)</td><td>Psicologia Viva (2021, 67 mil profissionais cadastrados), Zenklub (2023, só troca de ações) e Lina Saúde (gestão de pacientes)</td><td>Compradora mais natural: está consolidando saúde mental e já comprou software de gestão.</td></tr>
+    <tr><td><b>Doctoralia</b> (agendamento)</td><td>Feegow, software de gestão de clínicas (2022)</td><td>Exatamente a tese "plataforma de agendamento compra a gestão".</td></tr>
+    <tr><td><b>Afya</b> (educação e saúde)</td><td>iClinic (2021)</td><td>Precedente já citado na estratégia.</td></tr>
+  </table>
+  </div>
+
+  <h3>O que eles comprariam no PSI4</h3>
+  <ol>
+    <li><b>Uma base de psicólogas que pagam e ficam.</b> Para Conexa e Doctoralia, é oferta de profissionais.</li>
+    <li><b>O volume de pagamentos processado.</b> Para fintechs e adquirentes, é o que mais pesa.</li>
+    <li><b>A confiança, com prova.</b> Criptografia de ponta a ponta auditada e registro de acessos (<code>AccessLogService</code>) facilitam muito a due diligence.</li>
+  </ol>
+  <div class="note">A criptografia impede o comprador de explorar o conteúdo dos prontuários. Isso é uma qualidade, não um problema — mas deve ficar claro desde a primeira conversa que ele compra a <b>base e a confiança</b>, não os dados.</div>
+
+  <h3>A conta mudou com o preço de R$ 49</h3>
+  <div class="kpis">
+    <div class="kpi"><b>~6.800</b><span>pagantes para ~R$ 4 mi de ARR a R$ 49 (só assinatura)</span></div>
+    <div class="kpi"><b>~4.800</b><span>pagantes no mesmo ARR a R$ 69, premissa da estratégia</span></div>
+    <div class="kpi"><b>30–40%</b><span>da receita vinda de pagamentos passa a ser obrigatória</span></div>
+  </div>
+  <p>Uma venda menor e mais cedo (algo como R$ 1–3 mi, com 500–1.000 clientes e retenção muito boa, para um comprador que queira só a base e o time) é plausível. <i>É uma hipótese, sem precedente público que a confirme.</i></p>
+
+  <h3>O que importa para o M&amp;A já nas 10 primeiras</h3>
+  <ul>
+    <li>Medir desde o primeiro dia, sempre do mesmo jeito: o comprador vai olhar a retenção por coorte de entrada.</li>
+    <li>Colocar o "preço congelado" das fundadoras nos termos de uso, para não virar dúvida na due diligence. Limitar o benefício à turma fundadora.</li>
+  </ul>
+</section>
+
+<section id="dez">
+  <h2>2. As primeiras 10 psicólogas</h2>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Quem chamar</h3>
+      <ul>
+        <li><b>6</b> do perfil principal: autônomas com 0–5 anos de formadas, ainda sem sistema.</li>
+        <li><b>3</b> que já usam PsicoManager, Corpora ou planilha — testam o motivo de troca, a pergunta mais difícil.</li>
+        <li><b>1</b> que atende em clínica compartilhada.</li>
+        <li>Misturar abordagens: psicanálise, TCC e humanista.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Onde achar</h3>
+      <ul>
+        <li><b>1 ou 2 supervisoras</b>: cada uma tem de 10 a 30 supervisionandas, e nesse público a decisão é tomada em grupo. É o caminho mais rápido.</li>
+        <li>Rede pessoal.</li>
+        <li>O plano de Instagram que já existe em <code>instagram/</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>A oferta: turma fundadora paga</h3>
+  <div class="verdict">"Turma fundadora, 10 vagas, R$ 29 ou R$ 39 por mês congelado enquanto você for cliente."</div>
+  <ul>
+    <li><b>Em troca:</b> onboarding pessoal por vídeo e 3 conversas de 20 minutos, nas semanas 1, 4 e 8.</li>
+    <li><b>Por que pago:</b> o sinal mais forte de encaixe é ela pagar o segundo mês.</li>
+    <li><b>Diferente do conselho:</b> o conselho de 5 psicólogas da estratégia (vitalício grátis, feedback mensal) é outra coisa. Pode reaproveitar algumas pessoas, mas não substitui a turma.</li>
+  </ul>
+
+  <h3>Onboarding</h3>
+  <ul>
+    <li><b>Senha mestre:</b> ela cria a senha mestre e guarda a chave de recuperação durante a chamada. É o maior risco criado pela criptografia, e é ali que ele aparece.</li>
+    <li><b>Migração:</b> você pode ajudar com cadastros e agenda por planilha. O conteúdo dos prontuários ela mesma cifra no navegador — você nunca vê esse conteúdo aberto.</li>
+  </ul>
+
+  <h3>Quando dizer que deu certo (semana 8)</h3>
+  <div class="scroll">
+  <table>
+    <tr><th>Sinal</th><th>Meta</th></tr>
+    <tr><td>Usou o sistema na semana 8</td><td>≥ 7 de 10</td></tr>
+    <tr><td>Pagou o 2º mês</td><td>≥ 8 de 10</td></tr>
+    <tr><td>Ficaria "muito desapontada" se o PSI4 sumisse</td><td>≥ 4 de 10</td></tr>
+    <tr><td>Cobra ou emite recibo da Receita Saúde pelo PSI4</td><td>≥ 3 de 10</td></tr>
+    <tr><td>Indicou alguém sem você pedir</td><td>≥ 2</td></tr>
+  </table>
+  </div>
+  <p>Se não bater: entrevistas de saída, ajuste do produto e nova turma de 10.</p>
+  <div class="note">Dez pessoas mostram o <b>porquê</b>, mas não comprovam o encaixe. Isso só aparece com ~40 respostas na pergunta do "muito desapontada" e com churn medido sobre 300 pagantes, como prevê a <a href="strategy.html#estrategia">fase 1 da estratégia</a>.</div>
+
+  <h3>O momento é bom</h3>
+  <p>Abrir agora (fim de outubro) coloca as fundadoras emitindo recibos da Receita Saúde em novembro e dezembro, antes da declaração de IR de 2027 — um motivo concreto e obrigatório para usar o sistema todo mês.</p>
+</section>
+
+<section id="lancamentos">
+  <h2>3. Abrir e fechar inscrições por um período</h2>
+  <div class="verdict">Vale a pena, mas só com escassez de verdade e só no começo.</div>
+  <div class="grid2">
+    <div class="card">
+      <h3>Funciona quando</h3>
+      <ul>
+        <li>O limite é real: "abro 10 vagas porque faço o onboarding de cada uma pessoalmente".</li>
+        <li>É honesto, combina com o tom acolhedor e dá urgência sem pressão.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Atrapalha quando</h3>
+      <ul>
+        <li>Vira lançamento de curso online: contagem regressiva, "última chance". Choca com o tom calmo e ético da pesquisa e lembra o "lote sua agenda" que a estratégia proíbe.</li>
+        <li>Fica fechado por muito tempo: desperdiça as ~58 mil psicólogas que se formam por ano e as visitas do Google, e gera picos de crescimento e de churn em vez da curva constante que o comprador quer ver.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Sequência sugerida</h3>
+  <div class="phase"><h3>1 · Turma fundadora — 10 vagas</h3><p>Onboarding pessoal, preço congelado, 8 semanas de acompanhamento.</p></div>
+  <div class="phase"><h3>2 · Turma 2 — 30 a 50 vagas</h3><p>Ajustes da turma fundadora aplicados; onboarding em grupo.</p></div>
+  <div class="phase"><h3>3 · Aberto de vez — a partir de ~100 pagantes</h3><p>Teste para qualquer pessoa, sem janela de inscrição.</p></div>
+  <p>Em todas as fases: <b>lista de espera sempre aberta</b>, para que ninguém dê com a porta fechada.</p>
+</section>
+
+<section id="gratis">
+  <h2>4. Plano grátis limitado ou só teste?</h2>
+  <div class="verdict">Só teste, mas sem prender os dados. O código já faz isso: 14 dias completos e depois a conta fica em modo consulta (vê e exporta tudo, sem criar nada novo) — ver <code>config/plans.php</code> e <code>UserHelper::isReadOnly</code>.</div>
+  <h3>Três ajustes</h3>
+  <ol>
+    <li><b>Não chamar de "Plano Grátis".</b> Chamar de "modo consulta: seus registros nunca ficam reféns". Num produto que vende privacidade, um grátis de verdade levanta a pergunta "como eles ganham dinheiro, com meus dados?". O modo consulta responde o contrário. A Corpora vence no grátis generoso — não vale brigar nesse terreno.</li>
+    <li><b>Considerar 21 a 30 dias de teste.</b> O ritmo da psicóloga é semanal: em 14 dias cada paciente tem só 2 sessões, pouco para chegar ao "momento aha" (agenda, prontuário, lembrete e recibo). Como diz o <a href="pricing.html">pricing.html</a>: se a conversão do teste ficar abaixo de 15%, rever.</li>
+    <li><b>Estudante entra pelo desconto, não pelo grátis.</b> R$ 29 por 6 meses, já previsto no pricing.</li>
+  </ol>
+  <div class="note">Com esta decisão, a seção 4 do <a href="strategy.html">strategy.html</a> fica desatualizada: ela ainda prefere o grátis generoso (opção a). Vale atualizar para registrar a decisão.</div>
+</section>
+
+<section id="fontes">
+  <h2>Fontes</h2>
+  <ul class="src">
+    <li><a href="https://startups.com.br/negocios/ma/um-ano-apos-comprar-zenklub-e-ja-no-breakeven-conexa-faz-novo-ma/">Conexa compra Zenklub e faz novo M&amp;A (Startups)</a></li>
+    <li><a href="https://neofeed.com.br/startups/conexa-investida-de-goldman-sachs-e-general-atlantic-compra-lina-saude-seu-segundo-ma/">Conexa compra Lina Saúde (NeoFeed)</a></li>
+    <li><a href="https://www.baguete.com.br/public/noticias/conexa-e-zenklub-fecham-fusao">Conexa e Zenklub fecham fusão (Baguete)</a></li>
+    <li><a href="https://www.wsgr.com/en/insights/wilson-sonsini-advises-conexa-health-on-merger-with-zenklub.html">Wilson Sonsini: Conexa e Zenklub</a></li>
+    <li><a href="https://startups.com.br/negocios/doctoralia-compra-brasileira-feegow-e-mira-gestao-para-clinicas/">Doctoralia compra Feegow (Startups)</a></li>
+    <li><a href="https://agilize.com.br/artigos/melhor-software-gestao-psicologos-2026">Agilize: software para psicólogos 2026</a></li>
+    <li>Documentos internos: <a href="strategy.html">strategy.html</a>, <a href="m-and-a-playbook.html">m-and-a-playbook.html</a>, <a href="pricing.html">pricing.html</a>, <a href="research.html">research.html</a>.</li>
+  </ul>
+  <p class="src">A venda menor e mais cedo, as metas da semana 8 e o prazo de teste de 21–30 dias são hipóteses a validar. O número de pagantes por ARR considera só a assinatura.</p>
+</section>
+
+<footer>Documento gerado em 25/10/2026 a pedido do fundador, como guia para validar o encaixe com o mercado com as 10 primeiras psicólogas, de olho em uma venda estratégica.</footer>
+
+</div>
+</body>
+</html>

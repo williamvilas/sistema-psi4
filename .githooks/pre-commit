@@ -1,0 +1,23 @@
+#!/bin/bash
+# Formata com Pint os arquivos PHP em stage antes do commit.
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.php$')
+
+if [ -z "$FILES" ]; then
+    exit 0
+fi
+
+echo "[pre-commit] Formatando arquivos PHP com Pint..."
+
+echo "$FILES" | xargs vendor/bin/pint --quiet
+
+if [ $? -ne 0 ]; then
+    echo "[pre-commit] Falha ao executar o Pint. Commit abortado."
+    exit 1
+fi
+
+echo "$FILES" | xargs git add
+
+exit 0

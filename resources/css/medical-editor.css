@@ -1,0 +1,353 @@
+/* Editor de prontuário estilo documento (criar/editar). Base compartilhada em medical-doc.css */
+/* Painel de IA: layout em .doc-side-panel (medical-doc.css); aqui só o tema dark do chat (inspirado no ChatGPT) */
+.doc-ia-panel {
+    --ia-bg: #212121;
+    --ia-surface: #2f2f2f;
+    --ia-surface-hover: #3a3a3a;
+    --ia-border: rgba(255, 255, 255, .1);
+    --ia-text: #ececec;
+    --ia-muted: #b4b4b4;
+    --ia-accent: #10a37f;
+    --ia-accent-hover: #0e8f70;
+    --ia-error-bg: #3b1f22;
+    --ia-error-border: #8a3b42;
+
+    background: var(--ia-bg);
+    border-left-color: var(--ia-border);
+    color-scheme: dark;
+}
+
+.doc-ia-panel .ia-chat {
+    position: static;
+    flex: 1;
+    width: 100% !important;
+    height: auto;
+    min-height: 0;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--ia-bg);
+    color: var(--ia-text);
+}
+
+.ia-chat-header {
+    flex-shrink: 0;
+    background: transparent;
+    border-bottom: 1px solid var(--ia-border);
+    color: var(--ia-text);
+}
+
+.ia-chat-close {
+    color: var(--ia-muted);
+    border: 0;
+    border-radius: 8px;
+}
+
+.ia-chat-close:hover {
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-privacy {
+    color: var(--ia-muted);
+    font-size: .8rem;
+    line-height: 1.35;
+}
+
+.ia-chat-usage {
+    color: var(--ia-muted);
+}
+
+.ia-chat-usage .progress {
+    background: var(--ia-surface);
+}
+
+.ia-chat-messages {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    min-height: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.ia-chat-empty {
+    margin-top: 15%;
+    color: var(--ia-muted);
+}
+
+.ia-chat-chip {
+    padding: 6px 14px;
+    border: 1px solid var(--ia-border);
+    border-radius: 999px;
+    background: var(--ia-surface);
+    color: var(--ia-text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ia-chat-chip:hover {
+    background: var(--ia-surface-hover);
+}
+
+/* Mensagens: usuário em bolha, assistente direto sobre o fundo */
+.ia-chat-msg {
+    margin-bottom: 14px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ia-chat-msg.user {
+    max-width: 85%;
+    margin-left: auto;
+    padding: 8px 14px;
+    border-radius: 18px;
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.assistant {
+    padding: 4px 2px;
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.error {
+    padding: 8px 12px;
+    border: 1px solid var(--ia-error-border);
+    border-radius: 12px;
+    background: var(--ia-error-bg);
+    color: #ffb4b9;
+}
+
+.ia-chat-msg.ia-chat-html {
+    white-space: normal;
+}
+
+.ia-chat-msg.ia-chat-html h1,
+.ia-chat-msg.ia-chat-html h2,
+.ia-chat-msg.ia-chat-html h3 {
+    font-weight: 700;
+    margin: .5rem 0 .25rem;
+    color: var(--ia-text);
+}
+
+.ia-chat-msg.ia-chat-html h1 { font-size: 1.4rem; }
+.ia-chat-msg.ia-chat-html h2 { font-size: 1.2rem; }
+.ia-chat-msg.ia-chat-html h3 { font-size: 1.05rem; }
+.ia-chat-msg.ia-chat-html p { margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html ul,
+.ia-chat-msg.ia-chat-html ol { padding-left: 1.2rem; margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html table { border-collapse: collapse; margin-bottom: .5rem; }
+.ia-chat-msg.ia-chat-html th,
+.ia-chat-msg.ia-chat-html td { border: 1px solid rgba(255, 255, 255, .2); padding: 2px 6px; }
+.ia-chat-msg.ia-chat-html a { color: #7cc4ff; }
+
+.ia-chat-msg-actions {
+    margin: -6px 0 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ia-chat-action {
+    border: 1px solid var(--ia-border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ia-muted);
+}
+
+.ia-chat-action:hover {
+    background: var(--ia-surface);
+    color: var(--ia-text);
+}
+
+.ia-chat-typing::after {
+    content: '▋';
+    animation: ia-chat-blink 1s infinite;
+}
+
+@keyframes ia-chat-blink {
+    50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ia-chat-typing::after { animation: none; }
+    .ia-chat-messages { scroll-behavior: auto; }
+}
+
+/* Caixa de mensagem arredondada com botão de envio circular */
+.ia-chat-footer {
+    flex-shrink: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    background: var(--ia-bg);
+}
+
+.ia-chat-composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 6px 6px 6px 16px;
+    border-radius: 24px;
+    background: var(--ia-surface);
+}
+
+.ia-chat-composer textarea {
+    flex: 1;
+    min-height: 32px;
+    max-height: 160px;
+    padding: 6px 0;
+    border: 0;
+    outline: 0;
+    resize: none;
+    background: transparent;
+    color: var(--ia-text);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    field-sizing: content;
+}
+
+.ia-chat-composer textarea::placeholder {
+    color: var(--ia-muted);
+}
+
+.ia-chat-send {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ia-accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.ia-chat-send:hover:not(:disabled) {
+    background: var(--ia-accent-hover);
+}
+
+.ia-chat-send:disabled,
+.ia-chat-composer textarea:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.ia-chat button:focus-visible,
+.ia-chat-composer:focus-within {
+    outline: 2px solid var(--ia-accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 767.98px) {
+    #editor {
+        margin: 5px 20px;
+    }
+}
+
+/* --- Toolbar própria (TipTap) --- */
+.doc-toolbar {
+    position: sticky;
+    top: var(--doc-topbar-h);
+    z-index: 1020;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 4px 16px;
+    background: #edf2fa;
+    border-bottom: 1px solid #dadce0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.doc-tb-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-right: 12px;
+    border-right: 1px solid #c7cdd6;
+}
+
+.doc-tb-group:last-child {
+    border-right: 0;
+}
+
+.doc-toolbar button,
+.doc-toolbar .doc-tb-color {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #444746;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.doc-toolbar button:hover,
+.doc-toolbar .doc-tb-color:hover {
+    background: #dde3ea;
+}
+
+.doc-toolbar button.active {
+    background: #d3e3fd;
+    color: #0b57d0;
+}
+
+.doc-toolbar select {
+    height: 32px;
+    max-width: 150px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #444746;
+    font-size: 1.2rem;
+}
+
+.doc-toolbar select:hover {
+    background: #dde3ea;
+}
+
+.doc-tb-color {
+    position: relative;
+}
+
+.doc-tb-color input[type="color"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: #9aa0a6;
+    pointer-events: none;
+}
+
+.ProseMirror .selectedCell::after { content: ""; position: absolute; inset: 0; background: rgba(26, 115, 232, .15); pointer-events: none; }
+.ProseMirror .column-resize-handle { position: absolute; right: -2px; top: 0; bottom: -2px; width: 4px; background: #1a73e8; pointer-events: none; }
+.ProseMirror.resize-cursor { cursor: col-resize; }
+
+#editor {
+    background: #f1f3f4;
+}
+
+.fa-solid, .fas {
+    font-size: 1.2rem  !important;
+    margin-right: 0em !important;
+}
